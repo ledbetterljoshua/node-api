@@ -4,6 +4,8 @@ var mongojs = require('mongojs');
 var db = mongojs('posts', ['posts']);
 var bodyParser = require('body-parser');
 
+var port = process.env.PORT || 8080;
+
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 
@@ -53,5 +55,5 @@ app.put('/posts/:id', function(req, res) {
 		});
 });
 
-app.listen('3000')
+app.listen(port)
 console.log('hello world from server.js on port 3000')
