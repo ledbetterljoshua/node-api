@@ -13,7 +13,7 @@ function($scope, $http) {
 	}
 
 	refresh();
-	$scope.url = window.location.hash;
+	$scope.url = window.location.href;
 	console.log($scope.url)
 
 	$scope.set = function(new_url) {
@@ -21,12 +21,12 @@ function($scope, $http) {
     }
 	$scope.addPost = function() {
 		console.log($scope.post);
-		$scope.post = {url: window.location.hash}
+		$scope.post = {url: window.location.href}
 
 		$http.post('/api/posts', $scope.post).success(function(response){
 			console.log(response);
 			refresh();
-			$scope.post = {url: window.location.hash}
+			$scope.post = {url: window.location.href}
 		});
 	};
 	$scope.remove = function(id) {
