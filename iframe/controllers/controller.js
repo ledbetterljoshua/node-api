@@ -16,20 +16,21 @@ function($scope, $http) {
             : document.location;
 
 	refresh();
-	$scope.url = parenturl;
+	//$scope.url = parenturl;
 	console.log($scope.url)
 
-	$scope.set = function(new_url) {
-        this.post.url = new_url;
-    }
+	// $scope.set = function(new_url) {
+ //        this.post.url = new_url;
+ //    }
 	$scope.addPost = function() {
 		console.log($scope.post);
-		$scope.post = {url: parenturl, highlighted: highlighted, comment: comment}
+		//$scope.post = {url: parenturl}
 
 		$http.post('/api/posts', $scope.post).success(function(response){
 			console.log(response);
+			console.log(post._url)
 			refresh();
-			$scope.post = {url: parenturl, highlighted: highlighted, comment: comment}
+			//$scope.post = {url: parenturl}
 		});
 	};
 	$scope.remove = function(id) {
