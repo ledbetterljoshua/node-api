@@ -24,12 +24,12 @@ function($scope, $http) {
     }
 	$scope.addPost = function() {
 		console.log($scope.post);
-		$scope.post = {url: parenturl}
+		$scope.post = {url: parenturl, highlighted: highlighted, comment: comment}
 
 		$http.post('/api/posts', $scope.post).success(function(response){
 			console.log(response);
 			refresh();
-			$scope.post = {url: parenturl}
+			$scope.post = {url: parenturl, highlighted: highlighted, comment: comment}
 		});
 	};
 	$scope.remove = function(id) {
