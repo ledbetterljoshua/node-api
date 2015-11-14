@@ -13,12 +13,20 @@ function($scope, $http) {
 	}
 
 	refresh();
+	$scope.url = window.location.hash;
+	console.log($scope.url)
 
+	$scope.set = function(new_url) {
+        this.post.url = new_url;
+    }
 	$scope.addPost = function() {
 		console.log($scope.post);
+		$scope.post = {url: window.location.hash}
+
 		$http.post('/api/posts', $scope.post).success(function(response){
-			console.log($scope.post);
+			console.log(response);
 			refresh();
+			$scope.post = {url: window.location.hash}
 		});
 	};
 	$scope.remove = function(id) {

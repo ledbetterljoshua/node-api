@@ -1,4 +1,4 @@
-<html lang="en" class="no-js"><head>
+<html lang="en" class="no-js"ng-app="myApp"><head>
 
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
@@ -7,6 +7,7 @@
 		<meta name="description" content="Modern effects and styles for off-canvas navigation with CSS transitions and SVG animations using Snap.svg">
 		<meta name="keywords" content="sidebar, off-canvas, menu, navigation, effect, inspiration, css transition, SVG, morphing, animation">
 		<meta name="author" content="Codrops">
+
 		<link rel="shortcut icon" href="../favicon.ico">
 		<link rel="stylesheet" type="text/css" href="css/normalize.css">
 		<link rel="stylesheet" type="text/css" href="css/demo.css">
@@ -16,9 +17,10 @@
 		<!--[if IE]>
   		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
+		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css">
 	</head>
 	<body class="">
-		<div class="container">
+		<div class="container" ng-controller="AppCtrl">
 			<div class="menu-wrap">
 				<nav class="menu">
 					<div class="icon-list">
@@ -28,9 +30,15 @@
 						<a href="#"><i class="fa fa-fw fa-comment-o"></i><span>Comments</span></a>
 						<a href="#"><i class="fa fa-fw fa-bar-chart-o"></i><span>Analytics</span></a>
 						<a href="#"><i class="fa fa-fw fa-newspaper-o"></i><span>Reading List</span></a>
+						<div id="readingList" style="display:none;">
+							<input id="url" style="display:none !important;" class="hidden form-control" ng-model="post.url" value="{{url}}" >
+							<input class="form-control" ng-model="post.highlighted">
+							<input class="form-control" ng-model="post.comment">
+							<button class="btn btn-primary" ng-click="addPost()">Add Post</button>
+						</div>
 					</div>
 				</nav>
-				<button class="close-button" id="close-button">Close Menu</button>
+				<button class="close" id="close">Close Menu</button>
 				<div class="morph-shape" id="morph-shape" data-morph-open="M0,100h1000V0c0,0-136.938,0-224,0C583,0,610.924,0,498,0C387,0,395,0,249,0C118,0,0,0,0,0V100z">
 					<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1000 100" preserveAspectRatio="none">
 						<path d="M0,100h1000l0,0c0,0-136.938,0-224,0c-193,0-170.235-1.256-278-35C399,34,395,0,249,0C118,0,0,100,0,100L0,100z"></path>
@@ -49,6 +57,30 @@
 
 		<script type="text/javascript">
 		$('button#open-button').click();
+		$('button#close').hide();
+
+		$('a').click(function(){
+			$('a').each(function(){
+				$(this).addClass('hidden');
+				$(this).addClass('hidden').removeClass('show');
+				$('button#close').show();
+				$(this).next('div').show().addClass('currently-open');
+			}); 
+			$('button#close').click(function(){
+				$('a').attr('class', '');
+				$(this).hide();
+				$('.currently-open').hide();
+			});
+			
+			$(this).addClass('show').removeClass('hidden');
+			$('input#url').focus();
+		});
 		</script>
-	
+
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular.min.js"></script>
+		<script src="controllers/controller.js"></script>
+
+
+    <!-- Angular Material Javascript now available via Google CDN; version 0.11.2 used here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script>
 </body></html>
