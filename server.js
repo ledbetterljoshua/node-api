@@ -18,6 +18,7 @@ app.use(express.static(__dirname + "/public"));
 
 var router = express.Router();              // get an instance of the express Router
 
+app.use('/static', express.static('iframe'));
 
 // more routes for our API will happen here
 /* ==================================
