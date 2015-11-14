@@ -28,7 +28,7 @@ function($scope, $http) {
 
 		$http.post('/api/posts', $scope.post).success(function(response){
 			console.log(response);
-			console.log(post._url)
+			//console.log(post._url)
 			refresh();
 			//$scope.post = {url: parenturl}
 		});
