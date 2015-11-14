@@ -13,7 +13,7 @@ function($scope, $http) {
 	}
 
 	refresh();
-	$scope.url = window.location.href;
+	$scope.url = window.location.toString();
 	console.log($scope.url)
 
 	$scope.set = function(new_url) {
@@ -21,12 +21,12 @@ function($scope, $http) {
     }
 	$scope.addPost = function() {
 		console.log($scope.post);
-		$scope.post = {url: window.location.href}
+		$scope.post = {url: window.location.toString()}
 
 		$http.post('/api/posts', $scope.post).success(function(response){
 			console.log(response);
 			refresh();
-			$scope.post = {url: window.location.href}
+			$scope.post = {url: window.location.toString()}
 		});
 	};
 	$scope.remove = function(id) {
