@@ -11,9 +11,12 @@ function($scope, $http) {
 			$scope.post = "";
 		});
 	}
+	var parenturl = (window.location != window.parent.location)
+            ? document.referrer
+            : document.location;
 
 	refresh();
-	$scope.url = window.location.toString();
+	$scope.url = parenturl;
 	console.log($scope.url)
 
 	$scope.set = function(new_url) {
@@ -21,12 +24,12 @@ function($scope, $http) {
     }
 	$scope.addPost = function() {
 		console.log($scope.post);
-		$scope.post = {url: window.location.toString()}
+		$scope.post = {url: parenturl}
 
 		$http.post('/api/posts', $scope.post).success(function(response){
 			console.log(response);
 			refresh();
-			$scope.post = {url: window.location.toString()}
+			$scope.post = {url: parenturl}
 		});
 	};
 	$scope.remove = function(id) {
