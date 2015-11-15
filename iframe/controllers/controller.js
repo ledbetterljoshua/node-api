@@ -9,6 +9,7 @@ function($scope, $http) {
 			console.log('I got the data! :D');
 			$scope.posts = response;
 			$scope.post = "";
+			console.log(response + ": this is the response")
 		});
 	}
 	var parenturl = (window.location != window.parent.location)
@@ -16,23 +17,25 @@ function($scope, $http) {
             : document.location;
 
 	refresh();
-	//$scope.url = parenturl;
-	console.log($scope.url)
 
-	// $scope.set = function(new_url) {
- //        this.post.url = new_url;
- //    }
-	$scope.addPost = function() {
-		console.log($scope.post);
-		//$scope.post = {url: parenturl}
 
+	$scope.addPost = function(fn) {
+		fn()
+		console.log($scope.post.url + ": urlss");
+		
 		$http.post('/api/posts', $scope.post).success(function(response){
 			console.log(response);
-			//console.log(post._url)
+			console.log($scope.post.comment)
 			refresh();
 			//$scope.post = {url: parenturl}
 		});
+		
 	};
+
+	$scope.setUrl = function() {
+		$scope.post.url = parenturl.href;
+	}
+
 	$scope.remove = function(id) {
 		console.log(id);
 		$http.delete('/api/posts/' + id).success(function(response) {
@@ -53,6 +56,10 @@ function($scope, $http) {
 			refresh();
 		});
 	};
+
+
+
+	
 	
 }]);
 
