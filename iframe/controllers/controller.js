@@ -17,10 +17,11 @@ function($scope, $http) {
             : document.location;
 
 	refresh();
+	$scope.url = parenturl;
 
 
-	$scope.addPost = function(fn) {
-		fn()
+	$scope.addPost = function() {
+		//$scope.post.url = parenturl;
 		console.log($scope.post.url + ": urlss");
 		
 		$http.post('/api/posts', $scope.post).success(function(response){
@@ -29,12 +30,9 @@ function($scope, $http) {
 			refresh();
 			//$scope.post = {url: parenturl}
 		});
-		
+		 
 	};
 
-	$scope.setUrl = function() {
-		$scope.post.url = parenturl.href;
-	}
 
 	$scope.remove = function(id) {
 		console.log(id);

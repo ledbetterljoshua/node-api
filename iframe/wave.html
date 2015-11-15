@@ -35,7 +35,7 @@
 							<input id="url" style="display:inline !important;" class="hidden form-control" ng-model="post.url" placeholder="Url">
 							<input class="form-control" ng-model="post.highlighted">
 							<input class="form-control" placeholder="comment" value="test" ng-model="post.comment">
-							<button class="btn btn-primary" ng-click="addPost(setUrl)">Add Post</button>
+							<button class="btn btn-primary" ng-click="addPost()">Add Post</button>
 
 						</div>
 					</div>
@@ -75,8 +75,15 @@
 				$('.currently-open').hide();
 			});
 			
+
 			$(this).addClass('show').removeClass('hidden');
-			$('input#url').val('1234');
+			
+		});
+		$('button').click(function(){
+			var parenturl = (window.location != window.parent.location)
+            ? document.referrer
+            : document.location;
+			$('input#url').val(parenturl);
 			$('input#url').change();
 		});
 		</script>
