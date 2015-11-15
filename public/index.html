@@ -7,12 +7,50 @@
 
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
-
+<link rel="shortcut icon" href="favicon.ico">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<!-- Pixel Fabric clothes icons -->
+	<link rel="stylesheet" type="text/css" href="fonts/pixelfabric-clothes/style.css" />
+	<!-- General demo styles & header -->
+	<link rel="stylesheet" type="text/css" href="css/demo.css" />
+	 <!-- Flickity gallery styles -->
+	<link rel="stylesheet" type="text/css" href="css/flickity.css" />
+	<!-- Component styles -->
+	<link rel="stylesheet" type="text/css" href="css/component.css" />
+	<script src="js/modernizr.custom.js"></script>
 </head>
 <body>
+	<div class="bar">
+		<div class="filter">
+			<span class="filter__label">Filter: </span>
+			<button class="action filter__item filter__item--selected" data-filter="*">All</button>
+			<button class="action filter__item" data-filter=".jackets"><i class="icon icon--jacket"></i><span class="action__text">Jackets</span></button>
+			<button class="action filter__item" data-filter=".shirts"><i class="icon icon--shirt"></i><span class="action__text">Shirts</span></button>
+			<button class="action filter__item" data-filter=".dresses"><i class="icon icon--dress"></i><span class="action__text">Dresses</span></button>
+			<button class="action filter__item" data-filter=".trousers"><i class="icon icon--trousers"></i><span class="action__text">Trousers</span></button>
+			<button class="action filter__item" data-filter=".shoes"><i class="icon icon--shoe"></i><span class="action__text">Shoes</span></button>
+		</div>
+		<button class="cart">
+			<i class="cart__icon fa fa-trash"></i>
+			<span class="text-hidden">Shopping cart</span>
+			<span class="cart__count">0</span>
+		</button>
+	</div>
 	<div class="container" ng-controller="AppCtrl">
-		<H1>Hello there</H1>
-		<table class="table">
+		<div class="grid__item shoes" ng-repeat="post in posts">
+				<div class="slider">
+					<div class="slider__item"><img src="{{post.image}}" alt="Dummy" /></div>
+					<!-- <div class="slider__item"><img src="{{post.image}}" alt="Dummy" /></div>
+					<div class="slider__item"><img src="{{post.image}}" alt="Dummy" /></div> -->
+				</div>
+				<div class="meta">
+					<h3 class="meta__title">{{post.url}}</h3>
+					<span class="meta__brand">{{post.comment}}</span>
+				</div>
+				<button ng-click="remove(post._id)" class="action action--button action--buy"><i class="fa fa-trash"></i><span class="text-hidden">Add to cart</span></button>
+			</div>
+		<!-- <table class="table">
 			<thead>
 				<tr>
 					<th>Url</th>
@@ -38,10 +76,13 @@
 					<td><button class="btn btn-warning" ng-click="edit(post._id)">Edit</button></td>
 				</tr>
 			</tbody>
-		</table>
+		</table> -->
 	</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular.min.js"></script>
 <script src="controllers/controller.js"></script>
+	<script src="js/isotope.pkgd.min.js"></script>
+	<script src="js/flickity.pkgd.min.js"></script>
+	<script src="js/main.js"></script>
 </body>
 </html>

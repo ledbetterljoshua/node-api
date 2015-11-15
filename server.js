@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+
 //var mongojs = require('mongojs');
 //var db = mongojs('posts', ['posts']);
 var bodyParser = require('body-parser');

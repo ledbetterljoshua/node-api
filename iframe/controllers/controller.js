@@ -12,17 +12,13 @@ function($scope, $http) {
 			console.log(response + ": this is the response")
 		});
 	}
-	var parenturl = (window.location != window.parent.location)
-            ? document.referrer
-            : document.location;
 
 	refresh();
-	$scope.url = parenturl;
 
 
 	$scope.addPost = function() {
 		//$scope.post.url = parenturl;
-		console.log($scope.post.url + ": urlss");
+		console.log($scope.post_id);
 		
 		$http.post('/api/posts', $scope.post).success(function(response){
 			console.log(response);

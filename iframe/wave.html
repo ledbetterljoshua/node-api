@@ -35,7 +35,7 @@
 							<input id="url" style="display:inline !important;" class="hidden form-control" ng-model="post.url" placeholder="Url">
 							<input class="form-control" ng-model="post.highlighted">
 							<input class="form-control" placeholder="comment" value="test" ng-model="post.comment">
-							<button class="btn btn-primary" ng-click="addPost()">Add Post</button>
+							<button id="theButton" class="btn btn-primary" ng-click="addPost()">Add Post</button>
 
 						</div>
 					</div>
@@ -85,7 +85,22 @@
             : document.location;
 			$('input#url').val(parenturl);
 			$('input#url').change();
+
+			$('input#image').val(image);
+			$('input#image').change();
 		});
+
+		if($('meta[property="og:image"]')[0]) {
+			var image = $('meta[property="og:image"]').attr('content');
+		} else {
+			$('body img').each(function(){
+				var images = $('body img');
+			    	if (images.width() > 500) {
+			        	var image = $(this).attr('src');
+			        	return false;
+			  	 }
+			});
+		}
 		</script>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular.min.js"></script>
