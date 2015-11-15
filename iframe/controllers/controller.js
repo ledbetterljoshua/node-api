@@ -18,7 +18,7 @@ function($scope, $http) {
 
 	$scope.addPost = function() {
 		//$scope.post.url = parenturl;
-		console.log($scope.post_id);
+		console.log($scope.post._id);
 		
 		$http.post('/api/posts', $scope.post).success(function(response){
 			console.log(response);
