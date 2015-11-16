@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "angular-masonry": "^0.13.0",
     "body-parser": "^1.14.1",
     "connect-mongo": "^0.8.2",
     "express": "^4.13.3",

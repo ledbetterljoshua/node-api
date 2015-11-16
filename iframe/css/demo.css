@@ -20,6 +20,10 @@ body {
 	font-weight: 400;
 	font-size: 1em;
 	font-family: 'Raleway', Arial, sans-serif;
+	background: #e9eaed;
+}
+.grid-gallery figcaption h3 {
+	border-bottom: 1px solid;
 }
 
 a {
