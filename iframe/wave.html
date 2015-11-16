@@ -79,6 +79,7 @@
 			$(this).addClass('show').removeClass('hidden');
 			
 		});
+		var image = window.location.hash.slice(1)
 		$('button').click(function(){
 			var parenturl = (window.location != window.parent.location)
             ? document.referrer
@@ -90,10 +91,7 @@
 			$('input#image').change();
 		});
 
-		var image = window.location.hash.slice(1)
-
-		console.log(window.location.href);
-		console.log(window.location.hash);
+		console.log('image:' + image)
 		</script>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular.min.js"></script>
