@@ -29,8 +29,12 @@
 						<a href="#"><i class="fa fa-fw fa-envelope-o"></i><span>Messages</span></a>
 						<a href="#"><i class="fa fa-fw fa-comment-o"></i><span>Comments</span></a>
 						<a href="#"><i class="fa fa-fw fa-bar-chart-o"></i><span>Analytics</span></a>
-						<a href="#"><i class="fa fa-fw fa-newspaper-o"></i><span>Reading List</span></a>
+						<a href="#"><i class="fa fa-fw fa-newspaper-o"></i><span>Save</span></a>
 						<div id="readingList" style="display:none;">
+							<input id="group" style="display:none !important;" class="hidden form-control" ng-model="post.group" placeholder="group">
+							<input id="timeStamp" style="display:none !important;" class="hidden form-control" ng-model="post.timeStamp" placeholder="timeStamp">
+							<input id="description" style="display:none !important;" class="hidden form-control" ng-model="post.description" placeholder="description">
+							<input id="title" style="display:none !important;" class="hidden form-control" ng-model="post.title" placeholder="title">
 							<input id="image" style="display:none !important;" class="hidden form-control" ng-model="post.image" placeholder="image url">
 							<input id="url" style="display:none !important;" class="hidden form-control" ng-model="post.url" placeholder="Url">
 							<input class="form-control" ng-model="post.highlighted">
@@ -79,7 +83,14 @@
 			$(this).addClass('show').removeClass('hidden');
 			
 		});
-		var image = window.location.hash.slice(1)
+
+		var hashContent = window.location.hash.split('/?/');
+
+		var image = hashContent[0].slice(7);
+		var title = hashContent[1].slice(6);
+		var description = hashContent[2].slice(12);
+
+
 		$('button').click(function(){
 			var parenturl = (window.location != window.parent.location)
             ? document.referrer
@@ -89,6 +100,12 @@
 
 			$('input#image').val(image);
 			$('input#image').change();
+
+			$('input#title').val(title);
+			$('input#title').change();
+
+			$('input#description').val(description);
+			$('input#description').change();
 		});
 
 		console.log('image:' + image)

@@ -1,50 +1,85 @@
 <!DOCTYPE>
-<html ng-app="myApp">
+<html ng-cloak ng-app="myApp">
 <head>
 	<title>THE HOME</title>
-	<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
-<!-- Font Awesome -->
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="fonts/pixelfabric-clothes/style.css" />
+	<!-- General demo styles & header -->
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/demo.css" />
-		<link rel="stylesheet" type="text/css" href="css/component.css" />
-		<script src="js/modernizr.custom.js"></script>
+	 <!-- Flickity gallery styles -->
+	<link rel="stylesheet" type="text/css" href="css/flickity.css" />
+	<!-- Component styles -->
+	<link rel="stylesheet" type="text/css" href="css/component.css" />
+	<script src="js/modernizr.custom.js"></script>
 </head>
 <body>
 
-	<div id="grid-gallery" class="grid-gallery" ng-controller="AppCtrl">
-		<section class="grid-wrap">
-			<ul class="grid">
-				<li class="grid-sizer"></li><!-- for Masonry column width -->
-				<li class="grid-item" ng-repeat="post in posts">
-					<figure>
-						<button ng-click="remove(post._id)" class="action action-button action-buy"><i class="fa fa-trash"></i><span class="text-hidden"></span></button>
-						<a href="{{post.url}}"><img src="{{post.image}}" alt="img01"/></a>
-						<figcaption><h3>{{post.comment}}</h3></br>
-							<p>{{post.highlighted}}</p></figcaption>
-							
-					</figure>
-				</li>
-			</ul>
-		</section>
+<!-- Bottom bar with filter and cart info -->
+	<div class="bar">
+		<div class="filter">
+			<span class="filter__label">Filter: </span>
+			<button class="action filter__item filter__item--selected" data-filter="*">All</button>
+			<button class="action filter__item" data-filter=".jackets"><i class="icon icon--jacket"></i><span class="action__text">Favorites</span></button>
+			<button class="action filter__item" data-filter=".shirts"><i class="icon icon--shirt"></i><span class="action__text">Category 1</span></button>
+			<button class="action filter__item" data-filter=".dresses"><i class="icon icon--dress"></i><span class="action__text">Category 2</span></button>
+			<button class="action filter__item" data-filter=".trousers"><i class="icon icon--trousers"></i><span class="action__text">Category 3</span></button>
+			<button class="action filter__item" data-filter=".shoes"><i class="icon icon--shoe"></i><span class="action__text">Category 4</span></button>
+		</div>
+		<button class="cart">
+			<i class="cart__icon fa fa-shopping-cart"></i>
+			<span class="text-hidden">Shopping cart</span>
+			<span class="cart__count">0</span>
+		</button>
 	</div>
+	<div class="view" ng-controller="AppCtrl">
+		<section class="grid grid--loading">
+				<!-- Loader -->
+				<img class="grid__loader" src="images/grid.svg" width="60" alt="Loader image" />
+				<!-- Grid sizer for a fluid Isotope (Masonry) layout -->
+				<div class="grid__sizer"></div>
+				<!-- Grid items -->
+				<div class="grid__item shirts" ng-repeat="post in posts">
+					<div class="slider">
+						<a href="{{post.url}}"><div class="slider__item"><img src="{{post.image}}" alt="Dummy" /></div></a>
+						<!-- <div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div> -->
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">{{post.title}}</h3>
+						<span class="meta__brand">{{post.comment}}</span>
+						<span class="meta__price">{{post.highlighted}}</span>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+			</section>
+		</div>
+	<!-- <div class="row cf" ng-controller="AppCtrl">
+		<div ng-repeat="post in posts" class="mb-gamma col span_12_vpalpha span_3_vpgamma span_3_ie8">
+			<div class="row cf">
+				<div class="col span_3_vpalpha span_12_vpgamma span_12_ie8">
+					<img class="mb-alpha" src="{{post.image}}">
+				</div>
+				<div class="col span_9_vpalpha span_7_vpbeta span_12_vpgamma col-12-ie8">
+					<h1>{{post.title}}</h1>
+				</div>
+				<div class="col span_9_vpalpha span_2_vpbeta span_12_vpgamma col-12-ie8">
+					<small class="d-iblock mb-alpha"><sub>{{post.url}}</sub></small>
+				</div>
+				<div class="col span_12_vpalpha span_9_vpbeta span_12_vpgamma col-12-ie8">
+					<p class="mb-alpha">{{post.comment}} </br> {{post.highlighted}} </p>
+				</div>
+			</div>
+		</div>
+	</div> -->
 
 
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular.min.js"></script>
+	
+	<script src="js/isotope.pkgd.min.js"></script>
+	<script src="js/flickity.pkgd.min.js"></script>
+	<script src="js/main.js"></script>
 	<script src="controllers/controller.js"></script>
-	<script src="js/imagesloaded.pkgd.min.js"></script>
-	<script src="js/masonry.pkgd.min.js"></script>
-	<script src="js/classie.js"></script>
-	<script src="js/cbpGridGallery.js"></script>
-	<script>
-	setTimeOut(function(){
-		new CBPGridGallery( document.getElementById( 'grid-gallery' ) );
-	}, 10000);
-		
-	</script>
+
 
 </body>
 </html>

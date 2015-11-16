@@ -1,8 +1,21 @@
 var myApp = angular.module('myApp', []);
 
+
+myApp.directive('myPostRepeatDirective', function() {
+  return function(scope, element, attrs) {
+    if (scope.$last){
+      // iteration is complete, do whatever post-processing
+      // is necessary
+      console.log('ng repeat is done')
+      Grid.init();
+    }
+  };
+});
+
 myApp.controller('AppCtrl', ['$scope', '$http', 
 function($scope, $http) {
 	console.log("Hello from the controller");
+
 
 	var refresh = function(){
 		$http.get('/api/posts').success(function(response) {
@@ -41,6 +54,8 @@ function($scope, $http) {
 			refresh();
 		});
 	};
+
+
 	
 }]);
 

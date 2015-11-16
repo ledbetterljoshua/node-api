@@ -35,6 +35,10 @@ router.route('/posts')
         post.highlighted = req.body.highlighted;
         post.comment = req.body.comment;  // set the posts name (comes from the request)
         post.image = req.body.image;
+        post.title = req.body.title;
+        post.description = req.body.description;
+        post.timeStamp = req.body.timeStamp;
+        post.group = req.body.group;
         // save the post and check for errors
         post.save(function(err) {
             if (err)
@@ -82,6 +86,10 @@ router.route('/posts')
             post.highlighted = req.body.highlighted;
             post.comment = req.body.comment;  // update the posts info
             post.image = req.body.image;
+            post.title = req.body.title;
+	        post.description = req.body.description;
+	        post.timeStamp = req.body.timeStamp;
+	        post.group = req.body.group;
             // save the post
             post.save(function(err) {
                 if (err)
