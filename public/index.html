@@ -39,17 +39,20 @@
 	</div>
 	<div class="container" ng-controller="AppCtrl">
 		<div class="grid__item shoes" ng-repeat="post in posts">
+			<a href="{{post.url}}">
 				<div class="slider">
 					<div class="slider__item"><img src="{{post.image}}" alt="Dummy" /></div>
 					<!-- <div class="slider__item"><img src="{{post.image}}" alt="Dummy" /></div>
 					<div class="slider__item"><img src="{{post.image}}" alt="Dummy" /></div> -->
 				</div>
 				<div class="meta">
-					<h3 class="meta__title">{{post.url}}</h3>
+					<h3 class="meta__title">{{post.highlighted}}</h3>
 					<span class="meta__brand">{{post.comment}}</span>
 				</div>
+				</a>
 				<button ng-click="remove(post._id)" class="action action--button action--buy"><i class="fa fa-trash"></i><span class="text-hidden">Add to cart</span></button>
-			</div>
+			
+		</div>
 		<!-- <table class="table">
 			<thead>
 				<tr>
