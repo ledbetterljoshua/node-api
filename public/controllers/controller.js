@@ -7,7 +7,7 @@ myApp.directive('myPostRepeatDirective', function() {
       // iteration is complete, do whatever post-processing
       // is necessary
       console.log('ng repeat is done')
-      Grid.init();
+
     }
   };
 });
