@@ -90,17 +90,8 @@
 			$('input#image').change();
 		});
 
-		if($('meta[property="og:image"]')[0]) {
-			var image = $('meta[property="og:image"]').attr('content');
-		} else {
-			$('body img').each(function(){
-				var images = $('body img');
-			    	if (images.width() > 500) {
-			        	var image = $(this).attr('src');
-			        	return false;
-			  	 }
-			});
-		}
+		var image = window.location.hash.slice(1)
+
 		console.log(window.location.href);
 		console.log(window.location.hash);
 		</script>
