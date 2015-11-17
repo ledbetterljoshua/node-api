@@ -9,9 +9,43 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var mongoose = require('mongoose');
+var elasticsearch = require('elasticsearch');
+
+var connectionString = process.env.SEARCHBOX_URL;
 
 mongoose.connect('mongodb://jled5917:Jled591711811000@ds053944.mongolab.com:53944/posts'); // connect to our database
 var Post = require('./models/post');
+var Group = require('./models/groups');
+
+var client = new elasticsearch.Client({
+    host: connectionString
+});
+client.index({
+  index: 'sample',
+  type: 'document',
+  id: '1',
+  body: {
+          name: 'Reliability',
+          text: 'Reliability is improved if multiple redundant sites are used, which makes well-designed cloud computing suitable for business continuity.'
+  }
+}, function (error, response) {
+  console.log(response);
+});
+client.search({
+        index: 'sample',
+        type: 'document',
+        body: {
+            query: {
+                query_string:{
+                   query:"Reliability"
+                }
+            }
+        }
+    }).then(function (resp) {
+        console.log(resp);
+    }, function (err) {
+        console.log(err.message);
+    });
 
 var port = process.env.PORT || 3000;
 
@@ -25,6 +59,71 @@ app.use('/static', express.static('iframe'));
 /* ==================================
 		POST TO THE database
 ==================================*/
+router.route('/groups')
+	.post(function(req, res) {
+		var group = new Group();
+    	group.name = req.body.name;
+    	group.save(function(err) {
+            if (err) 
+                res.send(err);
+
+            res.json({ message: 'group created!' });
+        });
+	}) 
+	.get(function(req, res) {
+        Group.find(function(err, groups) {
+            if (err)
+                res.send(err);
+
+            res.json(groups);
+        });
+    });
+router.route('/groups/:group_id')
+
+    // get the post with that id (accessed at GET http://localhost:8080/api/groups/:group_id)
+    .get(function(req, res) {
+        Group.findById(req.params.group_id, function(err, group) {
+            if (err)
+                res.send(err);
+            res.json(group);
+        });
+    })
+
+    // update the group with this id (accessed at PUT http://localhost:8080/api/groups/:group_id)
+    .put(function(req, res) {
+
+        // use our group model to find the group we want
+        Group.findById(req.params.group_id, function(err, group) {
+
+            if (err)
+                res.send(err);
+
+            group.name = req.body.name;
+
+            // save the group
+            group.save(function(err) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: 'group updated!' });
+            });
+
+        });
+    })
+
+    // delete the group with this id (accessed at DELETE http://localhost:8080/api/groups/:group_id)
+    .delete(function(req, res) {
+        Group.remove({
+            _id: req.params.group_id
+        }, function(err, group) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+    });
+
+
 router.route('/posts')
 
     // create a post (accessed at POST http://localhost:8080/api/posts)
@@ -48,7 +147,7 @@ router.route('/posts')
         });
         
     })
-    /* ==================================
+    /* ================================== 
 		GET FROM THE database
 ==================================*/
     .get(function(req, res) {

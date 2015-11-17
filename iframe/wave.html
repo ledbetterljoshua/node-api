@@ -31,7 +31,16 @@
 						<a href="#"><i class="fa fa-fw fa-bar-chart-o"></i><span>Analytics</span></a>
 						<a href="#"><i class="fa fa-fw fa-newspaper-o"></i><span>Save</span></a>
 						<div id="readingList" style="display:none;">
-							<input id="group" style="display:inline !important;" class="hidden form-control" ng-model="post.group" placeholder="group">
+							<select ng-cloak ng-model="group.name">
+						        <option ng-repeat="group in groups">
+						        {{group.name}}
+						        </option>
+						    </select>
+						    <input id="newGroup" style="display:inline !important;" class="hidden form-control" ng-model="group.name" placeholder="create group">
+						    <button id="theGroupButton" class="btn btn-primary" ng-click="addGroup()">Add Group</button>
+						    
+
+							<input id="group" style="display:inline !important;" class="hidden form-control" ng-model="post.group" placeholder="group" value="{{group.name}}">
 							<input id="timeStamp" style="display:none !important;" class="hidden form-control" ng-model="post.timeStamp" placeholder="timeStamp">
 							<input id="description" style="display:none !important;" class="hidden form-control" ng-model="post.description" placeholder="description">
 							<input id="title" style="display:none !important;" class="hidden form-control" ng-model="post.title" placeholder="title">
@@ -95,6 +104,7 @@
 			var parenturl = (window.location != window.parent.location)
             ? document.referrer
             : document.location;
+
 			$('input#url').val(parenturl);
 			$('input#url').change();
 
@@ -106,6 +116,9 @@
 
 			$('input#description').val(description);
 			$('input#description').change();
+
+			$('input#group').change();
+
 		});
 
 		console.log('image:' + image)

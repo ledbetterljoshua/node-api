@@ -12,79 +12,61 @@
 	<link rel="stylesheet" type="text/css" href="css/component.css" />
 	<script src="js/modernizr.custom.js"></script>
 </head>
-<body>
+<body ng-controller="AppCtrl">
 
 <!-- Bottom bar with filter and cart info -->
 	<div class="bar">
 		<div class="filter">
-			<span class="filter__label">Filter: </span>
+			<span class="filter__label">Groups: </span>
 			<button class="action filter__item filter__item--selected" data-filter="*">All</button>
-			<button class="action filter__item" data-filter=".jackets"><i class="icon icon--jacket"></i><span class="action__text">Favorites</span></button>
-			<button class="action filter__item" data-filter=".shirts"><i class="icon icon--shirt"></i><span class="action__text">Category 1</span></button>
-			<button class="action filter__item" data-filter=".dresses"><i class="icon icon--dress"></i><span class="action__text">Category 2</span></button>
-			<button class="action filter__item" data-filter=".trousers"><i class="icon icon--trousers"></i><span class="action__text">Category 3</span></button>
-			<button class="action filter__item" data-filter=".shoes"><i class="icon icon--shoe"></i><span class="action__text">Category 4</span></button>
+			<button ng-repeat="group in groups" my-repeat-directive class="action filter__item" data-filter=".{{group.name}}"><i class="icon icon--{{group.name}}"></i><span class="action__text">{{group.name}}</span></button>
+			
 		</div>
-		<button class="cart">
+		<button class="cart hidden">
 			<i class="cart__icon fa fa-shopping-cart"></i>
 			<span class="text-hidden">Shopping cart</span>
 			<span class="cart__count">0</span>
 		</button>
 	</div>
-	<div class="view" ng-controller="AppCtrl">
+	<p><input type="text" id="search_input" class="quicksearch" placeholder="Search" /></p>
+	<div class="view" >
 		<section class="grid grid--loading">
 				<!-- Loader -->
 				<img class="grid__loader" src="images/grid.svg" width="60" alt="Loader image" />
 				<!-- Grid sizer for a fluid Isotope (Masonry) layout -->
 				<div class="grid__sizer"></div>
 				<!-- Grid items -->
-				<repeat ng-repeat="post in posts" my-post-repeat-directive>
+				<repeat class="isotope_container" ng-repeat="post in posts" my-post-repeat-directive>
 					<div class="grid__item {{post.group}}" >
 						<div class="slider">
 							<a href="{{post.url}}"><div class="slider__item"><img src="{{post.image}}" alt="Dummy" /></div></a>
 							<!-- <div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div>
 							<div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div> -->
 						</div>
-						<div class="meta">
+						<div class="action--bar">
+							<button  class="action action--button action--favorite"><i class="fa fa-heart"></i><span class="text-hidden">favorite</span></button>
+							<button ng-click="remove(post._id)" class="action action--button action--remove"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+						</div>
+						<div class="meta"> 
 							<h3 class="meta__title">{{post.title}}</h3>
 							<span class="meta__brand">{{post.comment}}</span>
 							<span class="meta__price">{{post.highlighted}}</span>
 						</div>
-						<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+
+
 					</div>
 				</repeat>
 			</section>
 		</div>
-	<!-- <div class="row cf" ng-controller="AppCtrl">
-		<div ng-repeat="post in posts" class="mb-gamma col span_12_vpalpha span_3_vpgamma span_3_ie8">
-			<div class="row cf">
-				<div class="col span_3_vpalpha span_12_vpgamma span_12_ie8">
-					<img class="mb-alpha" src="{{post.image}}">
-				</div>
-				<div class="col span_9_vpalpha span_7_vpbeta span_12_vpgamma col-12-ie8">
-					<h1>{{post.title}}</h1>
-				</div>
-				<div class="col span_9_vpalpha span_2_vpbeta span_12_vpgamma col-12-ie8">
-					<small class="d-iblock mb-alpha"><sub>{{post.url}}</sub></small>
-				</div>
-				<div class="col span_12_vpalpha span_9_vpbeta span_12_vpgamma col-12-ie8">
-					<p class="mb-alpha">{{post.comment}} </br> {{post.highlighted}} </p>
-				</div>
-			</div>
-		</div>
-	</div> -->
-
-
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular.min.js"></script>
 	
-	<script src="js/isotope.pkgd.min.js"></script>
-	<script src="js/flickity.pkgd.min.js"></script>
-	<script src="js/main.js"></script>
+	
 
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script src="controllers/controller.js"></script>
 	<script type="text/javascript">
 	var imageSwap = function() {
+		if($('img[src="undefined"]')[0] || $('img:not([src])')[0]) {
 			$('img[src="undefined"]').each(function(){
 				$(this).attr('src', 'https://nutrasumma.com/wp-content/uploads/banner-placeholder.jpg')
 				console.log('bad images should be replaced')
@@ -94,13 +76,71 @@
 				console.log('bad images should be replaced')
 			});
 		}
-		setInterval(function(){
-			if($('img[src="undefined"]')[0] || $('img:not([src])')[0]) {
-				imageSwap();
-			}
-		}, 3000)
+	}
+	setInterval(function(){
+		if($('img[src="undefined"]')[0] || $('img:not([src])')[0] || $('img')[0]) {
+			imageSwap();
+
+	      $('button.action.action--button.action--remove').click(function(){
+				$(this).parent('div').parent('div').parent('repeat').hide("slow");
+				$(this).parent('div').parent('div').parent('repeat').remove();
+			});
+
+		}
+	}, 1000); 
+
+	var v = setInterval(function() {
+		$('button.action.filter__item.filter__item--selected').click();
+	}, 1000)
+
+	setTimeout(function(){
+		clearInterval(v);
+	}, 5000);
+
+$( function() {
+  var t = null;
+  $("#search_input").keyup(function(){
+        if (t) {
+           clearTimeout(t);
+        }
+        t = setTimeout(search, 500); // give the user time to write stuff 
+  });
+
+  function search(){
+    var q = $("#search_input").val().toLowerCase();
+  
+    if (q.length == 0) {
+      //alert("q length is zero. Q = " + q );
+       $('.isotope_container').isotope( {filter : '*'} ); // show all
+    } else {
+      
+      var tokens = q.toLowerCase().split(' '),
+          itemsToShow = $('.element'); // start with all
+
+      for (var i = tokens.length - 1; i >= 0; i--) {
+        if(tokens[i].length == 0) {
+        	alert("tokens[i].length == 0");
+        	continue;
+        }
+        
+        itemsToShow = itemsToShow.filter(function(index){
+              var $this = $(this);
+              text = $this.text().toLowerCase();
+              var score = text.score(tokens[i]);
+              return score > 0 ? true : false;
+        });
+      }
+
+      $('.isotope_container').isotope( {filter : itemsToShow } );
+    }
+  }
+ });
+
+
 	</script>
 
 
 </body>
 </html>
+
+
