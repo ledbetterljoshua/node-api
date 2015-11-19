@@ -1,59 +1,140 @@
 var express = require('express');
 var app = express();
-
-//var mongojs = require('mongojs');
-//var db = mongojs('posts', ['posts']);
+var port = process.env.PORT || 3000;
+var mongoose = require('mongoose');
+var relationship = require("mongoose-relationship");
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var flash    = require('connect-flash');
+var morgan       = require('morgan');
+var cookieParser = require('cookie-parser');
+var session      = require('express-session');
+
+var configDB = require('./config/database.js');
+
+require('./config/passport.js')(passport)
+
+// set up our express application
+app.use(morgan('dev')); // log every request to the console
+app.use(cookieParser()); // read cookies (needed for auth)
+app.use(bodyParser()); // get information from html forms
+
+app.set('view engine', 'ejs'); // set up ejs for templating
+
+// required for passport
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+
+require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var mongoose = require('mongoose');
-var elasticsearch = require('elasticsearch');
 
-var connectionString = process.env.SEARCHBOX_URL;
 
 mongoose.connect('mongodb://jled5917:Jled591711811000@ds053944.mongolab.com:53944/posts'); // connect to our database
-var Post = require('./models/post');
-var Group = require('./models/groups');
+var Post  = require('./app/models/post');
+var Group = require('./app/models/groups');
+var User  = require('./app/models/user');
 
-var client = new elasticsearch.Client({
-    host: connectionString
-});
-client.index({
-  index: 'sample',
-  type: 'document',
-  id: '1',
-  body: {
-          name: 'Reliability',
-          text: 'Reliability is improved if multiple redundant sites are used, which makes well-designed cloud computing suitable for business continuity.'
-  }
-}, function (error, response) {
-  console.log(response);
-});
-client.search({
-        index: 'sample',
-        type: 'document',
-        body: {
-            query: {
-                query_string:{
-                   query:"Reliability"
-                }
-            }
-        }
-    }).then(function (resp) {
-        console.log(resp);
-    }, function (err) {
-        console.log(err.message);
-    });
 
-var port = process.env.PORT || 3000;
-
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/views"));
 
 var router = express.Router();              // get an instance of the express Router
 
-app.use('/static', express.static('iframe'));
+Post.find({ user: "564bbd2da851f0aaeb7746c5" }).exec(function(err, posts) {
+  if (err) throw err;
+
+  // show the admins in the past month
+  console.log(posts);
+});
+
+
+
+
+// more routes for our API will happen here
+/* ==================================
+        POST TO THE database
+==================================*/
+router.route('/users')
+        .post(function(req, res) {
+            var user = new User();
+
+            user.local.name     = req.body.name;
+            user.local.email    = req.body.email;
+            user.local.password = req.body.password;
+            user.local.post    = req.body.post;
+            user.local.group    = req.body.group;
+
+            user.save(function(err) {
+                if (err) 
+                   res.send(err);
+
+                res.json({ message: 'user created!' });
+            });
+        }) 
+        .get(function(req, res) {
+            User.find(function(err, users) {
+                if (err)
+                    res.send(err);
+
+                res.json(users);
+            });
+        });
+    router.route('/users/:user_id')
+
+        // get the post with that id (accessed at GET http://localhost:8080/api/users/:user_id)
+        .get(function(req, res) {
+            User.findById(req.params.user_id, function(err, user) {
+                if (err)
+                    res.send(err);
+                res.json(user);
+            });
+        })
+
+        // update the user with this id (accessed at PUT http://localhost:8080/api/users/:user_id)
+        .put(function(req, res) {
+
+            // use our user model to find the user we want
+            User.findById(req.params.user_id, function(err, user) {
+
+                if (err)
+                    res.send(err);
+
+                user.name           = req.body.name;
+                user.local.email    = req.body.email;
+                user.local.password = req.body.password;
+                user.local.post    = req.body.post;
+                user.local.group    = req.body.group;
+
+                // save the user
+                user.save(function(err) {
+                    if (err)
+                        res.send(err);
+
+                    res.json({ message: 'user updated!' });
+                });
+
+            });
+        })
+
+        // delete the user with this id (accessed at DELETE http://localhost:8080/api/users/:user_id)
+        .delete(function(req, res) {
+            User.remove({
+                _id: req.params.user_id
+            }, function(err, user) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: 'Successfully deleted' });
+            });
+        });
+
+
+
 
 // more routes for our API will happen here
 /* ==================================
@@ -63,19 +144,24 @@ router.route('/groups')
 	.post(function(req, res) {
 		var group = new Group();
     	group.name = req.body.name;
+        group.user = req.body.user;
     	group.save(function(err) {
             if (err) 
-                res.send(err);
+               res.send(err);
 
             res.json({ message: 'group created!' });
         });
 	}) 
 	.get(function(req, res) {
-        Group.find(function(err, groups) {
-            if (err)
-                res.send(err);
+        var current_user = req.user;
+        console.log("req: " + req)
 
-            res.json(groups);
+        Group.find({ user: current_user._id }).exec(function(err, groups) {
+          if (err) throw err;
+
+          console.log(groups);
+           res.json(groups);
+           console.log("current user:" + current_user);
         });
     });
 router.route('/groups/:group_id')
@@ -128,17 +214,18 @@ router.route('/posts')
 
     // create a post (accessed at POST http://localhost:8080/api/posts)
     .post(function(req, res) {
-        
-        var post = new Post();      // create a new instance of the post model
-        post.url = req.body.url;
-        post.highlighted = req.body.highlighted;
-        post.comment = req.body.comment;  // set the posts name (comes from the request)
-        post.image = req.body.image;
-        post.title = req.body.title;
-        post.description = req.body.description;
-        post.timeStamp = req.body.timeStamp;
-        post.group = req.body.group;
+        var post            = new Post();      // create a new instance of the post model
+        post.url            = req.body.url;
+        post.highlighted    = req.body.highlighted;
+        post.comment        = req.body.comment;  // set the posts name (comes from the request)
+        post.image          = req.body.image;
+        post.title          = req.body.title;
+        post.description    = req.body.description;
+        post.timeStamp      = req.body.timeStamp;
+        post.group          = req.body.group;
+        post.user           = req.body.user;
         // save the post and check for errors
+
         post.save(function(err) {
             if (err)
                 res.send(err);
@@ -151,12 +238,19 @@ router.route('/posts')
 		GET FROM THE database
 ==================================*/
     .get(function(req, res) {
-        Post.find(function(err, posts) {
-            if (err)
-                res.send(err);
+        
+        var current_user = req.user;
+        console.log("req: " + req)
 
-            res.json(posts);
+        Post.find({ user: current_user._id }).exec(function(err, posts) {
+          if (err) throw err;
+
+          // show the admins in the past month
+          console.log(posts);
+           res.json(posts);
+           console.log("current user:" + current_user);
         });
+
     });
     /* ==================================
 		GET A SINGLE ITEM

@@ -1,0 +1,79 @@
+<!DOCTYPE>
+<html ng-cloak ng-app="myApp">
+<head>
+	<title>THE HOME</title>
+		<link rel="stylesheet" type="text/css" href="fonts/pixelfabric-clothes/style.css" />
+	<!-- General demo styles & header -->
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/demo.css" />
+	 <!-- Flickity gallery styles -->
+	<link rel="stylesheet" type="text/css" href="css/flickity.css" />
+	<!-- Component styles -->
+	<link rel="stylesheet" type="text/css" href="css/component.css" />
+	<script src="js/modernizr.custom.js"></script>
+</head>
+<body ng-controller="AppCtrl">
+
+<!-- Bottom bar with filter and cart info -->
+	<div class="bar">
+		<div class="filter">
+			<span class="filter__label">Groups: </span>
+			
+			<button class="action filter__item filter__item--selected" data-filter="*">All</button>
+			<button ng-repeat="group in groups" my-repeat-directive class="action filter__item" data-filter=".{{group.name}}"><i class="icon icon--{{group.name}}"></i><span class="action__text">{{group.name}}</span></button>
+			
+		</div>
+		<button class="cart hidden">
+			<i class="cart__icon fa fa-shopping-cart"></i>
+			<span class="text-hidden">Shopping cart</span>
+			<span class="cart__count">0</span>
+		</button>
+	</div>
+	 <strong>id</strong>: <%= user._id %><br>
+	<p><input type="text" id="search-term" class="quicksearch" placeholder="Search" /></p>
+	<div class="view" >
+		<section class="grid grid--loading">
+				<!-- Loader -->
+				<img class="grid__loader" src="images/grid.svg" width="60" alt="Loader image" />
+				<!-- Grid sizer for a fluid Isotope (Masonry) layout -->
+				<div class="grid__sizer"></div>
+				<!-- Grid items -->
+				<repeat class="isotope_container" ng-repeat="post in posts" my-post-repeat-directive>
+					<div class="grid__item {{post.group}} {{post.title}}" >
+						<div class="slider">
+							<a href="{{post.url}}"><div class="slider__item"><img ng-src="{{post.image}}" alt="i" err-src="https://nutrasumma.com/wp-content/uploads/banner-placeholder.jpg" /></div></a>
+							<!-- <div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div>
+							<div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div> -->
+						</div>
+						<div class="action--bar">
+							<button  class="action action--button action--favorite"><i class="fa fa-heart"></i><span class="text-hidden">favorite</span></button>
+							<button ng-click="remove(post._id)" class="action action--button action--remove"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+						</div>
+						<div class="meta"> 
+							<h3 class="meta__title">{{post.title}}</h3>
+							<span class="meta__brand">{{post.comment}}</span>
+							<span class="meta__price">{{post.highlighted}}</span>
+						</div>
+
+
+					</div>
+				</repeat>
+			</section>
+		</div>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular.min.js"></script>
+	
+	
+
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="/js/isotope.pkgd.min.js"></script>
+	<script src="controllers/controller.js"></script>
+	<script type="text/javascript">
+	
+
+	</script>
+
+
+</body>
+</html>
+
+
