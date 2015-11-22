@@ -14,6 +14,8 @@ var configDB = require('./config/database.js');
 
 require('./config/passport.js')(passport)
 
+
+
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
@@ -45,12 +47,14 @@ app.use(express.static(__dirname + "/views"));
 
 var router = express.Router();              // get an instance of the express Router
 
-Post.find({ user: "564bbd2da851f0aaeb7746c5" }).exec(function(err, posts) {
-  if (err) throw err;
+// Group.find({ user: "564bbd2da851f0aaeb7746c5" }).exec(function(err, posts) {
+//   if (err) throw err;
 
-  // show the admins in the past month
-  console.log(posts);
-});
+//   // show the admins in the past month
+//   console.log(posts);
+// });
+
+Group.find({ _id:"564d0263de572ffcfa5c5359" }).remove().exec(); 
 
 
 
@@ -144,7 +148,9 @@ router.route('/groups')
 	.post(function(req, res) {
 		var group = new Group();
     	group.name = req.body.name;
-        group.user = req.body.user;
+        group.user = req.user._id;
+        console.log("req.body.name: " + req.body.name)
+        console.log("req.body.user: " + req.user._id)
     	group.save(function(err) {
             if (err) 
                res.send(err);
@@ -159,6 +165,7 @@ router.route('/groups')
         Group.find({ user: current_user._id }).exec(function(err, groups) {
           if (err) throw err;
 
+          // show the admins in the past month
           console.log(groups);
            res.json(groups);
            console.log("current user:" + current_user);
@@ -223,7 +230,7 @@ router.route('/posts')
         post.description    = req.body.description;
         post.timeStamp      = req.body.timeStamp;
         post.group          = req.body.group;
-        post.user           = req.body.user;
+        post.user           = req.user._id;
         // save the post and check for errors
 
         post.save(function(err) {

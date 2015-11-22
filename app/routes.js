@@ -7,6 +7,7 @@ module.exports = function(app, passport) {
     app.get('/', function(req, res) {
         res.render('index.ejs'); // load the index.ejs file
     });
+    
     app.get('/iframe', isLoggedIn, function(req, res) {
         res.render('wave.ejs', {
             user : req.user // get the user out of session and pass to template

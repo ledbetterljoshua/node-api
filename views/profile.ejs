@@ -2,75 +2,172 @@
 <html ng-cloak ng-app="myApp">
 <head>
 	<title>THE HOME</title>
-		<link rel="stylesheet" type="text/css" href="fonts/pixelfabric-clothes/style.css" />
-	<!-- General demo styles & header -->
-	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="css/demo.css" />
-	 <!-- Flickity gallery styles -->
-	<link rel="stylesheet" type="text/css" href="css/flickity.css" />
-	<!-- Component styles -->
-	<link rel="stylesheet" type="text/css" href="css/component.css" />
-	<script src="js/modernizr.custom.js"></script>
+
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc1/angular-material.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/demo.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body ng-controller="AppCtrl">
+<body>
+  <div id="sideNav" ng-controller="sideNav">
+	<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+      <md-toolbar md-scroll-shrink class="md-theme-indigo">
+        <h1 class="md-toolbar-tools">Sidenav Left</h1>
+      </md-toolbar>
+      <md-content layout-padding ng-controller="LeftCtrl">
+        <md-button ng-click="close()" class="md-primary" hide-gt-md>
+          Close Sidenav Left
+        </md-button>
+        <div class="bar">
+				<div class="filter">
+					<md-toolbar class="md-theme-light" md-subheader-wrapper ng-scope md-sticky-clone>
+					    <h2 class="md-toolbar-tools">
+					      <span>Groups</span>
+					    </h2>
+					  </md-toolbar>
+					  
+					
 
-<!-- Bottom bar with filter and cart info -->
-	<div class="bar">
-		<div class="filter">
-			<span class="filter__label">Groups: </span>
-			
-			<button class="action filter__item filter__item--selected" data-filter="*">All</button>
-			<button ng-repeat="group in groups" my-repeat-directive class="action filter__item" data-filter=".{{group.name}}"><i class="icon icon--{{group.name}}"></i><span class="action__text">{{group.name}}</span></button>
-			
-		</div>
-		<button class="cart hidden">
-			<i class="cart__icon fa fa-shopping-cart"></i>
-			<span class="text-hidden">Shopping cart</span>
-			<span class="cart__count">0</span>
-		</button>
-	</div>
-	 <strong>id</strong>: <%= user._id %><br>
-	<p><input type="text" id="search-term" class="quicksearch" placeholder="Search" /></p>
-	<div class="view" >
-		<section class="grid grid--loading">
-				<!-- Loader -->
-				<img class="grid__loader" src="images/grid.svg" width="60" alt="Loader image" />
-				<!-- Grid sizer for a fluid Isotope (Masonry) layout -->
-				<div class="grid__sizer"></div>
-				<!-- Grid items -->
-				<repeat class="isotope_container" ng-repeat="post in posts" my-post-repeat-directive>
-					<div class="grid__item {{post.group}} {{post.title}}" >
-						<div class="slider">
-							<a href="{{post.url}}"><div class="slider__item"><img ng-src="{{post.image}}" alt="i" err-src="https://nutrasumma.com/wp-content/uploads/banner-placeholder.jpg" /></div></a>
-							<!-- <div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div>
-							<div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div> -->
+					<ul class="menu-toggle-list" ng-controller="group as ul">
+						<md-content class="md-padding">
+						    <form ng-submit="$event.preventDefault()">
+						      <md-autocomplete
+						          md-selected-item="ul.selectedItem"
+						          md-search-text-change="ul.searchTextChange(ul.searchText)"
+						          md-search-text="ul.searchText"
+						          md-selected-item-change="ul.selectedItemChange(item)"
+						          md-items="item in ul.querySearch"
+						          md-item-text="item.name"
+						          md-min-length="0"
+						          placeholder="Need help finding a group?">
+						        <md-item-template>
+						          <span md-highlight-text="ul.searchText" md-highlight-flags="^i">{{item.name}}</span>
+						        </md-item-template>
+						        <md-not-found>
+						          No groups matching "{{ul.searchText}}" were found.
+						          <a ng-click="ul.newState(ul.searchText)">Create a new one!</a>
+						        </md-not-found>
+						      </md-autocomplete>
+						  </form>
+						</md-content>
+					</br>
+						<li>
+							<menu-link section="page" class="ng-isolate-scope">
+								<md-button class="left-text ng-md-icon-button md-accent" aria-label="plus" ng-click="showAddGroup = ! showAddGroup">
+							      <ng-md-icon md-font-library="material-icons" class="left-text" icon="playlist_add">plus</ng-md-icon>
+							      <md-tooltip>
+							        Create group
+							      </md-tooltip>
+							    </md-button>
+							</menu-link>
+						</li>
+						<div id="creategroup" ng-show="showAddGroup">
+							<md-input-container>
+								<label for="input_1">New Group</label>
+							    <input id="input_1" style="display:inline !important;" class="ng-pristine form-control" ng-model="group.name" />
+							</md-input-container>
+						    <md-button style="display:inline !important;" id="theGroupButton" class=" hidden btn btn-primary" ng-click="addGroup()">Add Group</md-button>
 						</div>
-						<div class="action--bar">
-							<button  class="action action--button action--favorite"><i class="fa fa-heart"></i><span class="text-hidden">favorite</span></button>
-							<button ng-click="remove(post._id)" class="action action--button action--remove"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
-						</div>
-						<div class="meta"> 
-							<h3 class="meta__title">{{post.title}}</h3>
-							<span class="meta__brand">{{post.comment}}</span>
-							<span class="meta__price">{{post.highlighted}}</span>
-						</div>
+						<li>
+							<menu-link section="page" class="ng-isolate-scope"><a class=" left-text md-button md-ink-ripple" ng-href="#" ><span class="ng-binding ng-scope">
+							  All
+							  </span>
+							</a>
+							</menu-link>
+						</li>
+						<li ng-repeat="group in groups">
+							<menu-link section="page" class="ng-isolate-scope"><a class="md-button md-ink-ripple" ng-href="#" ><span class="ng-binding ng-scope">
+							  {{group.name}}
+							  </span>
+							</a>
+							<ng-md-icon class="group-icons" icon="backspace" md-font-library="material-icons">
+						      <md-tooltip>
+						        delete
+						      </md-tooltip>
+						  </ng-md-icon>
+							</menu-link>
+						</li>
+					</ul>
+					
+					
+				</div>
+			</div>
+      </md-content>
+    </md-sidenav>
 
+    <md-button ng-click="toggleLeft()"
+    class="md-primary" hide-gt-md>
+    Toggle left
+  </md-button>
 
+  </div>
+
+	<div class="gridListdemoBasicUsage" ng-controller="AppCtrl" ng-cloak>
+		<md-input-container class="search">
+		<ng-md-icon icon="search" md-font-library="material-icons">
+		  </ng-md-icon>
+			<label for="input_2">Search</label>
+		    <input id="input_2" style="display:inline !important;" class="ng-pristine form-control" ng-model="query" />
+		</md-input-container >
+					 <div class='md-padding' layout="row" layout-wrap>
+					    <md-card my-repeat-directive class="col-lg-3 col-md-4 col-sm-6 isotope_container" ng-repeat="post in posts | filter:query | orderBy:'-created'">
+							<a href="{{post.url}}"><img  class="md-card-image" ng-src="{{post.image}}" alt="i" err-src="https://nutrasumma.com/wp-content/uploads/banner-placeholder.jpg" /></a>
+							<md-card-content>
+						        <h2 class="md-title">{{post.title | limitTo:45}}</h2>
+						        <h2 style="display:none !important;">{{post.url}}</h2>
+						        <p>
+						          {{post.comment}}
+						        </p>
+						    </md-card-content>
+						    <md-card-actions layout="row" layout-align="end center">
+						    <p class="date">{{post.created | date}}</p>
+							      <ng-md-icon icon="favorite_outline" md-font-library="material-icons">
+								      <md-tooltip>
+								        favorite
+								      </md-tooltip>
+								  </ng-md-icon>
+						        
+							      <ng-md-icon md-font-library="material-icons" icon="delete">
+							      <md-tooltip>
+							        Delete
+							      </md-tooltip>
+							  	</ng-md-icon>
+							      
+						    </md-card-actions>
+						</md-card>
 					</div>
-				</repeat>
-			</section>
+
+			
 		</div>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular.min.js"></script>
-	
-	
+
 
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script src="/js/isotope.pkgd.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.min.js"></script>
+	  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-aria.min.js"></script>
+	  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.6.0/angular-material-icons.min.js"></script> 
+	  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc1/angular-material.min.js"></script>
 	<script src="controllers/controller.js"></script>
 	<script type="text/javascript">
-	
+		var removeEl = function() {
+			$('h2.md-title').each(function(){
+				if($(this).text().length < 1) {
+					$(this).addClass('unseen')
+				}
+			});
+		} 
 
-	</script>
+		var intervalOne = setInterval(function(){
+			removeEl()
+		}, 100);
+
+		setInterval(function(){
+			if($('md-card')[0]) {
+				clearInterval(intervalOne)
+			}
+		}, 100);
+
+	</script>);
+
 
 
 </body>

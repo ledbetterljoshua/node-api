@@ -1,9 +1,11 @@
-var myApp = angular.module('myApp', []);
+var myApp = angular.module('myApp', ['ngMaterial', 'ngMdIcons']);
+
+
 
 myApp.directive('myRepeatDirective', function() {
   return function(scope, element, attrs) {
     if (scope.$last){
-      $('body').append('<script src="js/isotope.pkgd.min.js"></script><script src="js/flickity.pkgd.min.js"></script><script src="js/main.js"></script>')
+      $('body').append("<script type=\"text/javascript\">$(function(){$('h2.md-title').each(function(){if($(this).text().length < 1) {$(this).addClass('unseen')}});});</script>");
     }
   };
 })
@@ -30,7 +32,12 @@ myApp.controller('AppCtrl', ['$scope', '$http',
 function($scope, $http) {
 	console.log("Hello from the controller");
 
-
+	$scope.isOpen = false;
+	  $scope.fab = {
+	    isOpen: false,
+	    count: 0,
+	    selectedDirection: 'right'
+	  };
 	var favorite = function(id) {
 		$scope.post.group = "favorites";
 		console.log("hello?")
@@ -47,48 +54,11 @@ function($scope, $http) {
 			$scope.post = "";
 		});
 	}
-	var refreshGroup = function(){
-		$http.get('/api/groups').success(function(response) {
-			console.log('I got the group data! :D');
-			$scope.groups = response;
-			$scope.group = "";
-		});
-	}
 
 
 	refreshPost();
-	refreshGroup();
 
-	$scope.addGroup = function() {
-		//$scope.post.url = parenturl;
-		console.log($scope.group._id);
-		
-		$http.post('/api/groups', $scope.group).success(function(response){
-			console.log(response);
-			console.log($scope.group.name)
-			refreshGroup();
-		});
-		 
-	};
-	$scope.removeGroup = function(id) {
-		console.log(id);
-		$http.delete('/api/groups/' + id).success(function(response) {
-			refreshGroup();
-		});
-	};
-	$scope.edit = function(id){
-		console.log(id);
-		$http.get('/api/groups/' + id).success(function(response) {
-			$scope.group = response;
-		});
-	};
-
-	$scope.update = function() {
-		console.log($scope.group.id);
-		$http.put('/api/groups/' + $scope.group._id, $scope.group).success(function(response) {
-			refreshGroup();
-		});
-	};
+	
 
 
 	$scope.addPost = function() {
@@ -167,6 +137,171 @@ function($scope, $http) {
 	
 	
 }]);
+
+
+myApp.controller('group', ['$scope', '$http', '$timeout', '$q', '$log',
+function($scope, $http, $timeout, $q, $log) {
+
+	
+
+    var self = this;
+    self.simulateQuery = false;
+    self.isDisabled    = false;
+    self.repos         = loadAll();
+    self.querySearch   = querySearch;
+    self.selectedItemChange = selectedItemChange;
+    self.searchTextChange   = searchTextChange;
+    // ******************************
+    // Internal methods
+    // ******************************
+    /**
+     * Search for repos... use $timeout to simulate
+     * remote dataservice call.
+     */
+    function querySearch (query) {
+      var results = query ? self.repos.filter( createFilterFor(query) ) : self.repos,
+          deferred;
+      if (self.simulateQuery) {
+        deferred = $q.defer();
+        $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
+        return deferred.promise;
+      } else {
+        return results;
+      }
+    }
+    function searchTextChange(text) {
+      $log.info('Text changed to ' + text);
+    }
+    function selectedItemChange(item) {
+      $log.info('Item changed to ' + JSON.stringify(item));
+    }
+    /**
+     * Build `components` list of key/value pairs
+     */
+
+    function loadAll() {
+    	
+      $http.get('/api/groups').then(function(results) { return results.data; console.log(results.data); });
+
+    }
+    /**
+     * Create filter function for a query string
+     */
+    function createFilterFor(query) {
+      var lowercaseQuery = angular.lowercase(query);
+      return function filterFn(item) {
+        return (item.name.indexOf(lowercaseQuery) === 0);
+      };
+    }
+  
+  
+  
+
+	$scope.group = {};
+
+	var refreshGroup = function(){
+		$http.get('/api/groups').success(function(response) {
+			console.log('Refreshed groups, and I have the response');
+			$scope.groups = response;
+			$scope.group = "";
+			console.log(JSON.stringify(response))
+		});
+	}
+	refreshGroup();
+
+	$scope.addGroup = function(name) {
+		
+		$http.post('/api/groups', $scope.group).success(function(response){
+			refreshGroup();
+			console.log("$scope.group.name.val: " + $scope.group.name);
+		});
+		 
+	};
+	$scope.removeGroup = function(id) {
+		console.log(id);
+		$http.delete('/api/groups/' + id).success(function(response) {
+			refreshGroup();
+		});
+	};
+	$scope.edit = function(id){
+		console.log(id);
+		$http.get('/api/groups/' + id).success(function(response) {
+			$scope.group = response;
+		});
+	};
+
+	$scope.update = function() {
+		console.log($scope.group.id);
+		$http.put('/api/groups/' + $scope.group._id, $scope.group).success(function(response) {
+			refreshGroup();
+		});
+	};
+}]);
+
+
+myApp.controller('sideNav', function ($http, $scope, $timeout, $mdSidenav, $log) {
+	
+
+    $scope.toggleLeft = buildDelayedToggler('left');
+    $scope.toggleRight = buildToggler('right');
+    $scope.isOpenRight = function(){
+      return $mdSidenav('right').isOpen();
+    };
+    /**
+     * Supplies a function that will continue to operate until the
+     * time is up.
+     */
+    function debounce(func, wait, context) {
+      var timer;
+      return function debounced() {
+        var context = $scope,
+            args = Array.prototype.slice.call(arguments);
+        $timeout.cancel(timer);
+        timer = $timeout(function() {
+          timer = undefined;
+          func.apply(context, args);
+        }, wait || 10);
+      };
+    }
+    /**
+     * Build handler to open/close a SideNav; when animation finishes
+     * report completion in console
+     */
+    function buildDelayedToggler(navID) {
+      return debounce(function() {
+        $mdSidenav(navID)
+          .toggle()
+          .then(function () {
+            $log.debug("toggle " + navID + " is done");
+          });
+      }, 200);
+    }
+    function buildToggler(navID) {
+      return function() {
+        $mdSidenav(navID)
+          .toggle()
+          .then(function () {
+            $log.debug("toggle " + navID + " is done");
+          });
+      }
+    }
+  })
+  .controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
+    $scope.close = function () {
+      $mdSidenav('left').close()
+        .then(function () {
+          $log.debug("close LEFT is done");
+        });
+    };
+  })
+  .controller('RightCtrl', function ($scope, $timeout, $mdSidenav, $log) {
+    $scope.close = function () {
+      $mdSidenav('right').close()
+        .then(function () {
+          $log.debug("close RIGHT is done");
+        });
+    };
+  });
 
 
 
