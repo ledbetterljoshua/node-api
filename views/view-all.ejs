@@ -39,7 +39,7 @@
 			        Mark as read
 			      </md-tooltip>
 			  </ng-md-icon>
-	        <ng-md-icon ng-if="showRemovePost.active" ng-click="addToGroup(post._id, showRemovePost.group)" md-font-library="material-icons" size="20" icon="highlight_remove">
+	        <ng-md-icon ng-if="showRemovePost.active" ng-click="addToGroup(post._id, showRemovePost.group); getPostss()" md-font-library="material-icons" size="20" icon="highlight_remove">
 		      <md-tooltip>
 		        Remove from Folder
 		      </md-tooltip>

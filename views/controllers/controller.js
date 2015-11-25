@@ -191,16 +191,17 @@ myApp.controller('AppCtrl', ['$scope', '$http', '$timeout', '$q', '$log', '$filt
 function($scope, $http, $timeout, $q, $log, $filter, groupsInPost, getPosts) {
 
 	var refreshPost = function(){
+
 		$http.get('/api/posts').success(function(response) {
-			
 			$scope.posts = response;
 			$scope.post = "";
 		});
 	}
 	$scope.getPostss = function(){
-		$http.get('/api/posts').success(function(response) {
-			
+		$scope.isLoading = true;
+		$http.get('/api/posts').success(function(response) {	
 			$scope.posts = response;
+			$scope.isLoading = false;
 		});
 	} 
 
@@ -266,13 +267,19 @@ function($scope, $http, $timeout, $q, $log, $filter, groupsInPost, getPosts) {
 		
 	}
 	$scope.showRemovePost = {};
+	$scope.hideGroups = {};
+	$scope.hideGroups.active = true;
 
+	$scope.hideAllGroups = function() {
+		$scope.hideGroups.active = false;
+	}
 	$scope.showRemoveGroup = function(group_id) {
 		$scope.showRemovePost.active = true;
 		$scope.showRemovePost.group = group_id;
 	}
 	$scope.hideRemoveGroup = function() {
 		$scope.showRemovePost.active = false;
+		$scope.hideGroups.active = true;
 	}
 
 	$scope.focusInput = function() {
@@ -310,9 +317,11 @@ function($scope, $http, $timeout, $q, $log, $filter, groupsInPost, getPosts) {
 
 
 	$scope.remove = function(id) {
+		$scope.isLoading = true;
 		console.log(id);
 		$http.delete('/api/posts/' + id).success(function(response) {
 			refreshPost();
+			$scope.isLoading = false;
 		});
 	};
 
@@ -366,40 +375,48 @@ function($scope, $http, $timeout, $q, $log, $filter, groupsInPost, getPosts) {
 		});
 	};
 	$scope.readLater = function(post_id) {
+		$scope.isLoadingSmall = true;
 		$scope.post = groupsInPost.get({ id: post_id }, function() {
 		  $scope.post.readlater = true;
 		  console.log('added to readLater')
 		  console.log($scope.post.readlater)
 		  $scope.post.$update(function() {
 		    refreshPost()
+		    $scope.isLoadingSmall = false;
 		  });
 		});
 	}
 	$scope.markAsRead = function(post_id) {
+		$scope.isLoadingSmall = true;
 		$scope.post = groupsInPost.get({ id: post_id }, function() {
 		  $scope.post.readlater = false;
 		  console.log('marked as read')
 		  $scope.post.$update(function() {
 		    refreshPost()
+		    $scope.isLoadingSmall = false;
 		  });
 		});
 	}
 	$scope.favoritePost = function(post_id) {
+		$scope.isLoadingSmall = true;
 		$scope.post = groupsInPost.get({ id: post_id }, function() {
 		  $scope.post.favorite = true;
 		  console.log('added to favorites')
 		  $scope.post.$update(function() {
 		    refreshPost()
+		    $scope.isLoadingSmall = false;
 		  });
 		});
 	};
 	$scope.removeFavorite = function(post_id) {
+		$scope.isLoadingSmall = true;
 		$scope.post = groupsInPost.get({ id: post_id }, function() {
 		  $scope.post.favorite = false;
 		  console.log('removed from favorites');
 
 		  $scope.post.$update(function() {
 		    refreshPost()
+		    $scope.isLoadingSmall = false;
 		  });
 		});
 	};

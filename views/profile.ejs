@@ -1,22 +1,25 @@
 <!DOCTYPE>
 <html ng-cloak ng-app="myApp">
 <head>
-	<title>Ill Gotten</title>
-
+	<title>Monument</title>
+	<link rel='shortcut icon' href='favicon.ico' type='image/x-icon'/ >
 	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc1/angular-material.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/demo.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body ng-controller="AppCtrl">
+	<md-progress-circular md-mode="indeterminate" ng-show="isLoading"></md-progress-circular>
 	<md-toolbar md-scroll-shrink>
 	    <div class="md-toolbar-tools">
-	    	<div id="title">My Posts</div>
-	    	<md-input-container style="width: 50%;">
-		    	<ng-md-icon size="25" icon="search" md-font-library="material-icons"></ng-md-icon>
-		    	<label for="input_2">Search</label>
-			    <input id="input_2" style="display:inline !important;" class="ng-pristine form-control" ng-model="query" />
-			</md-input-container>
+	    	<div id="title">Monument</div>
+	    	<div id="topMiddle">
+		    	<md-input-container style="width: 50%; margin-left: 40px;">
+			    	<ng-md-icon size="25" icon="search" md-font-library="material-icons"></ng-md-icon>
+			    	<label for="input_2">Search</label>
+				    <input id="input_2" style="display:inline !important;" class="ng-pristine form-control" ng-model="query" />
+				</md-input-container>
+			</div>
 		</div>
 			    
 	  </md-toolbar>
@@ -51,7 +54,7 @@
 							</menu-link>
 						</li>
 						<li>
-							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup()" class=" left-text md-button md-ink-ripple" ng-href="#/all" ><span class="ng-binding ng-scope">
+							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup(); hideAllGroups()" class=" left-text md-button md-ink-ripple" ng-href="#/all" ><span class="ng-binding ng-scope">
 							<ng-md-icon class="group-icons" icon="settings" size="20" md-font-library="material-icons"></ng-md-icon>
 							  Settings
 							  </span>
@@ -59,7 +62,7 @@
 							</menu-link>
 						</li>
 						<li>
-							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup()" class=" left-text md-button md-ink-ripple" ng-href="#/favorites" ><span class="ng-binding ng-scope">
+							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup(); hideAllGroups()" class=" left-text md-button md-ink-ripple" ng-href="#/favorites" ><span class="ng-binding ng-scope">
 							<ng-md-icon class="group-icons" icon="favorite" size="20" md-font-library="material-icons"></ng-md-icon>
 							  Favorites
 							  </span>
@@ -67,7 +70,7 @@
 							</menu-link>
 						</li>
 						<li>
-							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup()" class=" left-text md-button md-ink-ripple" ng-href="#/reading-list" ><span class="ng-binding ng-scope">
+							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup(); hideAllGroups()" class=" left-text md-button md-ink-ripple" ng-href="#/reading-list" ><span class="ng-binding ng-scope">
 							<ng-md-icon class="group-icons" icon="bookmark_outline" size="20" md-font-library="material-icons"></ng-md-icon>
 							  Read Later
 							  </span>
@@ -76,7 +79,7 @@
 						</li>
 						<hr class="guide-section-separator">
 						
-						<li style="
+						<li ng-show="hideGroups.active === true" style="
 					    margin: 0 4px;
 					    padding: 0 11px;
 					    color: #D83E3E;
@@ -94,7 +97,7 @@
 					</li>
 						<li class="bin" droppable drop="handleDrop" bin="bin" id="{{ group._id }}"
            					ng-repeat="group in groups | filter:queryGroups | orderBy:'-created'">
-							<menu-link section="page" class="ng-isolate-scope">
+							<menu-link section="page" class="ng-isolate-scope" ng-show="hideGroups.active === true">
 							<a class="md-button md-ink-ripple" href="javascript:void(0)" ng-click="getGroup(group._id, group.name, showRemoveGroup); getPostss()" >
 							<ng-md-icon size="18" class="group-icons" icon="my_library_books">
 							</ng-md-icon> 

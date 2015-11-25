@@ -1,4 +1,4 @@
-body, .md-padding.layout-wrap.layout-row {
+body, .md-padding.layout-wrap.layout-row, html {
 	background: #e9eaed;
 	overflow-x: hidden;
 }
@@ -742,14 +742,32 @@ md-sidenav {
     position: fixed !important;
     height: 100%;
 }
+div#topMiddle {
+    width: 100%;
+    border-bottom: 1px solid #E4E3E3;
+    height: 100%;
+}
+md-input-container label {
+  color: #000 !important;
+  font-weight: 100;
+  top: -4px;
+  letter-spacing: 2px;
+}
+.md-whiteframe-4dp, .md-whiteframe-z2 {
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 0px 0 rgba(0,0,0,.12) !important;
+}
 input#input_2 {
 	border-radius: 3px;
     display: inline !important;
     background: rgb(255, 255, 255);
     padding-left: 28px;
+    border-bottom: none !important
 }
 label[for="input_2"] {
 	padding-left: 28px !important;
+}
+img.face {
+      background: gainsboro;
 }
 .date {
 	display: block;
@@ -762,8 +780,8 @@ ng-md-icon[icon="search"] {
     width: 23px;
     position: absolute;
     top: 26px;
-    border-right: 1px solid #E9EAED;
-    border-radius: 2px;
+/*    border-right: 1px solid #E9EAED;
+*/    border-radius: 2px;
 }
 img.face {
     border: 1px solid #ddd;
@@ -799,9 +817,18 @@ md-list-item {
 }
 div#title {
     width: 212px;
+    color: #000;
+    font-weight: 100;
+    font-size: 40px;
+    margin: 0 30.9px 0 9px;
+    border-bottom: 1px solid;
 }
 md-list {
 	margin-top: 64px;
+}
+.md-toolbar-tools {
+  background: #fff !important;
+  background-color: #fff !important;
 }
 .post-icons {
 	text-align: right;
@@ -850,7 +877,15 @@ h2.md-title:after {
 md-card md-card-content {
 	padding:6px !important;
 }
-
+md-progress-circular {
+  position: fixed;
+    top: 50%;
+    transform: translate(50%);
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    z-index: 9;
+}
 .group-button {
 	display: block;
     width: 100% !important;
@@ -864,6 +899,7 @@ md-card md-card-content {
 md-content.layout-padding.ng-scope {
     padding: 0;
     overflow: hidden;
+    min-height: 100%
 }
 md-card md-card-content {
     display: block;
@@ -905,9 +941,10 @@ h4.ng-binding {
 }
 @media (min-width: 960px) {
 .gridListdemoBasicUsage {
-	margin-left: 230px;
+	margin-left: 270px;
 }
 .gridListdemoBasicUsage {
-	max-width: 100%;
+	max-width: 754px;
+  width: 73%   
 }
 }
