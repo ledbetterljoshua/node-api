@@ -54,7 +54,7 @@ var router = express.Router();              // get an instance of the express Ro
 //   console.log(posts);
 // });
 
-Group.find({ _id:"564d0263de572ffcfa5c5359" }).remove().exec(); 
+//Group.find({ _id:"564d0263de572ffcfa5c5359" }).remove().exec(); 
 
 
 
@@ -230,6 +230,9 @@ router.route('/posts')
         post.description    = req.body.description;
         post.timeStamp      = req.body.timeStamp;
         post.group          = req.body.group;
+        post.favorite       = req.body.favorite;
+        post.readlater      = req.body.readlater;
+        post.private        = req.body.private;
         post.user           = req.user._id;
         // save the post and check for errors
 
@@ -262,6 +265,7 @@ router.route('/posts')
     /* ==================================
 		GET A SINGLE ITEM
 ==================================*/
+
 	router.route('/posts/:post_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/posts/:post_id)
@@ -272,6 +276,7 @@ router.route('/posts')
             res.json(post);
         });
     })
+    
 
     // update the post with this id (accessed at PUT http://localhost:8080/api/posts/:post_id)
     .put(function(req, res) {
@@ -289,7 +294,11 @@ router.route('/posts')
             post.title = req.body.title;
 	        post.description = req.body.description;
 	        post.timeStamp = req.body.timeStamp;
-	        post.group = req.body.group;
+    	    post.group = req.body.group;
+            post.favorite       = req.body.favorite;
+            post.readlater      = req.body.readlater;
+            post.private        = req.body.private;
+            post.user           = req.user._id;
             // save the post
             post.save(function(err) {
                 if (err)

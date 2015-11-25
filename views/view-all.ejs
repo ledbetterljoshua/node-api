@@ -1,0 +1,61 @@
+<section class="demo-container md-whiteframe-z1 show-source">
+  <md-content>
+  
+
+  <section>
+  	 
+	 <md-list role="list">
+	 <md-subheader class="md-primary">{{groupName || 'Newest Saved Pages'}}</md-subheader>
+	   <md-list-item
+            class="list-group-item md-3-line md-no-proxy ng-scope" my-repeat-directive ng-repeat="post in posts | filter:query | filter:groupSearch | orderBy:'-created'  track by post._id" ng-animate=" 'animate' " role="listitem">
+	    <img ng-src="{{post.image}}" alt="i" err-src="https://nutrasumma.com/wp-content/uploads/banner-placeholder.jpg" class="face" alt="Min Li Chan" src="{{post.image}}">
+	    <div class="md-list-item-text">
+	    	<div style="display:none !important;">{{post.group}}</div>
+	       <a style="text-decoration: none;" href="{{post.url}}">
+	       	<h3 class="ng-binding item" id="{{ post._id }}" draggable item="item">{{post.title}}</h3></a>
+	      <h4 class="ng-binding">{{post.created | date}} - {{post.url | domain}}</h4>
+	      <p class="ng-binding">{{post.description}}</p>
+	      <div class="post-icons">
+
+   	 <!-- ng-change="addToGroup()" -->
+		
+	          <ng-md-icon ng-show="!post.favorite" icon="favorite_outline" md-font-library="material-icons" size="20" ng-click="favoritePost(post._id)">
+			    <md-tooltip>
+			        favorite
+			      </md-tooltip>
+			  </ng-md-icon>
+			  <ng-md-icon ng-show="post.favorite" style="fill: #FF38E0;" icon="favorite" md-font-library="material-icons" size="20" ng-click="removeFavorite(post._id)">
+			    <md-tooltip>
+			        remove
+			      </md-tooltip>
+			  </ng-md-icon>
+			  <ng-md-icon ng-show="!post.readlater" icon="bookmark_outline" md-font-library="material-icons" size="20" ng-click="readLater(post._id)">
+			    <md-tooltip>
+			        Reading List
+			      </md-tooltip>
+			  </ng-md-icon>
+			  <ng-md-icon ng-show="post.readlater" icon="done" md-font-library="material-icons" size="20" ng-click="markAsRead(post._id)">
+			    <md-tooltip>
+			        Mark as read
+			      </md-tooltip>
+			  </ng-md-icon>
+	        <ng-md-icon ng-if="showRemovePost.active" ng-click="addToGroup(post._id, showRemovePost.group)" md-font-library="material-icons" size="20" icon="highlight_remove">
+		      <md-tooltip>
+		        Remove from Folder
+		      </md-tooltip>
+		  	</ng-md-icon>
+
+		      <ng-md-icon ng-click="remove(post._id)" md-font-library="material-icons" size="20" icon="delete">
+		      <md-tooltip>
+		        Delete
+		      </md-tooltip>
+		  	</ng-md-icon>
+
+		  	
+		  </div>
+	    </div>
+	  </md-list-item>
+	 </md-list>
+	</section>
+	</md-content>
+</section>

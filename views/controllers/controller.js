@@ -1,7 +1,166 @@
-var myApp = angular.module('myApp', ['ngMaterial', 'ngMdIcons']);
+var myApp = angular.module('myApp', ['ngMaterial', 'ngMdIcons', 'ngResource', 'ui.router']);
 
 
+myApp.config(function($stateProvider, $urlRouterProvider) {
+    
+    $urlRouterProvider.otherwise('/all');
+    
+    $stateProvider
+        
+        // HOME STATES AND NESTED VIEWS ========================================
+        .state('all', {
+            url: '/all',
+            templateUrl: '../view-all.ejs'
+        })
+        
+        // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
+        .state('favorites', {
+            url: "/favorites", 
+            templateUrl: '../favorites.ejs'
+        })
+        .state('reading-list', {
+            url: "/reading-list", 
+            templateUrl: '../readlater.ejs'
+        })
+        .state('groups', {
+            url: "/groups", 
+            templateUrl: '../group.ejs'
+        });
+        
+});
 
+myApp.factory('groupsInPost', function($resource) {
+  return $resource('/api/posts/:id', { id: '@_id' }, {
+    update: {
+      method: 'PUT' // this method issues a PUT request
+    }
+  });
+});
+myApp.factory('getPosts', function($resource) {
+  return $resource('/api/posts/', {
+    update: {
+      method: 'PUT' // this method issues a PUT request
+    }
+  });
+});
+
+myApp.filter( 'domain', function () {
+  return function ( input ) {
+    var matches,
+        output = "",
+        urls = /\w+:\/\/([\w|\.]+)/;
+
+    matches = urls.exec( input );
+
+    if ( matches !== null ) output = matches[1];
+
+    return output;
+  };
+});
+
+myApp.directive('draggable', function() {
+  return function(scope, element) {
+    // this gives us the native JS object
+    var el = element[0];
+    
+    el.draggable = true;
+    
+    el.addEventListener(
+      'dragstart',
+      function(e) {
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('Text', this.id);
+        this.classList.add('drag');
+        return false;
+      },
+      false
+    );
+    
+    el.addEventListener(
+      'dragend',
+      function(e) {
+        this.classList.remove('drag');
+        return false;
+      },
+      false
+    );
+  }
+});
+
+myApp.directive('droppable', function() {
+  return {
+    scope: {
+      drop: '&',
+      bin: '='
+    },
+    link: function(scope, element) {
+      // again we need the native object
+      var el = element[0];
+      
+      el.addEventListener(
+        'dragover',
+        function(e) {
+          e.dataTransfer.dropEffect = 'move';
+          // allows us to drop
+          if (e.preventDefault) e.preventDefault();
+          this.classList.add('over');
+          return false;
+        },
+        false
+      );
+      
+      el.addEventListener(
+        'dragenter',
+        function(e) {
+          this.classList.add('over');
+          return false;
+        },
+        false
+      );
+      
+      el.addEventListener(
+        'dragleave',
+        function(e) {
+          this.classList.remove('over');
+          return false;
+        },
+        false
+      );
+      
+      el.addEventListener(
+        'drop',
+        function(e) {
+          // Stops some browsers from redirecting.
+          if (e.stopPropagation) e.stopPropagation();
+          
+          this.classList.remove('over');
+          
+          var binId = this.id;
+          var item = document.getElementById(e.dataTransfer.getData('Text'));
+          //this.appendChild(item);
+          // call the passed drop function
+          scope.$apply(function(scope) {
+            var fn = scope.drop();
+            if ('undefined' !== typeof fn) {            
+              fn(item.id, binId);
+            }
+          });
+          
+          return false;
+        },
+        false
+      );
+    }
+  }
+});
+
+myApp.directive('focusOn', function() {
+   return function(scope, elem, attr) {
+      scope.$on(attr.focusOn, function(e) {
+          elem[0].focus();
+      });
+   };
+});
 myApp.directive('myRepeatDirective', function() {
   return function(scope, element, attrs) {
     if (scope.$last){
@@ -28,10 +187,97 @@ myApp.directive('errSrc', function() {
   }
 });
 
-myApp.controller('AppCtrl', ['$scope', '$http', 
-function($scope, $http) {
-	console.log("Hello from the controller");
+myApp.controller('AppCtrl', ['$scope', '$http', '$timeout', '$q', '$log', '$filter', 'groupsInPost', 'getPosts',
+function($scope, $http, $timeout, $q, $log, $filter, groupsInPost, getPosts) {
 
+	var refreshPost = function(){
+		$http.get('/api/posts').success(function(response) {
+			
+			$scope.posts = response;
+			$scope.post = "";
+		});
+	}
+	$scope.getPostss = function(){
+		$http.get('/api/posts').success(function(response) {
+			
+			$scope.posts = response;
+		});
+	} 
+
+	var refreshSinglePost = function(post_id){
+		$http.get('/api/posts/' + post_id).success(function(response) {
+			
+			$scope.post = response;
+		});
+	}
+	var refreshGroup = function(){
+		$http.get('/api/groups').success(function(response) {
+			console.log('Refreshed groups, and I have the response');
+			$scope.groups = response;
+			$scope.group = "";
+		});
+	}
+	var refreshSingleGroup = function(group_id){
+		$http.get('/api/groups/' + group_id).success(function(response) {
+			
+			$scope.group = response;
+		});
+	}
+
+	refreshGroup();
+	refreshPost();
+
+
+	$scope.handleDrop = function(post_id, group_id) {
+
+	    console.log('group Id: ' + group_id)
+		$scope.post = groupsInPost.get({ id: post_id }, function() {
+			var array = $scope.post.group;
+			var index = array.indexOf(group_id);
+
+			if (index > -1) {
+		  		array.splice(index, 1);
+		  		
+		  		
+		  		console.log('group removed');
+
+			} else {
+				$scope.post.group.push(group_id);
+				
+				console.log('group added');
+				console.log('group Id: ' + group_id);
+				
+			}
+
+
+		  $scope.post.$update(function() {
+		    // updated in the backend
+		  });
+		  refreshPost();
+		});
+	};
+
+	$scope.getGroup = function(group_id, group_name, fn) {
+		$scope.groupSearch = group_id;
+		$scope.groupName = group_name;
+		if(fn) {
+			fn(group_id);
+		}
+		
+	}
+	$scope.showRemovePost = {};
+
+	$scope.showRemoveGroup = function(group_id) {
+		$scope.showRemovePost.active = true;
+		$scope.showRemovePost.group = group_id;
+	}
+	$scope.hideRemoveGroup = function() {
+		$scope.showRemovePost.active = false;
+	}
+
+	$scope.focusInput = function() {
+		$scope.$broadcast('newItemAdded');
+	}
 	$scope.isOpen = false;
 	  $scope.fab = {
 	    isOpen: false,
@@ -46,17 +292,6 @@ function($scope, $http) {
 			refreshPost();
 		});
 	}
-
-	var refreshPost = function(){
-		$http.get('/api/posts').success(function(response) {
-			
-			$scope.posts = response;
-			$scope.post = "";
-		});
-	}
-
-
-	refreshPost();
 
 	
 
@@ -73,13 +308,12 @@ function($scope, $http) {
 	};
 
 
+
 	$scope.remove = function(id) {
 		console.log(id);
 		$http.delete('/api/posts/' + id).success(function(response) {
-			//refreshPost();
+			refreshPost();
 		});
-
-		return false;
 	};
 
 	$scope.edit = function(id){
@@ -89,12 +323,95 @@ function($scope, $http) {
 		});
 	};
 
+
+	$scope.addToGroup = function(post_id, group_id) {
+
+		console.log('group Id: ' + group_id)
+		$scope.post = groupsInPost.get({ id: post_id }, function() {
+			var array = $scope.post.group;
+			var index = array.indexOf(group_id);
+
+			if (index > -1) {
+		  		array.splice(index, 1);
+		  		console.log('group removed');
+		  		refreshPost();
+		  		refreshGroup();
+			} else {
+				$scope.post.group.push(group_id);
+				console.log('group added');
+				console.log('group Id: ' + group_id);
+				refreshPost();
+				refreshGroup();
+			}
+
+
+		  $scope.post.$update(function() {
+		    // updated in the backend
+		  });
+		});
+	};
+	$scope.removeFromGroup = function(post_id) {
+		var favorite = $scope.favorite;
+		$scope.post = groupsInPost.get({ id: post_id }, function() {
+
+		  var array = $scope.post.group;
+		  var index = array.indexOf(favorite);
+
+		  if (index > -1) {
+			  array.splice(index, 1);
+		  }
+		  $scope.post.$update(function() {
+		    // updated in the backend
+		  });
+		});
+	};
+	$scope.readLater = function(post_id) {
+		$scope.post = groupsInPost.get({ id: post_id }, function() {
+		  $scope.post.readlater = true;
+		  console.log('added to readLater')
+		  console.log($scope.post.readlater)
+		  $scope.post.$update(function() {
+		    refreshPost()
+		  });
+		});
+	}
+	$scope.markAsRead = function(post_id) {
+		$scope.post = groupsInPost.get({ id: post_id }, function() {
+		  $scope.post.readlater = false;
+		  console.log('marked as read')
+		  $scope.post.$update(function() {
+		    refreshPost()
+		  });
+		});
+	}
+	$scope.favoritePost = function(post_id) {
+		$scope.post = groupsInPost.get({ id: post_id }, function() {
+		  $scope.post.favorite = true;
+		  console.log('added to favorites')
+		  $scope.post.$update(function() {
+		    refreshPost()
+		  });
+		});
+	};
+	$scope.removeFavorite = function(post_id) {
+		$scope.post = groupsInPost.get({ id: post_id }, function() {
+		  $scope.post.favorite = false;
+		  console.log('removed from favorites');
+
+		  $scope.post.$update(function() {
+		    refreshPost()
+		  });
+		});
+	};
+
 	$scope.update = function() {
 		console.log($scope.post.id);
 		$http.put('/api/posts/' + $scope.post._id, $scope.post).success(function(response) {
 			refreshPost();
 		});
 	};
+
+	
 
 
 
@@ -110,7 +427,7 @@ function($scope, $http) {
 	};
 
 
-	$scope.remove = function(id) {
+	$scope.removeUser = function(id) {
 		console.log(id);
 		$http.delete('/api/users/' + id).success(function(response) {
 			//refreshuser();
@@ -119,14 +436,14 @@ function($scope, $http) {
 		return false;
 	};
 
-	$scope.edit = function(id){
+	$scope.editUser = function(id){
 		console.log(id);
 		$http.get('/api/users/' + id).success(function(response) {
 			$scope.user = response;
 		});
 	};
 
-	$scope.update = function() {
+	$scope.updateUser = function() {
 		console.log($scope.user.id);
 		$http.put('/api/users/' + $scope.user._id, $scope.post).success(function(response) {
 			refreshUser();
@@ -134,14 +451,11 @@ function($scope, $http) {
 	};
 
 
-	
-	
-}]);
+/* ================================ */
 
-
-myApp.controller('group', ['$scope', '$http', '$timeout', '$q', '$log',
-function($scope, $http, $timeout, $q, $log) {
-
+	$scope.filterGroup = function(id){
+		$scope.queryPosts = id;
+	}
 	
 
     var self = this;
@@ -199,22 +513,14 @@ function($scope, $http, $timeout, $q, $log) {
 
 	$scope.group = {};
 
-	var refreshGroup = function(){
-		$http.get('/api/groups').success(function(response) {
-			console.log('Refreshed groups, and I have the response');
-			$scope.groups = response;
-			$scope.group = "";
-			console.log(JSON.stringify(response))
-		});
-	}
-	refreshGroup();
+	$scope.addGroup = function(groupName) {
+		$scope.group = {name: groupName};
 
-	$scope.addGroup = function(name) {
-		
 		$http.post('/api/groups', $scope.group).success(function(response){
 			refreshGroup();
 			console.log("$scope.group.name.val: " + $scope.group.name);
 		});
+		console.log($scope.group)
 		 
 	};
 	$scope.removeGroup = function(id) {

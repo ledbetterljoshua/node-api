@@ -17,7 +17,10 @@ var PostSchema   = new Schema({
     title: String,
     group: [{ type:String, ref:"Group" }], 
     user: { type:String, ref:"User" },
-    created: {type:Date, default: Date.now}
+    created: {type:Date, default: Date.now}, 
+    private: Boolean, 
+    favorite: Boolean, 
+    readlater: Boolean
 });
 
 

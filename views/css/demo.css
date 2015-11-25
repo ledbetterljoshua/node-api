@@ -2,18 +2,61 @@ body, .md-padding.layout-wrap.layout-row {
 	background: #e9eaed;
 	overflow-x: hidden;
 }
+md-sidenav {
+	width: 230px !important;
+	max-width: 230px !important;
+	min-width: 230px !important;
+}
+md-sidenav ul li, li.ng-scope menu-link a {
+    height: 35px;
+    width: 77% !important;
+        margin-top: 0;
+}
+md-input-container {
+	    padding-bottom: 0;
+}
+@-ms-viewport{
+  width: device-width;
+}
 md-card {
     padding: 0 !important;
 }
-ng-md-icon.group-icons {
+ng-md-icon.group-icons, ng-md-icon[icon="playlist_add"] {
  	display: inline !important;
-    float: right;
-    margin: 10px;
-    opacity: 0;
+    margin: 7px;
+    opacity: 1;
     transition: all .3s;
+    position: relative;
+    top: 7px;
+    margin-left: 0;
+}
+.guide-section-separator {
+    margin: 8px 0;
+    border-bottom: 1px solid #e2e2e2;
+    padding: 0;
+    font-size: 100%;
+    background: transparent;
+    width: 93%;
+    opacity: 0.3;
 }
 ng-md-icon {
 	fill:grey;
+}
+.md-button {
+	font-size: 13px;
+	line-height: 20px;
+	font-weight: 400;
+	text-transform: capitalize;
+}
+.new-group-button {
+	position: fixed;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #DADADA;
+}
+ng-md-icon.group-icons[icon="backspace"] {
+    float: right;
+    opacity: 0;
 }
 .fillWhite {
 	fill:#fff !important;
@@ -718,9 +761,77 @@ ng-md-icon[icon="search"] {
 	display: block;
     width: 23px;
     position: absolute;
-    top: 23px;
-    border-right: 1px solid grey;
+    top: 26px;
+    border-right: 1px solid #E9EAED;
     border-radius: 2px;
+}
+img.face {
+    border: 1px solid #ddd;
+    width: 196px;
+    margin: 0px 8px;
+    height: 111px;
+}
+body, html {
+	height: inherit;
+}
+md-list-item.md-3-line, md-list-item.md-3-line>.md-no-style {
+	padding: 10px 0;
+	padding-right: 20px;
+}
+.md-list-item-text {
+    padding-top: 1px;
+}
+md-sidenav {
+	top: 64px;
+}
+li.ng-scope menu-link a {
+    text-align: left;
+}
+md-input-container.md-input-focused > label {
+  color #fff;
+}
+md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+	position: fixed;
+}
+md-list-item {
+    max-width: 680px;
+    margin-left: 40px;
+}
+div#title {
+    width: 212px;
+}
+md-list {
+	margin-top: 64px;
+}
+.post-icons {
+	text-align: right;
+	opacity: 0;
+	transition: all .3s; 
+}
+md-sidenav.md-sidenav-left {
+	height: calc(100% - 64px);
+    bottom: 0;
+	top: 64px;
+}
+md-sidenav ul {
+    list-style: none;
+    padding-left: 10px !important;
+    margin-top: 0;
+}
+.demo-container {
+    border-radius: 4px;
+    margin-bottom: 16px;
+    -webkit-transition: 0.02s padding cubic-bezier(0.35, 0, 0.25, 1);
+    transition: 0.02s padding cubic-bezier(0.35, 0, 0.25, 1);
+    position: relative;
+    padding-bottom: 0;
+}
+md-list-item:hover div .post-icons {
+	opacity: 1;
+	transition: all .3s; 
+}
+h4.ng-binding {
+    color: #797979 !important;
 }
 .search {
 	width: 70%;
@@ -739,10 +850,7 @@ h2.md-title:after {
 md-card md-card-content {
 	padding:6px !important;
 }
-.gridListdemoBasicUsage {
-	width: 100%;
-    height: 100%;
-}
+
 .group-button {
 	display: block;
     width: 100% !important;
@@ -767,18 +875,39 @@ md-card {
 	box-shadow: none !important;
     background-color: inherit !important;
 }
-
+li.over {
+  background: #DADADA;
+  border-radius: 3px;
+}
 md-card-actions {
     background: #F7F6F6;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
 }
+md-select {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 0;
+    width: 82%;
+    float: left;
+}
+h4.ng-binding {
+    color: #929191 !important;
+    font-weight: 400;
+    margin: 0;
+}
+.post-icons ng-md-icon {
+    position: relative;
+    top: 8px;
+}
+.md-select-value {
+	border-bottom-color: transparent !important;
+}
 @media (min-width: 960px) {
 .gridListdemoBasicUsage {
-	margin-left: 304px;
-    position: absolute;
-    top: 0;
+	margin-left: 230px;
 }
 .gridListdemoBasicUsage {
-	max-width: 75%;
+	max-width: 100%;
 }
 }

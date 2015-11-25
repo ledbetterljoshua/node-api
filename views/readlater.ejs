@@ -1,0 +1,57 @@
+<section class="demo-container md-whiteframe-z1 show-source">
+  <md-content>
+  
+
+  <section>
+  	 <md-subheader class="md-primary">Newest saved pages</md-subheader>
+	 <md-list role="list">
+	   <md-list-item
+            class="list-group-item md-3-line md-no-proxy ng-scope" my-repeat-directive ng-repeat="post in posts | filter:query | orderBy:'-created'" ng-animate=" 'animate' " role="listitem" ng-if="post.readlater == true">
+	    <img ng-src="{{post.image}}" alt="i" err-src="https://nutrasumma.com/wp-content/uploads/banner-placeholder.jpg" class="face" alt="Min Li Chan" src="{{post.image}}">
+	    <div class="md-list-item-text">
+	       <a style="text-decoration: none;" href="{{post.url}}"><h3 class="ng-binding">{{post.title}}</h3></a>
+	      <h4 class="ng-binding">{{post.created | date}} - {{post.url | domain}}</h4>
+	      <p class="ng-binding">{{post.description}}</p>
+	      <div class="post-icons">
+
+   	 <!-- ng-change="addToGroup()" -->
+		<md-select multiple='true' placeholder="Choose group" aria-label="select group" ng-model="groups">
+		  		<md-option ng-model="group.currentGroup" ng-value="group._id" data-ng-repeat="group in groups track by $index" ng-click="addToGroup(post._id, group._id)">
+		  		{{group.name}}
+		  		</md-option>
+		  	  </md-select>
+	          <ng-md-icon ng-show="!post.favorite" icon="favorite_outline" md-font-library="material-icons" size="20" ng-click="favoritePost(post._id)">
+			    <md-tooltip>
+			        favorite
+			      </md-tooltip>
+			  </ng-md-icon>
+			  <ng-md-icon ng-show="post.favorite" style="fill: #FF38E0;" icon="favorite" md-font-library="material-icons" size="20" ng-click="removeFavorite(post._id)">
+			    <md-tooltip>
+			        remove
+			      </md-tooltip>
+			  </ng-md-icon>
+			  <ng-md-icon ng-show="!post.readlater" icon="bookmark_outline" md-font-library="material-icons" size="20" ng-click="readLater(post._id)">
+			    <md-tooltip>
+			        Reading List
+			      </md-tooltip>
+			  </ng-md-icon>
+			  <ng-md-icon ng-show="post.readlater" icon="done" md-font-library="material-icons" size="20" ng-click="markAsRead(post._id)">
+			    <md-tooltip>
+			        Mark as read
+			      </md-tooltip>
+			  </ng-md-icon>
+	        
+		      <ng-md-icon ng-click="remove(post._id)" md-font-library="material-icons" size="20" icon="delete">
+		      <md-tooltip>
+		        Delete
+		      </md-tooltip>
+		  	</ng-md-icon>
+
+		  	
+		  </div>
+	    </div>
+	  </md-list-item>
+	 </md-list role>
+	</section>
+	</md-content>
+</section>
