@@ -1,0 +1,43 @@
+<section class="demo-container md-whiteframe-z1 show-source">
+  <md-content>
+
+
+  
+
+  <section>
+  	 
+	 <md-list role="list">
+	 <md-subheader class="md-primary">{{thisUsersInfo.local.email}}</md-subheader>
+	   <md-list-item
+            class="list-group-item md-3-line md-no-proxy ng-scope" my-repeat-directive ng-repeat="post in thisUsersPosts | orderBy:'-created'  track by post._id" ng-animate=" 'animate' " role="listitem">
+	    <img ng-src="{{post.image}}" alt="i" err-src="https://nutrasumma.com/wp-content/uploads/banner-placeholder.jpg" class="face" alt="Min Li Chan" src="{{post.image}}">
+	    <div class="md-list-item-text">
+	    	<div style="display:none !important;">{{post.group}}</div>
+	       <a style="text-decoration: none;" href="{{post.url}}">
+	       	<h3 class="ng-binding item" id="{{ post._id }}" draggable item="item">{{post.title}}</h3></a>
+	      <h4 class="ng-binding">{{post.created | date}} - {{post.url | domain}}</h4>
+	      <p class="ng-binding">{{post.description}}</p>
+	      <div class="post-icons">
+
+   	 <!-- ng-change="addToGroup()" -->
+			 <ng-md-icon icon="mode_comment" size="19" md-font-library="material-icons" size="20" ng-click="showComment = ! showComment">
+			    <md-tooltip>
+			        comment
+			      </md-tooltip>
+			  </ng-md-icon>
+	          
+		  </div> <!-- icons end -->
+			<div class="md-list-item-text commments" ng-show="showComment" >
+			  	<div ng-repeat="comment in post.comments">
+				  	<p class="ng-binding">{{post.comment}}</p>
+				</div>
+			  	<md-input-container>
+			  		<input id="comment" placeholder="What would you like to say?" ng-model="post.comment" />
+			    </md-input-container>
+		  </div>
+	    </div>
+	  </md-list-item>
+	 </md-list>
+	</section>
+	</md-content>
+</section>

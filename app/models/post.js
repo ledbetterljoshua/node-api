@@ -6,6 +6,14 @@ var Schema       = mongoose.Schema;
 var Group     = require('./groups');
 var User      = require('./user');
 
+var CommentSchema = Schema({
+    text: String,
+    postedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
+});
+
 var PostSchema   = new Schema({
     url: String, 
     highlighted: String, 
@@ -17,6 +25,7 @@ var PostSchema   = new Schema({
     title: String,
     group: [{ type:String, ref:"Group" }], 
     user: { type:String, ref:"User" },
+    comments: [CommentSchema], 
     created: {type:Date, default: Date.now}, 
     private: Boolean, 
     favorite: Boolean, 

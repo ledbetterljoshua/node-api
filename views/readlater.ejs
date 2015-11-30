@@ -3,7 +3,7 @@
   
 
   <section>
-  	 <md-subheader class="md-primary">Newest saved pages</md-subheader>
+  	 <md-subheader class="md-primary">Reading List</md-subheader>
 	 <md-list role="list">
 	   <md-list-item
             class="list-group-item md-3-line md-no-proxy ng-scope" my-repeat-directive ng-repeat="post in posts | filter:query | orderBy:'-created'" ng-animate=" 'animate' " role="listitem" ng-if="post.readlater == true">

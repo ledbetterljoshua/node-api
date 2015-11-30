@@ -88,6 +88,24 @@ router.route('/users')
                 res.json(users);
             });
         });
+    router.route('/users/:user_id/posts')
+    .get(function(req, res) {
+
+        Post.find({ user: req.params.user_id }).exec(function(err, posts) {
+          if (err) throw err;
+          res.json(posts)
+        });
+
+    });
+    router.route('/users/:user_id/groups')
+    .get(function(req, res) {
+
+        Group.find({ user: req.params.user_id }).exec(function(err, groups) {
+          if (err) throw err;
+          res.json(groups)
+        });
+
+    });
     router.route('/users/:user_id')
 
         // get the post with that id (accessed at GET http://localhost:8080/api/users/:user_id)
@@ -171,15 +189,28 @@ router.route('/groups')
            console.log("current user:" + current_user);
         });
     });
+
+router.route('/groups/:group_id/posts')
+    .get(function(req, res) {
+
+        Post.find({ group: req.params.group_id }).exec(function(err, groups) {
+          if (err) throw err;
+          res.json(groups)
+        });
+
+    });
 router.route('/groups/:group_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/groups/:group_id)
     .get(function(req, res) {
-        Group.findById(req.params.group_id, function(err, group) {
-            if (err)
-                res.send(err);
-            res.json(group);
-        });
+
+            Group.findById(req.params.group_id, function(err, group) {
+                if (err)
+                    res.send(err);
+               res.json(group)
+            });
+        
+        
     })
 
     // update the group with this id (accessed at PUT http://localhost:8080/api/groups/:group_id)

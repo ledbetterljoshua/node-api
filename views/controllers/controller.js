@@ -23,8 +23,12 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: '../readlater.ejs'
         })
         .state('groups', {
-            url: "/groups", 
+            url: "/groups/:group_id", 
             templateUrl: '../group.ejs'
+        })
+        .state('users', {
+            url: "/:user", 
+            templateUrl: '../userProfile.ejs'
         });
         
 });
@@ -187,8 +191,83 @@ myApp.directive('errSrc', function() {
   }
 });
 
-myApp.controller('AppCtrl', ['$scope', '$http', '$timeout', '$q', '$log', '$filter', 'groupsInPost', 'getPosts',
-function($scope, $http, $timeout, $q, $log, $filter, groupsInPost, getPosts) {
+myApp.controller('AppCtrl', ['$scope', '$http', '$timeout', '$q', '$log', '$filter', '$mdDialog', '$mdMedia', 'groupsInPost', 'getPosts',
+function($scope, $http, $timeout, $q, $log, $filter, $mdDialog, $mdMedia, groupsInPost, getPosts) {
+	$scope.SearchQueryEmpty = function() {
+		$scope.SearchQuery = '';
+	}
+
+	$scope.groupUrl = window.location.hash.replace('#/groups/', '');
+
+	$scope.getPostsFromSUser = function(user_id) {
+		$scope.isLoading = true;
+		$http.get('/api/users/'+user_id+'/posts').success(function(response){
+			$scope.thisUsersPosts = response;
+		});
+		$http.get('/api/users/'+user_id).success(function(response){
+			$scope.thisUsersInfo = response;
+			console.log($scope.thisUsersInfo)
+			$scope.isLoading = false;
+		});
+	}
+
+	$scope.searchAll = function() {
+		$scope.isLoading = true;
+		$http.get('/api/users/').success(function(response){
+			$scope.queryUsers = response;
+			$scope.isLoading = false;
+		});
+		$http.get('/api/posts/').success(function(response){
+			$scope.queryPosts = response;
+			console.log($scope.queryPosts)
+			$scope.isLoading = false;
+		});
+		$http.get('/api/groups/').success(function(response){
+			$scope.queryGroups = response;
+			$scope.isLoading = false;
+		});
+	}
+	$scope.searchAll();
+
+	$scope.getPostsInGroup = function(group_id) {
+		$scope.groupUrl = group_id;
+		$http.get('/api/groups/'+group_id+'/posts').success(function(response) {
+			$scope.postsWithinGroup = response;
+		})
+	}
+
+	$scope.refreshPostsInGroup = function(group_id){
+		$scope.isLoading = true;
+		$http.get('/api/groups/'+group_id+'/posts').success(function(response) {
+			$scope.posts = response;
+			console.log("scope.posts: " + $scope.posts);
+			$scope.isLoading = false;
+		});
+	}
+	$scope.customFullscreen = $mdMedia('sm');
+	$scope.showAdvanced = function(ev) {
+	    $mdDialog.show({
+	      controller: DialogController,
+	      templateUrl: '../newpost.ejs',
+	      parent: angular.element(document.body),
+	      targetEvent: ev,
+	      clickOutsideToClose:true,
+	      fullscreen: $mdMedia('sm') && $scope.customFullscreen
+	    });
+	     $scope.$watch(function() {
+	      return $mdMedia('sm');
+	    }, function(sm) {
+	      $scope.customFullscreen = (sm === true);
+	    });
+	}
+
+	$scope.refreshPost = function(){
+		$scope.isLoading = true;
+		$http.get('/api/posts').success(function(response) {
+			$scope.posts = response;
+			$scope.isLoading = false;
+		});
+	}
 
 	var refreshPost = function(){
 
@@ -375,48 +454,48 @@ function($scope, $http, $timeout, $q, $log, $filter, groupsInPost, getPosts) {
 		});
 	};
 	$scope.readLater = function(post_id) {
-		$scope.isLoadingSmall = true;
+		$scope.isLoading = true;
 		$scope.post = groupsInPost.get({ id: post_id }, function() {
 		  $scope.post.readlater = true;
 		  console.log('added to readLater')
 		  console.log($scope.post.readlater)
 		  $scope.post.$update(function() {
 		    refreshPost()
-		    $scope.isLoadingSmall = false;
+		    $scope.isLoading = false;
 		  });
 		});
 	}
 	$scope.markAsRead = function(post_id) {
-		$scope.isLoadingSmall = true;
+		$scope.isLoading = true;
 		$scope.post = groupsInPost.get({ id: post_id }, function() {
 		  $scope.post.readlater = false;
 		  console.log('marked as read')
 		  $scope.post.$update(function() {
 		    refreshPost()
-		    $scope.isLoadingSmall = false;
+		    $scope.isLoading = false;
 		  });
 		});
 	}
 	$scope.favoritePost = function(post_id) {
-		$scope.isLoadingSmall = true;
+		$scope.isLoading = true;
 		$scope.post = groupsInPost.get({ id: post_id }, function() {
 		  $scope.post.favorite = true;
 		  console.log('added to favorites')
 		  $scope.post.$update(function() {
 		    refreshPost()
-		    $scope.isLoadingSmall = false;
+		    $scope.isLoading = false;
 		  });
 		});
 	};
 	$scope.removeFavorite = function(post_id) {
-		$scope.isLoadingSmall = true;
+		$scope.isLoading = true;
 		$scope.post = groupsInPost.get({ id: post_id }, function() {
 		  $scope.post.favorite = false;
 		  console.log('removed from favorites');
 
 		  $scope.post.$update(function() {
 		    refreshPost()
-		    $scope.isLoadingSmall = false;
+		    $scope.isLoading = false;
 		  });
 		});
 	};
@@ -626,5 +705,45 @@ myApp.controller('sideNav', function ($http, $scope, $timeout, $mdSidenav, $log)
     };
   });
 
+function DialogController($http, $scope, $mdDialog) {
+	var refreshPost = function(){
+
+		$http.get('/api/posts').success(function(response) {
+			$scope.posts = response;
+			$scope.post = "";
+		});
+	}
+	$scope.addPost = function() {
+		//$scope.post.url = parenturl;
+		console.log($scope.post._id);
+		
+		$http.post('/api/posts', $scope.post).success(function(response){
+			refreshPost();
+			//$scope.post = {url: parenturl}
+		});
+		 
+	};
+	  $scope.hide = function() {
+	    $mdDialog.hide();
+	  };
+	  $scope.cancel = function() {
+	    $mdDialog.cancel();
+	  };
+	  $scope.answer = function(answer) {
+	    $mdDialog.hide(answer);
+	  };
+}
+myApp.controller('groupController', function($http, $scope) {
+
+	$scope.refreshPostsInGroup = function(group_id){
+		$http.get('/api/groups/'+group_id+'/posts').success(function(response) {
+			$scope.posts = response;
+			console.log("scope.posts: " + $scope.posts);
+		});
+
+	}
+	refreshPostsInGroup(group_id);
+
+});
 
 

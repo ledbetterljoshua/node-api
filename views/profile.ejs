@@ -8,19 +8,34 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body ng-controller="AppCtrl">
-	<md-progress-circular md-mode="indeterminate" ng-show="isLoading"></md-progress-circular>
+<body ng-controller="AppCtrl" ng-cloak>
+	<md-progress-linear md-mode="indeterminate" ng-show="isLoading"></md-progress-linear>
 	<md-toolbar md-scroll-shrink>
 	    <div class="md-toolbar-tools">
-	    	<div id="title">Monument</div>
+	    	<a ng-click="getGroup(''); hideRemoveGroup(); refreshPost()" ng-href="#/all" ><div id="title">Monument</div></a>
 	    	<div id="topMiddle">
-		    	<md-input-container style="width: 50%; margin-left: 40px;">
-			    	<ng-md-icon size="25" icon="search" md-font-library="material-icons"></ng-md-icon>
-			    	<label for="input_2">Search</label>
-				    <input id="input_2" style="display:inline !important;" class="ng-pristine form-control" ng-model="query" />
-				</md-input-container>
+	    		<form>
+			    	<md-input-container style="width: 50%; margin-left: 40px;">
+				    	<ng-md-icon size="25" icon="search" md-font-library="material-icons"></ng-md-icon>
+				    	<label for="input_2">Search text, Urls, folders and people</label>
+					    <input id="input_2" autocomplete="off" style="display:inline !important;" class="ng-pristine form-control" ng-model="SearchQuery" />
+					</md-input-container>
+				</form>
 			</div>
+				<!-- if  SearchQuery empty, hide #searchResults-->
+				
+			<div id="topRight">
+			<a ng-click="showAdvanced($event)" class="md-ink-ripple" ng-href="#" >
+				<span class="ng-binding ng-scope">
+					<ng-md-icon class="group-icons" icon="add_circle" size="20" md-font-library="material-icons">
+				  <md-tooltip>
+			        Add new Post
+			      </md-tooltip>
+			  </ng-md-icon>
+			  </span>
+			</a>
 		</div>
+	</div>
 			    
 	  </md-toolbar>
 
@@ -35,18 +50,12 @@
 				<div class="filter">
 					  
 					
-					<md-input-container class="groupSearch">
-						<ng-md-icon size="20" icon="search" md-font-library="material-icons"></ng-md-icon>
-						<label for="input_2">Find a group</label>
-					    <input id="input_2" style="display:inline !important;" class="ng-pristine form-control" ng-model="queryGroups" />
-					</md-input-container >
+					
 					<ul class="menu-toggle-list">
-						
-					</br>
 						
 
 						<li>
-							<menu-link section="page" class="ng-isolate-scope"><a ng-click="getGroup(''); hideRemoveGroup()" class=" left-text md-button md-ink-ripple" ng-href="#/all" ><span class="ng-binding ng-scope">
+							<menu-link section="page" class="ng-isolate-scope"><a ng-click="getGroup(''); hideRemoveGroup(); refreshPost()" class=" left-text md-button md-ink-ripple" ng-href="#/all" ><span class="ng-binding ng-scope">
 							<ng-md-icon class="group-icons" icon="home" size="20" md-font-library="material-icons"></ng-md-icon>
 							  Home
 							  </span>
@@ -54,7 +63,7 @@
 							</menu-link>
 						</li>
 						<li>
-							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup(); hideAllGroups()" class=" left-text md-button md-ink-ripple" ng-href="#/all" ><span class="ng-binding ng-scope">
+							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup();" class=" left-text md-button md-ink-ripple" ng-href="#/all" ><span class="ng-binding ng-scope">
 							<ng-md-icon class="group-icons" icon="settings" size="20" md-font-library="material-icons"></ng-md-icon>
 							  Settings
 							  </span>
@@ -62,7 +71,7 @@
 							</menu-link>
 						</li>
 						<li>
-							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup(); hideAllGroups()" class=" left-text md-button md-ink-ripple" ng-href="#/favorites" ><span class="ng-binding ng-scope">
+							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup();" class=" left-text md-button md-ink-ripple" ng-href="#/favorites" ><span class="ng-binding ng-scope">
 							<ng-md-icon class="group-icons" icon="favorite" size="20" md-font-library="material-icons"></ng-md-icon>
 							  Favorites
 							  </span>
@@ -70,7 +79,7 @@
 							</menu-link>
 						</li>
 						<li>
-							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup(); hideAllGroups()" class=" left-text md-button md-ink-ripple" ng-href="#/reading-list" ><span class="ng-binding ng-scope">
+							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup();" class=" left-text md-button md-ink-ripple" ng-href="#/reading-list" ><span class="ng-binding ng-scope">
 							<ng-md-icon class="group-icons" icon="bookmark_outline" size="20" md-font-library="material-icons"></ng-md-icon>
 							  Read Later
 							  </span>
@@ -79,26 +88,17 @@
 						</li>
 						<hr class="guide-section-separator">
 						
-						<li ng-show="hideGroups.active === true" style="
+						<li style="
 					    margin: 0 4px;
 					    padding: 0 11px;
 					    color: #D83E3E;
 					    height: 25px;
-					">My Groups</li>
-					<li ng-show="showAddGroup">
-						<div id="creategroup">
-							<form ng-submit="addGroup(group.name); showAddGroup = ! showAddGroup">
-								    <input id="input_1" focus-on="newItemAdded" style="display:inline !important;" class="ng-pristine form-control" ng-model="group.name" />
-							  
-							<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
-							</form>
-						</div>
-
-					</li>
+					">My Folders</li>
+					
 						<li class="bin" droppable drop="handleDrop" bin="bin" id="{{ group._id }}"
-           					ng-repeat="group in groups | filter:queryGroups | orderBy:'-created'">
-							<menu-link section="page" class="ng-isolate-scope" ng-show="hideGroups.active === true">
-							<a class="md-button md-ink-ripple" href="javascript:void(0)" ng-click="getGroup(group._id, group.name, showRemoveGroup); getPostss()" >
+           					ng-repeat="group in groups | orderBy:'-created'">
+							<menu-link section="page" class="ng-isolate-scope">
+							<a class="md-button md-ink-ripple" href="#/groups/{{group._id}}" ng-click="getGroup(group._id, group.name, showRemoveGroup); getPostsInGroup(group._id)" >
 							<ng-md-icon size="18" class="group-icons" icon="my_library_books">
 							</ng-md-icon> 
 							  <span class="ng-binding ng-scope">
@@ -121,6 +121,16 @@
 					    color: #D83E3E;
 					    height: 25px;
 					">Subscriptions</li>
+					<li ng-show="showAddGroup">
+						<div id="creategroup">
+							<form ng-submit="addGroup(group.name); showAddGroup = ! showAddGroup">
+								    <input id="input_1" focus-on="newItemAdded" style="display:inline !important;" class="ng-pristine form-control" ng-model="group.name" />
+							  
+							<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+							</form>
+						</div>
+
+					</li>
 					</ul>
 					
 					
@@ -145,9 +155,171 @@
   </div>
 
 
-<div class="gridListdemoBasicUsage" ui-view ng-cloak>
+<section class="gridListdemoBasicUsage demo-container md-whiteframe-z1 show-source" ng-show="SearchQuery">
+  <md-content>
+  <section>
+  	 
+	 <md-list class="searchHeader" role="list">
+	 <md-subheader class="md-primary">Posts</md-subheader>
+	   <md-list-item
+            class="list-group-item md-3-line md-no-proxy ng-scope" my-repeat-directive ng-repeat="post in queryPosts | filter:SearchQuery | orderBy:'-created'  track by post._id" ng-animate=" 'animate' " role="listitem">
+	    <img ng-src="{{post.image}}" alt="i" err-src="https://nutrasumma.com/wp-content/uploads/banner-placeholder.jpg" class="face" alt="Min Li Chan" src="{{post.image}}">
+	    <div class="md-list-item-text">
+	    	<div style="display:none !important;">{{post.group}}</div>
+	       <a style="text-decoration: none;" href="{{post.url}}">
+	       	<h3 class="ng-binding item" id="{{ post._id }}" draggable item="item">{{post.title}}</h3></a>
+	      <h4 class="ng-binding">{{post.created | date}} - {{post.url | domain}}</h4>
+	      <p class="ng-binding">{{post.description}}</p>
+	      <div class="post-icons">
+
+   	 <!-- ng-change="addToGroup()" -->
+			 <ng-md-icon icon="mode_comment" size="19" md-font-library="material-icons" size="20" ng-click="showComment = ! showComment">
+			    <md-tooltip>
+			        comment
+			      </md-tooltip>
+			  </ng-md-icon>
+	          <ng-md-icon ng-show="!post.favorite" icon="favorite_outline" md-font-library="material-icons" size="20" ng-click="favoritePost(post._id)">
+			    <md-tooltip>
+			        favorite
+			      </md-tooltip>
+			  </ng-md-icon>
+			  <ng-md-icon ng-show="post.favorite" style="fill: #FF38E0;" icon="favorite" md-font-library="material-icons" size="20" ng-click="removeFavorite(post._id)">
+			    <md-tooltip>
+			        remove
+			      </md-tooltip>
+			  </ng-md-icon>
+			  <ng-md-icon ng-show="!post.readlater" icon="bookmark_outline" md-font-library="material-icons" size="20" ng-click="readLater(post._id)">
+			    <md-tooltip>
+			        Reading List
+			      </md-tooltip>
+			  </ng-md-icon>
+			  <ng-md-icon ng-show="post.readlater" icon="done" md-font-library="material-icons" size="20" ng-click="markAsRead(post._id)">
+			    <md-tooltip>
+			        Mark as read
+			      </md-tooltip>
+			  </ng-md-icon>
+	        <ng-md-icon ng-if="showRemovePost.active" ng-click="addToGroup(post._id, showRemovePost.group); getPostss()" md-font-library="material-icons" size="20" icon="highlight_remove">
+		      <md-tooltip>
+		        Remove from Folder
+		      </md-tooltip>
+		  	</ng-md-icon>
+
+		      <ng-md-icon ng-click="remove(post._id)" md-font-library="material-icons" size="20" icon="delete">
+		      <md-tooltip>
+		        Delete
+		      </md-tooltip>
+		  	</ng-md-icon>
+		  </div> <!-- icons end -->
+			<div class="md-list-item-text commments" ng-show="showComment" >
+			  	<div ng-repeat="comment in post.comments">
+				  	<p class="ng-binding">{{post.comment}}</p>
+				</div>
+			  	<md-input-container>
+			  		<input id="comment" placeholder="What would you like to say?" ng-model="post.comment" />
+			    </md-input-container>
+		  </div>
+	    </div>
+	  </md-list-item>
+	 </md-list>
+	</section>
+
+	<section>
+	  	 
+		 <md-list role="list" class="searchHeader">
+		 <md-subheader class="md-primary">Folders</md-subheader>
+			<md-list-item style="padding: 0 30px;" class="list-group-item md-3-line md-no-proxy ng-scope" my-repeat-directive ng-repeat="group in queryGroups | filter:SearchQuery | orderBy:'-created' track by group._id" ng-animate=" 'animate' " role="listitem">
+			    <div class="md-list-item-text">
+			       <a style="text-decoration: none;" href="#/groups/{{group._id}}" ng-click="SearchQueryEmpty(); getGroup(group._id, group.name, showRemoveGroup); getPostsInGroup(group._id)">
+			       	<h3 class="ng-binding item" id="{{ group._id }}">{{group.name}}</h3>
+			       </a>
+			      <h4 class="ng-binding">{{group.created | date}} - {{group.name}}</h4>
+			   </div>
+			</md-list-item>
+		</md-list>
+		<md-list role="list" class="searchHeader">
+		 <md-subheader class="md-primary">People</md-subheader>
+			<md-list-item style="padding: 0; margin: 0 30px height: 30px; min-height: 30px; width:50%;border-bottom: 1px solid #E2E2E2; margin: 0 50px;"
+		            class="list-group-item md-3-line md-no-proxy ng-scope" my-repeat-directive ng-repeat="user in queryUsers | filter:SearchQuery | orderBy:'-created' track by user._id" ng-animate=" 'animate' " role="listitem">
+			    
+			    <div class="md-list-item-text">
+			       <a style="text-decoration: none;" href="#/{{user.local.email}}" ng-click="SearchQueryEmpty(); getPostsFromSUser(user._id)">
+			       	<h3 class="ng-binding item" id="{{ user._id }}">{{user.local.email}}</h3>
+			       </a>
+			   </div>
+			</md-list-item>
+		</md-list>
+		</section>
+	</md-content>
+</section>
+
+
+<div ng-show="!SearchQuery">
+<div class="gridListdemoBasicUsage" ui-view>
 			
 </div>
+</div>
+
+<section ng-if="!post.readlater" class="demo-container md-whiteframe-z1 show-source" id="readlater-box">
+  <md-content>
+  
+
+  <section>
+  	 
+	 <md-list id="list-read-later" role="list">
+	 <md-subheader class="md-primary">Reading List</md-subheader>
+	   <md-list-item
+            class="list-group-item md-3-line md-no-proxy ng-scope" my-repeat-directive ng-repeat="post in posts | filter:query | orderBy:'-created'  track by post._id" ng-animate=" 'animate' " role="listitem" ng-if="post.readlater == true">
+	   
+	    <div class="md-list-item-text">
+	    	<div style="display:none !important;">{{post.group}}</div>
+	       <a style="text-decoration: none;" href="{{post.url}}">
+	       	<h3 class="ng-binding item" id="{{ post._id }}" draggable item="item">{{post.title}}</h3></a>
+	      <h4 class="ng-binding">{{post.created | date}} - {{post.url | domain}}</h4>
+	      <p class="ng-binding">{{post.description}}</p>
+	      <div class="post-icons">
+
+   	 <!-- ng-change="addToGroup()" -->
+		
+	          <ng-md-icon ng-show="!post.favorite" icon="favorite_outline" md-font-library="material-icons" size="20" ng-click="favoritePost(post._id)">
+			    <md-tooltip>
+			        favorite
+			      </md-tooltip>
+			  </ng-md-icon>
+			  <ng-md-icon ng-show="post.favorite" style="fill: #FF38E0;" icon="favorite" md-font-library="material-icons" size="20" ng-click="removeFavorite(post._id)">
+			    <md-tooltip>
+			        remove
+			      </md-tooltip>
+			  </ng-md-icon>
+			  <ng-md-icon ng-show="!post.readlater" icon="bookmark_outline" md-font-library="material-icons" size="20" ng-click="readLater(post._id)">
+			    <md-tooltip>
+			        Reading List
+			      </md-tooltip>
+			  </ng-md-icon>
+			  <ng-md-icon ng-show="post.readlater" icon="done" md-font-library="material-icons" size="20" ng-click="markAsRead(post._id)">
+			    <md-tooltip>
+			        Mark as read
+			      </md-tooltip>
+			  </ng-md-icon>
+	        <ng-md-icon ng-if="showRemovePost.active" ng-click="addToGroup(post._id, showRemovePost.group); getPostss()" md-font-library="material-icons" size="20" icon="highlight_remove">
+		      <md-tooltip>
+		        Remove from Folder
+		      </md-tooltip>
+		  	</ng-md-icon>
+
+		      <ng-md-icon ng-click="remove(post._id)" md-font-library="material-icons" size="20" icon="delete">
+		      <md-tooltip>
+		        Delete
+		      </md-tooltip>
+		  	</ng-md-icon>
+
+		  	
+		  </div>
+	    </div>
+	  </md-list-item>
+	 </md-list>
+	</section>
+	</md-content>
+</section>
 
 
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -160,7 +332,8 @@
 
 	  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-resource.min.js"></script>
 	  <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
-	<script src="controllers/controller.js"></script>
+	  <script src="/js/ui-bootstrap-tpls-0.14.3.min.js"></script>
+	<script src="../controllers/controller.js"></script>
 	<script type="text/javascript">
 		var removeEl = function() {
 			$('h2.md-title').each(function(){
