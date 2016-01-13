@@ -11,16 +11,28 @@
 
 	</head>
 	<body class="" ng-controller="AppCtrl">
-		<md-progress-linear md-mode="indeterminate" ng-show="isLoading"></md-progress-linear>  
-
-	    <div layout="row">
-	      <md-input-container ng-repeat="group in groups" style="margin-right: 10px;">
-	        <label>{{group.name}}</label>
-	        <md-select ng-model="post">
-	          <md-option ng-repeat="post in posts" ng-if="post.group.indexOf(group._id)  !== -1" value="{{post.title}}">{{post.title}}</md-option>
-	        </md-select>
-	      </md-input-container>
-	  </div>
+		<md-progress-linear md-mode="indeterminate" ng-show="isLoading"></md-progress-linear>
+		<div class="bar"></div>  
+		<form style="margin:0 5px;">
+		    <div layout="row">
+		      <md-input-container>
+		        <label>Select Group</label>
+		        <md-select style="width: 140px;" ng-model="post.group">
+		          <md-option ng-repeat="group in groups" value="{{group._id}}">{{group.name}}</md-option>
+		        </md-select>
+		      </md-input-container>
+		  	
+		 
+			<input ng-model="post.url" style="display:none !important;" id="url" type="text" />
+			<input ng-model="post.title" style="display:none !important;" id="title" type="text" />
+			<input ng-model="post.description" style="display:none !important;" id="description" type="text" />
+			<input ng-model="post.image" style="display:none !important;" id="image" type="text" />
+			<input ng-model="post.group" style="display:none !important;" id="group" type="text" />
+			<button style="margin-top: 19px;" class="md-button md-ink-ripple" ng-click="addPost()">
+				Add Post
+			</button>
+			</div>
+		</form>
 	</md-toolbar>
 
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -36,48 +48,20 @@
 	<script src="controllers/controller.js"></script>
 
 	<script type="text/javascript">
-	$('button#open-button').click();
-	$('button#close').hide();
-
-	$('a').click(function(){
-		$('a').each(function(){
-			$(this).addClass('hidden');
-			$(this).addClass('hidden').removeClass('show');
-			$('button#close').show();
-			$(this).next('div').show().addClass('currently-open');
-		}); 
-		$('button#close').click(function(){
-			$('a').attr('class', '');
-			$(this).hide();
-			$('.currently-open').hide();
-		});
-		
-
-		$(this).addClass('show').removeClass('hidden');
-		
-	});
-
-	var hashContent = window.location.hash.split('/?/');
-
-	if (hashContent[0]) {
-		var image = hashContent[0].slice(7);
-	}
-	if (hashContent[1]) {
-		var title = hashContent[1].slice(6);
-	}
-	if (hashContent[2]) {
-		var description = hashContent[2].slice(12);
-	}
-	
-
-	setTimeout(function(){
-		$('input#user-model').val($('#user_id').text());
-		$('input#user-model').change();
-		$('input#new-group-user').val($('#user_id').text());
-		$('input#new-group-user').change();
-	}, 3000);
 
 	var setInputs = function() {
+		var hashContent = window.location.hash.split('/?/');
+
+		if (hashContent[0]) {
+			var image = hashContent[0].slice(7);
+		}
+		if (hashContent[1]) {
+			var title = hashContent[1].slice(6);
+		}
+		if (hashContent[2]) {
+			var description = hashContent[2].slice(12);
+		}
+
 		var parenturl = (window.location != window.parent.location)
         ? document.referrer
         : document.location;
@@ -94,49 +78,13 @@
 		$('input#description').val(description);
 		$('input#description').change();
 
-		$('input#group').val($('select.cs-select.cs-skin-boxes').val());
 		$('input#group').change();
-
-		$('input#user-model').val($('#user_id').text());
-		$('input#user-model').change();
-
-		$('input#new-group-user').val($('#user_id').text());
-		$('input#new-group-user').change();
 	}
-	setTimeout(function(){
-		$('li.option-select').click(function(){
-			$('input#group').val($('select.cs-select').val());
-			$('input#group').change();
-			console.log('option changed');
-		});
-	}, 2000);
-	$('button#js-ripple-btn').click(function(){
+	$('button').click(function(){
 		setInputs();
-		setTimeout(function(){
-			setInputs();
-		}, 3000);
 	});
 
 
-	$('button#theGroupButton').click(function(){
-		setInputs();
-		setTimeout(function(){
-			setInputs();
-		}, 3000);
-	});
-
-	setTimeout(function(){
-		$('select').change(function(){
-			
-
-			$('input#new-group-user').val($('#user_id').text());
-			$('input#new-group-user').change();
-			console.log($('input#group').val())
-		});
-	}, 3000);
-	
-
-	console.log('image:' + image)
 	</script>
 
 	
