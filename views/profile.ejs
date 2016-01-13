@@ -17,7 +17,7 @@
 	    		<form>
 			    	<md-input-container style="width: 50%; margin-left: 40px;">
 				    	<ng-md-icon size="25" icon="search" md-font-library="material-icons"></ng-md-icon>
-				    	<label for="input_2">Search text, Urls, folders and people</label>
+				    	<label for="input_2">Search text, urls and folders</label>
 					    <input id="input_2" autocomplete="off" style="display:inline !important;" class="ng-pristine form-control" ng-model="SearchQuery" />
 					</md-input-container>
 				</form>
@@ -115,12 +115,7 @@
 
 						</li>
 						<hr class="guide-section-separator">
-						<li style="
-					    margin: 0 4px;
-					    padding: 0 11px;
-					    color: #D83E3E;
-					    height: 25px;
-					">Subscriptions</li>
+						
 					<li ng-show="showAddGroup">
 						<div id="creategroup">
 							<form ng-submit="addGroup(group.name); showAddGroup = ! showAddGroup">
