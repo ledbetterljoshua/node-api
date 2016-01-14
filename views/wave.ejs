@@ -50,7 +50,7 @@
             class="list-group-item md-3-line md-no-proxy ng-scope" my-repeat-directive ng-repeat="post in posts | orderBy:'-created' | limitTo:10 " ng-animate=" 'animate' " role="listitem">
 	    <div class="md-list-item-text">
 	    	<div style="display:none !important;">{{post.group}}</div>
-	       <a style="text-decoration: none;" id="url" href="{{post.url}}">
+	       <a style="text-decoration: none;" class="url" href="{{post.url}}">
 	       	<h3 class="ng-binding item" id="{{ post._id }}" draggable item="item">{{post.title}}</h3></a>
 	      <h4 class="ng-binding">{{post.created | date}} - {{post.url | domain}}</h4>
 <div class="post-icons">
@@ -173,12 +173,13 @@ setTimeout(function(){
 	}
 }, 1000);
 
-$('#url').each(function(){
+$('.url').each(function(){
 	var self = this;
 	$(self).click(function(){
 		return false;
 		var url = $(self).attr('href');
-		window.top.location.href = url;
+		window.opener.location.href = url;
+		console.log(url);
 	});
 })
 </script>
