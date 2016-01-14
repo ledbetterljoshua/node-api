@@ -10,9 +10,9 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 	</head>
-	<body class="" ng-controller="AppCtrl">
+	<body style="background:#F3F3F5;" ng-controller="AppCtrl">
 		<md-progress-linear md-mode="indeterminate" ng-show="isLoading"></md-progress-linear>
-		<div class="bar"></div>  
+		<div class="bar-rainbow"></div>  
 		<form style="margin:0 5px;">
 		    <div layout="row">
 		      <md-input-container>
@@ -29,11 +29,40 @@
 			<input ng-model="post.image" style="display:none !important;" id="image" type="text" />
 			<input ng-model="post.group" style="display:none !important;" id="group" type="text" />
 			<button style="margin-top: 19px;" class="md-button md-ink-ripple" ng-click="addPost()">
-				Add Post
+				Save Page
 			</button>
 			</div>
 		</form>
-	</md-toolbar>
+	<section class="demo-container md-whiteframe-z1 show-source">
+  <md-content>
+  
+
+  <section>
+  	 
+	 <md-list role="list">
+	 <md-subheader class="md-primary">Recently saved</md-subheader>
+	   <md-list-item style="margin: 0 auto;padding-left: 20px;padding-right: 20px;"
+            class="list-group-item md-3-line md-no-proxy ng-scope" my-repeat-directive ng-repeat="post in posts | limitTo:10 | orderBy:'-created'  track by post._id" ng-animate=" 'animate' " role="listitem">
+	    <div class="md-list-item-text">
+	    	<div style="display:none !important;">{{post.group}}</div>
+	       <a style="text-decoration: none;" href="{{post.url}}">
+	       	<h3 class="ng-binding item" id="{{ post._id }}" draggable item="item">{{post.title}}</h3></a>
+	      <h4 class="ng-binding">{{post.created | date}} - {{post.url | domain}}</h4>
+
+			<div class="md-list-item-text commments" ng-show="showComment" >
+			  	<div ng-repeat="comment in post.comments">
+				  	<p class="ng-binding">{{post.comment}}</p>
+				</div>
+			  	<md-input-container>
+			  		<input id="comment" placeholder="What would you like to say?" ng-model="post.comment" />
+			    </md-input-container>
+		  </div>
+	    </div>
+	  </md-list-item>
+	 </md-list>
+	</section>
+	</md-content>
+</section>
 
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular.min.js"></script>

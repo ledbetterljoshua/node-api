@@ -2,13 +2,16 @@ body, .md-padding.layout-wrap.layout-row, html {
 	background: #e9eaed;
 	overflow-x: hidden;
 }
-.bar {
+.bar-rainbow {
     display: block;
     height: 6px;
     width: 100%;
     background: -webkit-linear-gradient(-55deg, #B9B8B8 30%, #a2d49f 30%, #a2d49f 40%, #c7c12f 40%, #c7c12f 50%, #f26247 50%, #f26247 60%, #ec2045 60%, #ec2045 70%, #D4D4D4 70% );
     background: -moz-linear-gradient(-55deg, #B9B8B8 30%, #a2d49f 30%, #a2d49f 40%, #c7c12f 40%, #c7c12f 50%, #f26247 50%, #f26247 60%, #ec2045 60%, #ec2045 70%, #B9B8B8 70% );
     background: linear-gradient(-55deg, #B9B8B8 30%, #a2d49f 30%, #a2d49f 40%, #c7c12f 40%, #c7c12f 50%, #f26247 50%, #f26247 60%, #ec2045 60%, #ec2045 70%, #C7C7C7 70% );
+}
+div#theAwesomeToolBarThatIsWayCoolYo {
+    position: fixed !important;
 }
 md-sidenav {
 	width: 230px !important;

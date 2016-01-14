@@ -191,11 +191,20 @@ myApp.directive('errSrc', function() {
   }
 });
 
-myApp.controller('AppCtrl', ['$scope', '$http', '$timeout', '$q', '$log', '$filter', '$mdDialog', '$mdMedia', 'groupsInPost', 'getPosts',
-function($scope, $http, $timeout, $q, $log, $filter, $mdDialog, $mdMedia, groupsInPost, getPosts) {
+myApp.controller('AppCtrl', ['$scope', '$http', '$timeout', '$q', '$log', '$filter', '$mdDialog', '$mdMedia', 'groupsInPost', 'getPosts', '$mdToast',
+function($scope, $http, $timeout, $q, $log, $filter, $mdDialog, $mdMedia, groupsInPost, getPosts, $mdToast) {
 	$scope.SearchQueryEmpty = function() {
 		$scope.SearchQuery = '';
 	}
+
+	var showSimpleToast = function() {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent('Simple Toast!')
+	        .position('right')
+	        .hideDelay(3000)
+	    );
+	  };
 
 	$scope.groupUrl = window.location.hash.replace('#/groups/', '');
 
@@ -388,6 +397,7 @@ function($scope, $http, $timeout, $q, $log, $filter, $mdDialog, $mdMedia, groups
 		
 		$http.post('/api/posts', $scope.post).success(function(response){
 			refreshPost();
+			showSimpleToast();
 			//$scope.post = {url: parenturl}
 		});
 		 
