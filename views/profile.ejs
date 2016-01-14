@@ -231,18 +231,7 @@
 			   </div>
 			</md-list-item>
 		</md-list>
-		<md-list role="list" class="searchHeader">
-		 <md-subheader class="md-primary">People</md-subheader>
-			<md-list-item style="padding: 0; margin: 0 30px height: 30px; min-height: 30px; width:50%;border-bottom: 1px solid #E2E2E2; margin: 0 50px;"
-		            class="list-group-item md-3-line md-no-proxy ng-scope" my-repeat-directive ng-repeat="user in queryUsers | filter:SearchQuery | orderBy:'-created' track by user._id" ng-animate=" 'animate' " role="listitem">
-			    
-			    <div class="md-list-item-text">
-			       <a style="text-decoration: none;" href="#/{{user.local.email}}" ng-click="SearchQueryEmpty(); getPostsFromSUser(user._id)">
-			       	<h3 class="ng-binding item" id="{{ user._id }}">{{user.local.email}}</h3>
-			       </a>
-			   </div>
-			</md-list-item>
-		</md-list>
+		
 		</section>
 	</md-content>
 </section>
@@ -360,6 +349,18 @@
 		 setTimeout(function(){
 		 	clearInterval(intervalTwo);
 		 });
+
+		 function inIframe () {
+		    try {
+		        return window.self !== window.top;
+		    } catch (e) {
+		        return true;
+		    }
+		}
+
+		 if(inIframe() === true) {
+			window.location.pathname = "/iframe"
+		}
 
 	</script>
 

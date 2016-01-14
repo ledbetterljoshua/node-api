@@ -14,12 +14,6 @@
 	      <p class="ng-binding">{{post.description}}</p>
 	      <div class="post-icons">
 
-   	 <!-- ng-change="addToGroup()" -->
-		<md-select multiple='true' placeholder="Choose group" aria-label="select group" ng-model="groups">
-		  		<md-option ng-model="group.currentGroup" ng-value="group._id" data-ng-repeat="group in groups track by $index" ng-click="addToGroup(post._id, group._id)">
-		  		{{group.name}}
-		  		</md-option>
-		  	  </md-select>
 	          <ng-md-icon ng-show="!post.favorite" icon="favorite_outline" md-font-library="material-icons" size="20" ng-click="favoritePost(post._id)">
 			    <md-tooltip>
 			        favorite
