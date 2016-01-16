@@ -9,6 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body ng-controller="AppCtrl" ng-cloak>
+	<link ng-if="mobile()" rel="stylesheet" type="text/css" href="/css/mobile.css" />
 	<md-progress-linear md-mode="indeterminate" ng-show="isLoading"></md-progress-linear>
 	<md-toolbar md-scroll-shrink>
 	    <div class="md-toolbar-tools">
@@ -17,9 +18,9 @@
 	    		<form>
 			    	<md-input-container style="width: 50%; margin-left: 40px;">
 				    	<ng-md-icon size="25" icon="search" md-font-library="material-icons"></ng-md-icon>
-				    	<label for="input_2" ng-if="!mobile()">Search text, urls and folders</label>
-				    	<label for="input_2" ng-if="mobile()">Search</label>
-					    <input id="input_2" autocomplete="off" style="display:inline !important;" class="ng-pristine form-control" ng-model="SearchQuery" />
+				    	<label for="input_2" aria-label="search" ng-if="!mobile()">Search text, urls and folders</span></label>
+				    	<label for="input_2" aria-label="search" ng-if="mobile()">Search</label>
+					    <input id="input_2" aria-label="search" autocomplete="off" style="display:inline !important;" class="ng-pristine form-control" ng-model="SearchQuery" />
 					</md-input-container>
 				</form>
 			</div>
@@ -143,12 +144,6 @@
 					
     </md-sidenav>
 
-    <md-button ng-click="toggleLeft()"
-    class="md-icon-button md-primary md-button md-ink-ripple" hide-gt-md>
-    <ng-md-icon icon="menu" md-font-library="material-icons" size="35">
-    </ng-md-icon>
-  </md-button>
-
   </div>
 
 
@@ -180,7 +175,7 @@
 			        favorite
 			      </md-tooltip>
 			  </ng-md-icon>
-			  <ng-md-icon ng-show="post.favorite" style="fill: #FF38E0;" icon="favorite" md-font-library="material-icons" size="20" ng-click="removeFavorite(post._id)">
+			  <ng-md-icon ng-show="post.favorite" style="fill:#6B7ADA;" icon="favorite" md-font-library="material-icons" size="20" ng-click="removeFavorite(post._id)">
 			    <md-tooltip>
 			        remove
 			      </md-tooltip>
@@ -271,7 +266,7 @@
 			        favorite
 			      </md-tooltip>
 			  </ng-md-icon>
-			  <ng-md-icon ng-show="post.favorite" style="fill: #FF38E0;" icon="favorite" md-font-library="material-icons" size="20" ng-click="removeFavorite(post._id)">
+			  <ng-md-icon ng-show="post.favorite" style="fill: #6B7ADA;" icon="favorite" md-font-library="material-icons" size="20" ng-click="removeFavorite(post._id)">
 			    <md-tooltip>
 			        remove
 			      </md-tooltip>
@@ -305,29 +300,37 @@
 	 </md-list>
 	</section>
 	</md-content>
-	<div id="bottom_p" ng-if="mobile()">
+</section>
+<div id="bottom_p" ng-controller="sideNav" ng-if="mobile()">
 		<div class="inner">
-			<a ng-click="filterGroup(' '); hideRemoveGroup(); close()" class=" left-text md-button md-ink-ripple" ng-href="#/favorites" >
-				<ng-md-icon class="group-icons" icon="favorite" size="20" md-font-library="material-icons"></ng-md-icon>
-				<span class="ng-binding ng-scope">
-					  Favorites
-				</span>
-			</a>
-			<a ng-click="getGroup(''); hideRemoveGroup(); refreshPost(); close()" class=" left-text md-button md-ink-ripple" ng-href="#/all" >
+			<a aria-label="button" ng-click="getGroup(''); hideRemoveGroup(); refreshPost(); close()" class=" left-text md-button md-ink-ripple" ng-href="#/all" >
 				<ng-md-icon class="group-icons" icon="home" size="20" md-font-library="material-icons"></ng-md-icon>
 				<span class="ng-binding ng-scope">
 					  Home
 				</span>
 			</a>
-			<a ng-click="filterGroup(' '); hideRemoveGroup(); close()" class=" left-text md-button md-ink-ripple" ng-href="#/reading-list" >
+			<a  aria-label="button" ng-click="filterGroup(' '); hideRemoveGroup(); close()" class=" left-text md-button md-ink-ripple" ng-href="#/favorites" >
+				<ng-md-icon class="group-icons" icon="favorite" size="20" md-font-library="material-icons"></ng-md-icon>
+				<span class="ng-binding ng-scope">
+					  Favorites
+				</span>
+			</a>
+			<a aria-label="button" ng-click="filterGroup(' '); hideRemoveGroup(); close()" class=" left-text md-button md-ink-ripple" ng-href="#/reading-list" >
 				<ng-md-icon class="group-icons" icon="bookmark_outline" size="20" md-font-library="material-icons"></ng-md-icon>
 				<span class="ng-binding ng-scope">
 					  Read Later
 				</span>
 			</a>
+			<a aria-label="button" ng-click="toggleLeft()"
+			    class="left-text md-button md-ink-ripple" hide-gt-md>
+			    <ng-md-icon style="position: relative;top: 7px;" icon="menu" md-font-library="material-icons" size="20">
+			    </ng-md-icon>
+			    <span class="ng-binding ng-scope">
+					  More
+				</span>
+			 </a>
 		</div>
 	</div>
-</section>
 
 
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>

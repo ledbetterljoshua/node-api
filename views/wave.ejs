@@ -62,7 +62,7 @@
 			        favorite
 			      </md-tooltip>
 			  </ng-md-icon>
-			  <ng-md-icon ng-show="post.favorite" style="fill: #FF38E0;" icon="favorite" md-font-library="material-icons" size="20" ng-click="removeFavorite(post._id)">
+			  <ng-md-icon ng-show="post.favorite" style="fill: #6B7ADA;" icon="favorite" md-font-library="material-icons" size="20" ng-click="removeFavorite(post._id)">
 			    <md-tooltip>
 			        remove
 			      </md-tooltip>
@@ -173,6 +173,14 @@ setTimeout(function(){
 	}
 }, 1000);
 
-
+$('.url').each(function(){
+	var self = this;
+	$(self).click(function(){
+		return false;
+		var url = $(self).attr('href');
+		window.opener.location.href = url;
+		console.log(url);
+	});
+})
 </script>
 </body></html>

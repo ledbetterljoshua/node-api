@@ -662,6 +662,12 @@ myApp.controller('sideNav', function ($http, $scope, $timeout, $mdSidenav, $log)
 
     $scope.toggleLeft = buildDelayedToggler('left');
     $scope.toggleRight = buildToggler('right');
+    $scope.close = function () {
+      $mdSidenav('left').close()
+        .then(function () {
+          $log.debug("close LEFT is done");
+        });
+    };
     $scope.isOpenRight = function(){
       return $mdSidenav('right').isOpen();
     };
