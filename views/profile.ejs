@@ -12,12 +12,13 @@
 	<md-progress-linear md-mode="indeterminate" ng-show="isLoading"></md-progress-linear>
 	<md-toolbar md-scroll-shrink>
 	    <div class="md-toolbar-tools">
-	    	<a ng-click="getGroup(''); hideRemoveGroup(); refreshPost()" ng-href="#/all" ><div id="title">Monument</div></a>
+	    	<a ng-click="getGroup(''); hideRemoveGroup(); refreshPost(); close()" ng-href="#/all" ><div id="title">Monument</div></a>
 	    	<div id="topMiddle">
 	    		<form>
 			    	<md-input-container style="width: 50%; margin-left: 40px;">
 				    	<ng-md-icon size="25" icon="search" md-font-library="material-icons"></ng-md-icon>
-				    	<label for="input_2">Search text, urls and folders</label>
+				    	<label for="input_2" ng-if="!mobile()">Search text, urls and folders</label>
+				    	<label for="input_2" ng-if="mobile()">Search</label>
 					    <input id="input_2" autocomplete="off" style="display:inline !important;" class="ng-pristine form-control" ng-model="SearchQuery" />
 					</md-input-container>
 				</form>
@@ -55,23 +56,23 @@
 						
 
 						<li>
-							<menu-link section="page" class="ng-isolate-scope"><a ng-click="getGroup(''); hideRemoveGroup(); refreshPost()" class=" left-text md-button md-ink-ripple" ng-href="#/all" ><span class="ng-binding ng-scope">
+							<menu-link section="page" class="ng-isolate-scope"><a ng-click="getGroup(''); hideRemoveGroup(); refreshPost(); close()" class=" left-text md-button md-ink-ripple" ng-href="#/all" ><span class="ng-binding ng-scope">
 							<ng-md-icon class="group-icons" icon="home" size="20" md-font-library="material-icons"></ng-md-icon>
 							  Home
 							  </span>
 							</a>
 							</menu-link>
 						</li>
-						<li>
+						<!-- <li>
 							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup();" class=" left-text md-button md-ink-ripple" ng-href="#/all" ><span class="ng-binding ng-scope">
 							<ng-md-icon class="group-icons" icon="settings" size="20" md-font-library="material-icons"></ng-md-icon>
 							  Settings
 							  </span>
 							</a>
 							</menu-link>
-						</li>
+						</li> -->
 						<li>
-							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup();" class=" left-text md-button md-ink-ripple" ng-href="#/favorites" ><span class="ng-binding ng-scope">
+							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup(); close()" class=" left-text md-button md-ink-ripple" ng-href="#/favorites" ><span class="ng-binding ng-scope">
 							<ng-md-icon class="group-icons" icon="favorite" size="20" md-font-library="material-icons"></ng-md-icon>
 							  Favorites
 							  </span>
@@ -79,7 +80,7 @@
 							</menu-link>
 						</li>
 						<li>
-							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup();" class=" left-text md-button md-ink-ripple" ng-href="#/reading-list" ><span class="ng-binding ng-scope">
+							<menu-link section="page" class="ng-isolate-scope"><a ng-click="filterGroup(' '); hideRemoveGroup(); close()" class=" left-text md-button md-ink-ripple" ng-href="#/reading-list" ><span class="ng-binding ng-scope">
 							<ng-md-icon class="group-icons" icon="bookmark_outline" size="20" md-font-library="material-icons"></ng-md-icon>
 							  Read Later
 							  </span>
@@ -98,7 +99,7 @@
 						<li class="bin" droppable drop="handleDrop" bin="bin" id="{{ group._id }}"
            					ng-repeat="group in groups | orderBy:'-created'">
 							<menu-link section="page" class="ng-isolate-scope">
-							<a class="md-button md-ink-ripple" href="#/groups/{{group._id}}" ng-click="getGroup(group._id, group.name, showRemoveGroup); getPostsInGroup(group._id)" >
+							<a class="md-button md-ink-ripple" href="#/groups/{{group._id}}" ng-click="getGroup(group._id, group.name, showRemoveGroup); getPostsInGroup(group._id); close()" >
 							<ng-md-icon size="18" class="group-icons" icon="my_library_books">
 							</ng-md-icon> 
 							  <span class="ng-binding ng-scope">
@@ -143,8 +144,9 @@
     </md-sidenav>
 
     <md-button ng-click="toggleLeft()"
-    class="md-primary" hide-gt-md>
-    Toggle left
+    class="md-icon-button md-primary md-button md-ink-ripple" hide-gt-md>
+    <ng-md-icon icon="menu" md-font-library="material-icons" size="35">
+    </ng-md-icon>
   </md-button>
 
   </div>
@@ -224,7 +226,7 @@
 		 <md-subheader class="md-primary">Folders</md-subheader>
 			<md-list-item style="padding: 0 30px;" class="list-group-item md-3-line md-no-proxy ng-scope" my-repeat-directive ng-repeat="group in queryGroups | filter:SearchQuery | orderBy:'-created' track by group._id" ng-animate=" 'animate' " role="listitem">
 			    <div class="md-list-item-text">
-			       <a style="text-decoration: none;" href="#/groups/{{group._id}}" ng-click="SearchQueryEmpty(); getGroup(group._id, group.name, showRemoveGroup); getPostsInGroup(group._id)">
+			       <a style="text-decoration: none;" href="#/groups/{{group._id}}" ng-click="SearchQueryEmpty(); getGroup(group._id, group.name, showRemoveGroup); getPostsInGroup(group._id); close()">
 			       	<h3 class="ng-binding item" id="{{ group._id }}">{{group.name}}</h3>
 			       </a>
 			      <h4 class="ng-binding">{{group.created | date}} - {{group.name}}</h4>
@@ -249,7 +251,7 @@
 
   <section>
   	 
-	 <md-list id="list-read-later" role="list">
+	 <md-list id="list-read-later" role="list" ng-if="!mobile()">
 	 <md-subheader class="md-primary">Reading List</md-subheader>
 	   <md-list-item
             class="list-group-item md-3-line md-no-proxy ng-scope" my-repeat-directive ng-repeat="post in posts | filter:query | orderBy:'-created'  track by post._id" ng-animate=" 'animate' " role="listitem" ng-if="post.readlater == true">
@@ -303,6 +305,28 @@
 	 </md-list>
 	</section>
 	</md-content>
+	<div id="bottom_p" ng-if="mobile()">
+		<div class="inner">
+			<a ng-click="filterGroup(' '); hideRemoveGroup(); close()" class=" left-text md-button md-ink-ripple" ng-href="#/favorites" >
+				<ng-md-icon class="group-icons" icon="favorite" size="20" md-font-library="material-icons"></ng-md-icon>
+				<span class="ng-binding ng-scope">
+					  Favorites
+				</span>
+			</a>
+			<a ng-click="getGroup(''); hideRemoveGroup(); refreshPost(); close()" class=" left-text md-button md-ink-ripple" ng-href="#/all" >
+				<ng-md-icon class="group-icons" icon="home" size="20" md-font-library="material-icons"></ng-md-icon>
+				<span class="ng-binding ng-scope">
+					  Home
+				</span>
+			</a>
+			<a ng-click="filterGroup(' '); hideRemoveGroup(); close()" class=" left-text md-button md-ink-ripple" ng-href="#/reading-list" >
+				<ng-md-icon class="group-icons" icon="bookmark_outline" size="20" md-font-library="material-icons"></ng-md-icon>
+				<span class="ng-binding ng-scope">
+					  Read Later
+				</span>
+			</a>
+		</div>
+	</div>
 </section>
 
 

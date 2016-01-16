@@ -173,14 +173,6 @@ setTimeout(function(){
 	}
 }, 1000);
 
-$('.url').each(function(){
-	var self = this;
-	$(self).click(function(){
-		return false;
-		var url = $(self).attr('href');
-		window.opener.location.href = url;
-		console.log(url);
-	});
-})
+
 </script>
 </body></html>

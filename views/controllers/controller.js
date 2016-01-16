@@ -388,7 +388,13 @@ function($scope, $http, $timeout, $q, $log, $filter, $mdDialog, $mdMedia, groups
 		});
 	}
 
-	
+	$scope.mobile = function(){
+		if(/Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 
 	$scope.addPost = function() {

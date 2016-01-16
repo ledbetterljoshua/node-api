@@ -12,6 +12,40 @@ body, .md-padding.layout-wrap.layout-row, html {
     position: fixed;
     z-index: 999;
 }
+div#bottom_p {
+    position: fixed;
+    display: block;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    right: 0;
+    height: 47px;
+    background: #fff;
+    z-index: 999;
+    border-top: 1px solid #D6D6D6;
+}
+div#bottom_p a.left-text.md-button.md-ink-ripple {
+    text-align: center !important;
+    margin: 0 !important;
+}
+div#bottom_p a.left-text.md-button.md-ink-ripple[href="#/all"] {
+    border-right: 1px solid #DCDCDC;
+    border-radius: 0;
+    border-left: 1px solid #DCDCDC;
+}
+div#bottom_p span.ng-binding.ng-scope {
+    display: block;
+    text-align: center;
+    padding-top: 2px;
+    font-size: 9px;
+}
+div#bottom_p .inner {
+    max-width: 80%;
+    margin: 0 auto;
+}
+div#bottom_p ng-md-icon.group-icons {
+  margin-left: 8px !important;
+}
 div#theAwesomeToolBarThatIsWayCoolYo {
     position: fixed !important;
 }
@@ -1059,4 +1093,719 @@ h4.ng-binding {
 	max-width: 754px;
   width: 73%   
 }
+}
+
+
+
+/* ----------- iPhone 4 and 4S ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px)and (-webkit-min-device-pixel-ratio: 2) {
+  div#title:after {
+    width: 0px;
+  }
+  div#title {
+    width: 31px;
+    overflow: hidden;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  md-input-container {
+    margin-top: -7px;
+    width: 100% !important;
+    margin-left: 0 !important;;
+    text-overflow: ellipsis !important;;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  a.md-ink-ripple[ng-click="showAdvanced($event)"] {
+      display: none;
+  }
+  .gridListdemoBasicUsage {
+    margin-top: 68px !important;
+  }
+  img.face {
+    display: none;
+  }
+  md-list-item {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border-bottom: 1px solid #CECECE;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="toggleLeft()"] {
+    position: fixed;
+    z-index: 9;
+    right: 0;
+    top: 4px;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="close()"] {
+    display: none;
+  }
+  md-sidenav.md-sidenav-left {
+    height: 100%;
+    bottom: 0;
+    top: 0;
+    box-shadow: 1px 1px 64px 2px #000 !important;
+  }
+  .gridListdemoBasicUsage section md-content md-list-item:hover {
+    background: #fff;
+  }
+
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px)and (-webkit-min-device-pixel-ratio: 2)and (orientation: portrait) {
+  div#title:after {
+    width: 0px;
+  }
+  div#title {
+    width: 31px;
+    overflow: hidden;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  md-input-container {
+    margin-top: -7px;
+    width: 100% !important;
+    margin-left: 0 !important;;
+    text-overflow: ellipsis !important;;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  a.md-ink-ripple[ng-click="showAdvanced($event)"] {
+      display: none;
+  }
+  .gridListdemoBasicUsage {
+    margin-top: 68px !important;
+  }
+  img.face {
+    display: none;
+  }
+  md-list-item {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border-bottom: 1px solid #CECECE;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="toggleLeft()"] {
+    position: fixed;
+    z-index: 9;
+    right: 0;
+    top: 4px;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="close()"] {
+    display: none;
+  }
+  md-sidenav.md-sidenav-left {
+    height: 100%;
+    bottom: 0;
+    top: 0;
+    box-shadow: 1px 1px 64px 2px #000 !important;
+  }
+  .gridListdemoBasicUsage section md-content md-list-item:hover {
+    background: #fff;
+  }
+
+}
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px)and (-webkit-min-device-pixel-ratio: 2)and (orientation: landscape) {
+  div#title:after {
+    width: 0px;
+  }
+  div#title {
+    width: 31px;
+    overflow: hidden;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  md-input-container {
+    margin-top: -7px;
+    width: 100% !important;
+    margin-left: 0 !important;;
+    text-overflow: ellipsis !important;;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  a.md-ink-ripple[ng-click="showAdvanced($event)"] {
+      display: none;
+  }
+  .gridListdemoBasicUsage {
+    margin-top: 68px !important;
+  }
+  img.face {
+    display: none;
+  }
+  md-list-item {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border-bottom: 1px solid #CECECE;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="toggleLeft()"] {
+    position: fixed;
+    z-index: 9;
+    right: 0;
+    top: 4px;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="close()"] {
+    display: none;
+  }
+  md-sidenav.md-sidenav-left {
+    height: 100%;
+    bottom: 0;
+    top: 0;
+    box-shadow: 1px 1px 64px 2px #000 !important;
+  }
+  .gridListdemoBasicUsage section md-content md-list-item:hover {
+    background: #fff;
+  }
+
+}
+
+}
+
+/* ----------- iPhone 5 and 5S ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px)and (-webkit-min-device-pixel-ratio: 2) {
+div#title:after {
+    width: 0px;
+  }
+  div#title {
+    width: 31px;
+    overflow: hidden;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  md-input-container {
+    margin-top: -7px;
+    width: 100% !important;
+    margin-left: 0 !important;;
+    text-overflow: ellipsis !important;;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  a.md-ink-ripple[ng-click="showAdvanced($event)"] {
+      display: none;
+  }
+  .gridListdemoBasicUsage {
+    margin-top: 68px !important;
+  }
+  img.face {
+    display: none;
+  }
+  md-list-item {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border-bottom: 1px solid #CECECE;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="toggleLeft()"] {
+    position: fixed;
+    z-index: 9;
+    right: 0;
+    top: 4px;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="close()"] {
+    display: none;
+  }
+  md-sidenav.md-sidenav-left {
+    height: 100%;
+    bottom: 0;
+    top: 0;
+    box-shadow: 1px 1px 64px 2px #000 !important;
+  }
+  .gridListdemoBasicUsage section md-content md-list-item:hover {
+    background: #fff;
+  }
+
+}
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px)and (-webkit-min-device-pixel-ratio: 2)and (orientation: portrait) {
+  div#title:after {
+    width: 0px;
+  }
+  div#title {
+    width: 31px;
+    overflow: hidden;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  md-input-container {
+    margin-top: -7px;
+    width: 100% !important;
+    margin-left: 0 !important;;
+    text-overflow: ellipsis !important;;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  a.md-ink-ripple[ng-click="showAdvanced($event)"] {
+      display: none;
+  }
+  .gridListdemoBasicUsage {
+    margin-top: 68px !important;
+  }
+  img.face {
+    display: none;
+  }
+  md-list-item {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border-bottom: 1px solid #CECECE;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="toggleLeft()"] {
+    position: fixed;
+    z-index: 9;
+    right: 0;
+    top: 4px;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="close()"] {
+    display: none;
+  }
+  md-sidenav.md-sidenav-left {
+    height: 100%;
+    bottom: 0;
+    top: 0;
+    box-shadow: 1px 1px 64px 2px #000 !important;
+  }
+  .gridListdemoBasicUsage section md-content md-list-item:hover {
+    background: #fff;
+  }
+
+}
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px)and (-webkit-min-device-pixel-ratio: 2)and (orientation: landscape) {
+  div#title:after {
+    width: 0px;
+  }
+  div#title {
+    width: 31px;
+    overflow: hidden;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  md-input-container {
+    margin-top: -7px;
+    width: 100% !important;
+    margin-left: 0 !important;;
+    text-overflow: ellipsis !important;;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  a.md-ink-ripple[ng-click="showAdvanced($event)"] {
+      display: none;
+  }
+  .gridListdemoBasicUsage {
+    margin-top: 68px !important;
+  }
+  img.face {
+    display: none;
+  }
+  md-list-item {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border-bottom: 1px solid #CECECE;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="toggleLeft()"] {
+    position: fixed;
+    z-index: 9;
+    right: 0;
+    top: 4px;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="close()"] {
+    display: none;
+  }
+  md-sidenav.md-sidenav-left {
+    height: 100%;
+    bottom: 0;
+    top: 0;
+    box-shadow: 1px 1px 64px 2px #000 !important;
+  }
+  .gridListdemoBasicUsage section md-content md-list-item:hover {
+    background: #fff;
+  }
+  div#topMiddle {
+    width: 75%;
+  }
+}
+
+}
+
+/* ----------- iPhone 6 ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) { 
+  div#title:after {
+    width: 0px;
+  }
+  div#title {
+    width: 31px;
+    overflow: hidden;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  md-input-container {
+    margin-top: -7px;
+    width: 100% !important;
+    margin-left: 0 !important;;
+    text-overflow: ellipsis !important;;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  a.md-ink-ripple[ng-click="showAdvanced($event)"] {
+      display: none;
+  }
+  .gridListdemoBasicUsage {
+    margin-top: 68px !important;
+  }
+  img.face {
+    display: none;
+  }
+  md-list-item {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border-bottom: 1px solid #CECECE;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="toggleLeft()"] {
+    position: fixed;
+    z-index: 9;
+    right: 0;
+    top: 4px;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="close()"] {
+    display: none;
+  }
+  md-sidenav.md-sidenav-left {
+    height: 100%;
+    bottom: 0;
+    top: 0;
+    box-shadow: 1px 1px 64px 2px #000 !important;
+  }
+  .gridListdemoBasicUsage section md-content md-list-item:hover {
+    background: #fff;
+  }
+  div#topMiddle {
+    width: 75%;
+  }
+}
+
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)and (orientation: portrait) { 
+  div#title:after {
+    width: 0px;
+  }
+  div#title {
+    width: 31px;
+    overflow: hidden;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  md-input-container {
+    margin-top: -7px;
+    width: 100% !important;
+    margin-left: 0 !important;;
+    text-overflow: ellipsis !important;;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  a.md-ink-ripple[ng-click="showAdvanced($event)"] {
+      display: none;
+  }
+  .gridListdemoBasicUsage {
+    margin-top: 68px !important;
+  }
+  img.face {
+    display: none;
+  }
+  md-list-item {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border-bottom: 1px solid #CECECE;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="toggleLeft()"] {
+    position: fixed;
+    z-index: 9;
+    right: 0;
+    top: 4px;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="close()"] {
+    display: none;
+  }
+  md-sidenav.md-sidenav-left {
+    height: 100%;
+    bottom: 0;
+    top: 0;
+    box-shadow: 1px 1px 64px 2px #000 !important;
+  }
+  .gridListdemoBasicUsage section md-content md-list-item:hover {
+    background: #fff;
+  }
+  div#topMiddle {
+    width: 75%;
+  }
+}
+
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)and (orientation: landscape) { 
+  div#title:after {
+    width: 0px;
+  }
+  div#title {
+    width: 31px;
+    overflow: hidden;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  md-input-container {
+    margin-top: -7px;
+    width: 100% !important;
+    margin-left: 0 !important;;
+    text-overflow: ellipsis !important;;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  a.md-ink-ripple[ng-click="showAdvanced($event)"] {
+      display: none;
+  }
+  .gridListdemoBasicUsage {
+    margin-top: 68px !important;
+  }
+  img.face {
+    display: none;
+  }
+  md-list-item {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border-bottom: 1px solid #CECECE;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="toggleLeft()"] {
+    position: fixed;
+    z-index: 9;
+    right: 0;
+    top: 4px;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="close()"] {
+    display: none;
+  }
+  md-sidenav.md-sidenav-left {
+    height: 100%;
+    bottom: 0;
+    top: 0;
+    box-shadow: 1px 1px 64px 2px #000 !important;
+  }
+  .gridListdemoBasicUsage section md-content md-list-item:hover {
+    background: #fff;
+  }
+  div#topMiddle {
+    width: 75%;
+  }
+}
+
+}
+
+/* ----------- iPhone 6+ ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) { 
+  div#title:after {
+    width: 0px;
+  }
+  div#title {
+    width: 31px;
+    overflow: hidden;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  md-input-container {
+    margin-top: -7px;
+    width: 100% !important;
+    margin-left: 0 !important;;
+    text-overflow: ellipsis !important;;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  a.md-ink-ripple[ng-click="showAdvanced($event)"] {
+      display: none;
+  }
+  .gridListdemoBasicUsage {
+    margin-top: 68px !important;
+  }
+  img.face {
+    display: none;
+  }
+  md-list-item {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border-bottom: 1px solid #CECECE;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="toggleLeft()"] {
+    position: fixed;
+    z-index: 9;
+    right: 0;
+    top: 4px;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="close()"] {
+    display: none;
+  }
+  md-sidenav.md-sidenav-left {
+    height: 100%;
+    bottom: 0;
+    top: 0;
+    box-shadow: 1px 1px 64px 2px #000 !important;
+  }
+  .gridListdemoBasicUsage section md-content md-list-item:hover {
+    background: #fff;
+  }
+  div#topMiddle {
+    width: 75%;
+  }
+}
+
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)and (orientation: portrait) { 
+  div#title:after {
+    width: 0px;
+  }
+  div#title {
+    width: 31px;
+    overflow: hidden;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  md-input-container {
+    margin-top: -7px;
+    width: 100% !important;
+    margin-left: 0 !important;;
+    text-overflow: ellipsis !important;;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  a.md-ink-ripple[ng-click="showAdvanced($event)"] {
+      display: none;
+  }
+  .gridListdemoBasicUsage {
+    margin-top: 68px !important;
+  }
+  img.face {
+    display: none;
+  }
+  md-list-item {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border-bottom: 1px solid #CECECE;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="toggleLeft()"] {
+    position: fixed;
+    z-index: 9;
+    right: 0;
+    top: 4px;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="close()"] {
+    display: none;
+  }
+  md-sidenav.md-sidenav-left {
+    height: 100%;
+    bottom: 0;
+    top: 0;
+    box-shadow: 1px 1px 64px 2px #000 !important;
+  }
+  .gridListdemoBasicUsage section md-content md-list-item:hover {
+    background: #fff;
+  }
+  div#topMiddle {
+    width: 75%;
+  }
+}
+
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)and (orientation: landscape) { 
+  div#title:after {
+    width: 0px;
+  }
+  div#title {
+    width: 31px;
+    overflow: hidden;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  md-input-container {
+    margin-top: -7px;
+    width: 100% !important;
+    margin-left: 0 !important;;
+    text-overflow: ellipsis !important;;
+  }
+  label[for="input_2"] {
+    font-size: 17px;
+  }
+  a.md-ink-ripple[ng-click="showAdvanced($event)"] {
+      display: none;
+  }
+  .gridListdemoBasicUsage {
+    margin-top: 68px !important;
+  }
+  img.face {
+    display: none;
+  }
+  md-list-item {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border-bottom: 1px solid #CECECE;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="toggleLeft()"] {
+    position: fixed;
+    z-index: 9;
+    right: 0;
+    top: 4px;
+  }
+  button.md-primary.md-button.md-ink-ripple.hide-gt-md[ng-click="close()"] {
+    display: none;
+  }
+  md-sidenav.md-sidenav-left {
+    height: 100%;
+    bottom: 0;
+    top: 0;
+    box-shadow: 1px 1px 64px 2px #000 !important;
+  }
+  .gridListdemoBasicUsage section md-content md-list-item:hover {
+    background: #fff;
+  }
+  div#topMiddle {
+    width: 75%;
+  }
+}
+
 }
