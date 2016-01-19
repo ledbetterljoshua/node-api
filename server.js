@@ -37,7 +37,7 @@ app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("X-ACCESS_TOKEN", "Access-Control-Allow-Origin", "Authorization", "Origin", "x-requested-with", "Content-Type", "Content-Range", "Content-Disposition", "Content-Description");
   next();
 });
 
@@ -103,6 +103,61 @@ router.route('/users')
         });
 
     });
+    router.route('/users/:user_id/posts/:post_id')
+
+    // get the post with that id (accessed at GET http://localhost:8080/api/posts/:post_id)
+    .get(function(req, res) {
+        Post.findById(req.params.post_id, function(err, post) {
+            if (err)
+                res.send(err);
+            res.json(post);
+        });
+    })
+    
+
+    // update the post with this id (accessed at PUT http://localhost:8080/api/posts/:post_id)
+    .put(function(req, res) {
+
+        // use our post model to find the post we want
+        Post.findById(req.params.post_id, function(err, post) {
+
+            if (err)
+                res.send(err);
+
+            post.url = req.body.url;
+            post.highlighted = req.body.highlighted;
+            post.comment = req.body.comment;  // update the posts info
+            post.image = req.body.image;
+            post.title = req.body.title;
+            post.description = req.body.description;
+            post.timeStamp = req.body.timeStamp;
+            post.group = req.body.group;
+            post.favorite       = req.body.favorite;
+            post.readlater      = req.body.readlater;
+            post.private        = req.body.private;
+            post.user           = req.user.facebook.id;
+            // save the post
+            post.save(function(err) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: 'post updated!' });
+            });
+
+        });
+    })
+
+    // delete the post with this id (accessed at DELETE http://localhost:8080/api/posts/:post_id)
+    .delete(function(req, res) {
+        Post.remove({
+            _id: req.params.post_id
+        }, function(err, post) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+    });
     router.route('/users/:user_id/groups')
     .get(function(req, res) {
 
@@ -111,6 +166,19 @@ router.route('/users')
           res.json(groups)
         });
 
+    })
+    .post(function(req, res) {
+        var group = new Group();
+        group.name = req.body.name;
+        group.user = req.user.facebook.id;
+        console.log("req.body.name: " + req.body.name)
+        console.log("req.body.user: " + req.user.facebook.id)
+        group.save(function(err) {
+            if (err) 
+               res.send(err);
+
+            res.json({ message: 'group created!' });
+        });
     });
     router.route('/users/:user_id/groups/:group_id/posts')
     .get(function(req, res) {
@@ -120,6 +188,53 @@ router.route('/users')
           res.json(groups)
         });
 
+    });
+    router.route('/users/:user_id/groups/:group_id')
+
+    // get the post with that id (accessed at GET http://localhost:8080/api/groups/:group_id)
+    .get(function(req, res) {
+
+            Group.findById(req.params.group_id, function(err, group) {
+                if (err)
+                    res.send(err);
+               res.json(group)
+            });
+        
+        
+    })
+
+    // update the group with this id (accessed at PUT http://localhost:8080/api/groups/:group_id)
+    .put(function(req, res) {
+
+        // use our group model to find the group we want
+        Group.findById(req.params.group_id, function(err, group) {
+
+            if (err)
+                res.send(err);
+
+            group.name = req.body.name;
+
+            // save the group
+            group.save(function(err) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: 'group updated!' });
+            });
+
+        });
+    })
+
+    // delete the group with this id (accessed at DELETE http://localhost:8080/api/groups/:group_id)
+    .delete(function(req, res) {
+        Group.remove({
+            _id: req.params.group_id
+        }, function(err, group) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
     });
     router.route('/users/:user_id')
 
@@ -181,9 +296,9 @@ router.route('/groups')
 	.post(function(req, res) {
 		var group = new Group();
     	group.name = req.body.name;
-        group.user = req.user._id;
+        group.user = req.user.facebook.id;
         console.log("req.body.name: " + req.body.name)
-        console.log("req.body.user: " + req.user._id)
+        console.log("req.body.user: " + req.user.facebook.id)
     	group.save(function(err) {
             if (err) 
                res.send(err);
@@ -195,7 +310,7 @@ router.route('/groups')
         var current_user = req.user;
         console.log("req: " + req)
 
-        Group.find({ user: current_user._id }).exec(function(err, groups) {
+        Group.find({ user: current_user.facebook.id }).exec(function(err, groups) {
           if (err) throw err;
 
           // show the admins in the past month
@@ -295,8 +410,7 @@ router.route('/posts')
 ==================================*/
     .get(function(req, res) {
         
-        var current_user = req.user.facebook.id;
-        console.log("req: " + req.user.facebook.id)
+        var current_user = req.user.facebook.id || req.Authorization;
 
         Post.find({ user: current_user }).exec(function(err, posts) {
           if (err) throw err;
@@ -344,7 +458,7 @@ router.route('/posts')
             post.favorite       = req.body.favorite;
             post.readlater      = req.body.readlater;
             post.private        = req.body.private;
-            post.user           = req.user._id;
+            post.user           = req.user.facebook.id;
             // save the post
             post.save(function(err) {
                 if (err)
