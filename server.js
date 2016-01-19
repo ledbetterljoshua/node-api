@@ -279,7 +279,7 @@ router.route('/posts')
         post.favorite       = req.body.favorite;
         post.readlater      = req.body.readlater;
         post.private        = req.body.private;
-        post.user           = req.user._id;
+        post.user           = req.user.facebook.id;
         // save the post and check for errors
 
         post.save(function(err) {
@@ -298,7 +298,7 @@ router.route('/posts')
         var current_user = req.user;
         console.log("req: " + req)
 
-        Post.find({ user: current_user._id }).exec(function(err, posts) {
+        Post.find({ user: current_user }).exec(function(err, posts) {
           if (err) throw err;
 
           // show the admins in the past month
