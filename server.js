@@ -112,6 +112,15 @@ router.route('/users')
         });
 
     });
+    router.route('/users/:user_id/groups/:group_id/posts')
+    .get(function(req, res) {
+
+        Post.find({ group: req.params.group_id }).exec(function(err, groups) {
+          if (err) throw err;
+          res.json(groups)
+        });
+
+    });
     router.route('/users/:user_id')
 
         // get the post with that id (accessed at GET http://localhost:8080/api/users/:user_id)

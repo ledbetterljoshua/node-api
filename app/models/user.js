@@ -19,6 +19,12 @@ var userSchema = mongoose.Schema({
         created: {type:Date, default: Date.now} 
 
     }, 
+    facebook         : {
+        id           : String,
+        token        : String,
+        email        : String,
+        name         : String
+    },
     groups            : [{type: Schema.Types.ObjectId, ref: "Group"}], 
     posts             : [{type: Schema.Types.ObjectId, ref: "Post"}]
 

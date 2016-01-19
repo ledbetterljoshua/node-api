@@ -30,6 +30,19 @@ module.exports = function(app, passport) {
         failureFlash : true // allow flash messages
     }));
 
+
+    // =====================================
+    // FACEBOOK ROUTES =====================
+    // =====================================
+    // route for facebook authentication and login
+    app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+
+    // handle the callback after facebook has authenticated the user
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
     // process the login form
     // app.post('/login', do all our passport stuff here);
 
@@ -59,7 +72,7 @@ module.exports = function(app, passport) {
 
     app.get('/profile', isLoggedIn, function (req, res) {
     // store userId on login into session or any global variable 
-    var userId = req.user.local.email
+    var userId = req.user.facebook.email
        res.redirect('/profile/'+userId) 
     }); // =>directs to http://localhost:8080/profile for every signup.
 
