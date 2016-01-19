@@ -10,7 +10,7 @@ module.exports = function(app, passport) {
     
     app.get('/iframe', isLoggedIn, function(req, res) {
         res.render('wave.ejs', {
-            user : req.user.facebook.id // get the user out of session and pass to template
+            user : req.user // get the user out of session and pass to template
         });
     });
 
@@ -78,7 +78,7 @@ module.exports = function(app, passport) {
 
     app.get('/profile/:id', isLoggedIn, function(req, res) {
         res.render('profile.ejs', {
-            user : req.user.facebook.id // get the user out of session and pass to template
+            user : req.user // get the user out of session and pass to template
         });
     });
 

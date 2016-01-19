@@ -295,8 +295,8 @@ router.route('/posts')
 ==================================*/
     .get(function(req, res) {
         
-        var current_user = req.user;
-        console.log("req: " + req)
+        var current_user = req.user.facebook.id;
+        console.log("req: " + req.user.facebook.id)
 
         Post.find({ user: current_user }).exec(function(err, posts) {
           if (err) throw err;
