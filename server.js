@@ -149,6 +149,7 @@ router.route('/users')
             });
 
         });
+        next()
     })
 
     // delete the post with this id (accessed at DELETE http://localhost:8080/api/posts/:post_id)
