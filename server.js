@@ -37,6 +37,7 @@ app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header("X-ACCESS_TOKEN", "Access-Control-Allow-Origin", "Authorization", "Origin", "x-requested-with", "Content-Type", "Content-Range", "Content-Disposition", "Content-Description");
   next();
 });
@@ -53,12 +54,14 @@ app.use(express.static(__dirname + "/views"));
 
 var router = express.Router();              // get an instance of the express Router
 
-// Group.find({ user: "564bbd2da851f0aaeb7746c5" }).exec(function(err, posts) {
+// setInterval(function(){
+// Post.findOneAndUpdate({ user: '5693257517369ca1710ecaed' }, { user: '1246548868692222' }, function(err, user) {
 //   if (err) throw err;
-
-//   // show the admins in the past month
-//   console.log(posts);
+      
+//   // we have the updated user returned to us
+//   console.log(user);
 // });
+// }, 3000)
 
 //Group.find({ _id:"564d0263de572ffcfa5c5359" }).remove().exec(); 
 
@@ -70,7 +73,7 @@ var router = express.Router();              // get an instance of the express Ro
         POST TO THE database
 ==================================*/
 router.route('/users')
-        .post(function(req, res) {
+        .post(function(req, res, next) {
             var user = new User();
 
             user.local.name     = req.body.name;
@@ -86,7 +89,7 @@ router.route('/users')
                 res.json({ message: 'user created!' });
             });
         }) 
-        .get(function(req, res) {
+        .get(function(req, res, next) {
             User.find(function(err, users) {
                 if (err)
                     res.send(err);
@@ -95,7 +98,7 @@ router.route('/users')
             });
         });
     router.route('/users/:user_id/posts')
-    .get(function(req, res) {
+    .get(function(req, res, next) {
 
         Post.find({ user: req.params.user_id }).exec(function(err, posts) {
           if (err) throw err;
@@ -106,7 +109,7 @@ router.route('/users')
     router.route('/users/:user_id/posts/:post_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/posts/:post_id)
-    .get(function(req, res) {
+    .get(function(req, res, next) {
         Post.findById(req.params.post_id, function(err, post) {
             if (err)
                 res.send(err);
@@ -116,7 +119,7 @@ router.route('/users')
     
 
     // update the post with this id (accessed at PUT http://localhost:8080/api/posts/:post_id)
-    .put(function(req, res) {
+    .put(function(req, res, next) {
 
         // use our post model to find the post we want
         Post.findById(req.params.post_id, function(err, post) {
@@ -148,7 +151,7 @@ router.route('/users')
     })
 
     // delete the post with this id (accessed at DELETE http://localhost:8080/api/posts/:post_id)
-    .delete(function(req, res) {
+    .delete(function(req, res, next) {
         Post.remove({
             _id: req.params.post_id
         }, function(err, post) {
@@ -159,7 +162,7 @@ router.route('/users')
         });
     });
     router.route('/users/:user_id/groups')
-    .get(function(req, res) {
+    .get(function(req, res, next) {
 
         Group.find({ user: req.params.user_id }).exec(function(err, groups) {
           if (err) throw err;
@@ -167,7 +170,7 @@ router.route('/users')
         });
 
     })
-    .post(function(req, res) {
+    .post(function(req, res, next) {
         var group = new Group();
         group.name = req.body.name;
         group.user = req.user.facebook.id;
@@ -181,7 +184,7 @@ router.route('/users')
         });
     });
     router.route('/users/:user_id/groups/:group_id/posts')
-    .get(function(req, res) {
+    .get(function(req, res, next) {
 
         Post.find({ group: req.params.group_id }).exec(function(err, groups) {
           if (err) throw err;
@@ -192,7 +195,7 @@ router.route('/users')
     router.route('/users/:user_id/groups/:group_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/groups/:group_id)
-    .get(function(req, res) {
+    .get(function(req, res, next) {
 
             Group.findById(req.params.group_id, function(err, group) {
                 if (err)
@@ -204,7 +207,7 @@ router.route('/users')
     })
 
     // update the group with this id (accessed at PUT http://localhost:8080/api/groups/:group_id)
-    .put(function(req, res) {
+    .put(function(req, res, next) {
 
         // use our group model to find the group we want
         Group.findById(req.params.group_id, function(err, group) {
@@ -226,7 +229,7 @@ router.route('/users')
     })
 
     // delete the group with this id (accessed at DELETE http://localhost:8080/api/groups/:group_id)
-    .delete(function(req, res) {
+    .delete(function(req, res, next) {
         Group.remove({
             _id: req.params.group_id
         }, function(err, group) {
@@ -239,7 +242,7 @@ router.route('/users')
     router.route('/users/:user_id')
 
         // get the post with that id (accessed at GET http://localhost:8080/api/users/:user_id)
-        .get(function(req, res) {
+        .get(function(req, res, next) {
             User.findById(req.params.user_id, function(err, user) {
                 if (err)
                     res.send(err);
@@ -248,7 +251,7 @@ router.route('/users')
         })
 
         // update the user with this id (accessed at PUT http://localhost:8080/api/users/:user_id)
-        .put(function(req, res) {
+        .put(function(req, res, next) {
 
             // use our user model to find the user we want
             User.findById(req.params.user_id, function(err, user) {
@@ -274,7 +277,7 @@ router.route('/users')
         })
 
         // delete the user with this id (accessed at DELETE http://localhost:8080/api/users/:user_id)
-        .delete(function(req, res) {
+        .delete(function(req, res, next) {
             User.remove({
                 _id: req.params.user_id
             }, function(err, user) {
@@ -293,7 +296,7 @@ router.route('/users')
 		POST TO THE database
 ==================================*/
 router.route('/groups')
-	.post(function(req, res) {
+	.post(function(req, res, next) {
 		var group = new Group();
     	group.name = req.body.name;
         group.user = req.user.facebook.id;
@@ -306,7 +309,7 @@ router.route('/groups')
             res.json({ message: 'group created!' });
         });
 	}) 
-	.get(function(req, res) {
+	.get(function(req, res, next) {
         var current_user = req.user;
         console.log("req: " + req)
 
@@ -321,7 +324,7 @@ router.route('/groups')
     });
 
 router.route('/groups/:group_id/posts')
-    .get(function(req, res) {
+    .get(function(req, res, next) {
 
         Post.find({ group: req.params.group_id }).exec(function(err, groups) {
           if (err) throw err;
@@ -332,7 +335,7 @@ router.route('/groups/:group_id/posts')
 router.route('/groups/:group_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/groups/:group_id)
-    .get(function(req, res) {
+    .get(function(req, res, next) {
 
             Group.findById(req.params.group_id, function(err, group) {
                 if (err)
@@ -344,7 +347,7 @@ router.route('/groups/:group_id')
     })
 
     // update the group with this id (accessed at PUT http://localhost:8080/api/groups/:group_id)
-    .put(function(req, res) {
+    .put(function(req, res, next) {
 
         // use our group model to find the group we want
         Group.findById(req.params.group_id, function(err, group) {
@@ -366,7 +369,7 @@ router.route('/groups/:group_id')
     })
 
     // delete the group with this id (accessed at DELETE http://localhost:8080/api/groups/:group_id)
-    .delete(function(req, res) {
+    .delete(function(req, res, next) {
         Group.remove({
             _id: req.params.group_id
         }, function(err, group) {
@@ -381,7 +384,7 @@ router.route('/groups/:group_id')
 router.route('/posts')
 
     // create a post (accessed at POST http://localhost:8080/api/posts)
-    .post(function(req, res) {
+    .post(function(req, res, next) {
         var post            = new Post();      // create a new instance of the post model
         post.url            = req.body.url;
         post.highlighted    = req.body.highlighted;
@@ -408,7 +411,7 @@ router.route('/posts')
     /* ================================== 
 		GET FROM THE database
 ==================================*/
-    .get(function(req, res) {
+    .get(function(req, res, next) {
         
         var current_user = req.user.facebook.id || req.Authorization;
 
@@ -429,7 +432,7 @@ router.route('/posts')
 	router.route('/posts/:post_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/posts/:post_id)
-    .get(function(req, res) {
+    .get(function(req, res, next) {
         Post.findById(req.params.post_id, function(err, post) {
             if (err)
                 res.send(err);
@@ -439,7 +442,7 @@ router.route('/posts')
     
 
     // update the post with this id (accessed at PUT http://localhost:8080/api/posts/:post_id)
-    .put(function(req, res) {
+    .put(function(req, res, next) {
 
         // use our post model to find the post we want
         Post.findById(req.params.post_id, function(err, post) {
@@ -471,7 +474,7 @@ router.route('/posts')
     })
 
     // delete the post with this id (accessed at DELETE http://localhost:8080/api/posts/:post_id)
-    .delete(function(req, res) {
+    .delete(function(req, res, next) {
         Post.remove({
             _id: req.params.post_id
         }, function(err, post) {
