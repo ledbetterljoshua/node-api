@@ -36,8 +36,14 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.options('*', cors());
-app.use(cors());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Access-Control-Allow-Headers, x-xsrf-token", "Access-Control-Allow-Origin", "x-xsrf-token");
+  next();
+});
+
+
 
 mongoose.connect('mongodb://jled5917:Jled591711811000@ds053944.mongolab.com:53944/posts'); // connect to our database
 var Post  = require('./app/models/post');
