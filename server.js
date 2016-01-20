@@ -73,7 +73,7 @@ var router = express.Router();              // get an instance of the express Ro
 /* ==================================
         POST TO THE database
 ==================================*/
-router.route('/users')
+app.route('/users')
         .post(function(req, res, next) {
             var user = new User();
 
@@ -98,7 +98,7 @@ router.route('/users')
                 res.json(users);
             });
         });
-    router.route('/users/:user_id/posts')
+    app.route('/users/:user_id/posts')
     .get(function(req, res, next) {
 
         Post.find({ user: req.params.user_id }).exec(function(err, posts) {
@@ -107,7 +107,7 @@ router.route('/users')
         });
 
     });
-    router.route('/users/:user_id/posts/:post_id')
+    app.route('/users/:user_id/posts/:post_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/posts/:post_id)
     .get(function(req, res, next) {
@@ -145,7 +145,7 @@ router.route('/users')
                 if (err)
                     res.send(err);
 
-                res.json({ message: 'post updated!' });
+                //res.json({ message: 'post updated!' });
             });
 
         });
@@ -163,7 +163,7 @@ router.route('/users')
             res.json({ message: 'Successfully deleted' });
         });
     });
-    router.route('/users/:user_id/groups')
+    app.route('/users/:user_id/groups')
     .get(function(req, res, next) {
 
         Group.find({ user: req.params.user_id }).exec(function(err, groups) {
@@ -185,7 +185,7 @@ router.route('/users')
             res.json({ message: 'group created!' });
         });
     });
-    router.route('/users/:user_id/groups/:group_id/posts')
+    app.route('/users/:user_id/groups/:group_id/posts')
     .get(function(req, res, next) {
 
         Post.find({ group: req.params.group_id }).exec(function(err, groups) {
@@ -194,7 +194,7 @@ router.route('/users')
         });
 
     });
-    router.route('/users/:user_id/groups/:group_id')
+    app.route('/users/:user_id/groups/:group_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/groups/:group_id)
     .get(function(req, res, next) {
@@ -241,7 +241,7 @@ router.route('/users')
             res.json({ message: 'Successfully deleted' });
         });
     });
-    router.route('/users/:user_id')
+    app.route('/users/:user_id')
 
         // get the post with that id (accessed at GET http://localhost:8080/api/users/:user_id)
         .get(function(req, res, next) {
@@ -297,7 +297,7 @@ router.route('/users')
 /* ==================================
 		POST TO THE database
 ==================================*/
-router.route('/groups')
+app.route('/groups')
 	.post(function(req, res, next) {
 		var group = new Group();
     	group.name = req.body.name;
@@ -325,7 +325,7 @@ router.route('/groups')
         });
     });
 
-router.route('/groups/:group_id/posts')
+app.route('/groups/:group_id/posts')
     .get(function(req, res, next) {
 
         Post.find({ group: req.params.group_id }).exec(function(err, groups) {
@@ -334,7 +334,7 @@ router.route('/groups/:group_id/posts')
         });
 
     });
-router.route('/groups/:group_id')
+app.route('/groups/:group_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/groups/:group_id)
     .get(function(req, res, next) {
@@ -383,7 +383,7 @@ router.route('/groups/:group_id')
     });
 
 
-router.route('/posts')
+app.route('/posts')
 
     // create a post (accessed at POST http://localhost:8080/api/posts)
     .post(function(req, res, next) {
@@ -431,7 +431,7 @@ router.route('/posts')
 		GET A SINGLE ITEM
 ==================================*/
 
-	router.route('/posts/:post_id')
+	app.route('/posts/:post_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/posts/:post_id)
     .get(function(req, res, next) {
