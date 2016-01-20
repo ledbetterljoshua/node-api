@@ -38,7 +38,7 @@ app.use(bodyParser.json());
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:8100");
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header("X-ACCESS_TOKEN", "Access-Control-Allow-Origin", "Authorization", "Origin", "Access-Control-Allow-Headers", "x-xsrf-token, X-Requested-With, Content-Type, Access-Control-Allow-Headers", "Content-Range", "Content-Disposition", "Content-Description");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Access-Control-Allow-Headers, x-xsrf-token");
   next();
 });
 
