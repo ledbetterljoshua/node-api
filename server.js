@@ -40,6 +40,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header("Access-Control-Allow-Headers", "Content-Type", "Content-Type, Content-Length, Access-Control-Allow-Headers, x-xsrf-token, Access-Control-Allow-Origin", "Access-Control-Allow-Origin", "x-xsrf-token");
+  res.set('Content-Type', 'text/plain');
   next();
 });
 
@@ -73,7 +74,7 @@ var router = express.Router();              // get an instance of the express Ro
 /* ==================================
         POST TO THE database
 ==================================*/
-app.route('/users')
+router.route('/users')
         .post(function(req, res, next) {
             var user = new User();
 
@@ -98,7 +99,7 @@ app.route('/users')
                 res.json(users);
             });
         });
-    app.route('/users/:user_id/posts')
+    router.route('/users/:user_id/posts')
     .get(function(req, res, next) {
 
         Post.find({ user: req.params.user_id }).exec(function(err, posts) {
@@ -107,7 +108,7 @@ app.route('/users')
         });
 
     });
-    app.route('/users/:user_id/posts/:post_id')
+    router.route('/users/:user_id/posts/:post_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/posts/:post_id)
     .get(function(req, res, next) {
@@ -163,7 +164,7 @@ app.route('/users')
             res.json({ message: 'Successfully deleted' });
         });
     });
-    app.route('/users/:user_id/groups')
+    router.route('/users/:user_id/groups')
     .get(function(req, res, next) {
 
         Group.find({ user: req.params.user_id }).exec(function(err, groups) {
@@ -185,7 +186,7 @@ app.route('/users')
             res.json({ message: 'group created!' });
         });
     });
-    app.route('/users/:user_id/groups/:group_id/posts')
+    router.route('/users/:user_id/groups/:group_id/posts')
     .get(function(req, res, next) {
 
         Post.find({ group: req.params.group_id }).exec(function(err, groups) {
@@ -194,7 +195,7 @@ app.route('/users')
         });
 
     });
-    app.route('/users/:user_id/groups/:group_id')
+    router.route('/users/:user_id/groups/:group_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/groups/:group_id)
     .get(function(req, res, next) {
@@ -241,7 +242,7 @@ app.route('/users')
             res.json({ message: 'Successfully deleted' });
         });
     });
-    app.route('/users/:user_id')
+    router.route('/users/:user_id')
 
         // get the post with that id (accessed at GET http://localhost:8080/api/users/:user_id)
         .get(function(req, res, next) {
@@ -297,7 +298,7 @@ app.route('/users')
 /* ==================================
 		POST TO THE database
 ==================================*/
-app.route('/groups')
+router.route('/groups')
 	.post(function(req, res, next) {
 		var group = new Group();
     	group.name = req.body.name;
@@ -325,7 +326,7 @@ app.route('/groups')
         });
     });
 
-app.route('/groups/:group_id/posts')
+router.route('/groups/:group_id/posts')
     .get(function(req, res, next) {
 
         Post.find({ group: req.params.group_id }).exec(function(err, groups) {
@@ -334,7 +335,7 @@ app.route('/groups/:group_id/posts')
         });
 
     });
-app.route('/groups/:group_id')
+router.route('/groups/:group_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/groups/:group_id)
     .get(function(req, res, next) {
@@ -383,7 +384,7 @@ app.route('/groups/:group_id')
     });
 
 
-app.route('/posts')
+router.route('/posts')
 
     // create a post (accessed at POST http://localhost:8080/api/posts)
     .post(function(req, res, next) {
@@ -431,7 +432,7 @@ app.route('/posts')
 		GET A SINGLE ITEM
 ==================================*/
 
-	app.route('/posts/:post_id')
+	router.route('/posts/:post_id')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/posts/:post_id)
     .get(function(req, res, next) {
