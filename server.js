@@ -39,7 +39,7 @@ app.use(bodyParser.json());
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header("Access-Control-Allow-Headers", "Content-Type", "content-type" "Content-Type, Content-Length, Access-Control-Allow-Headers, x-xsrf-token, Access-Control-Allow-Origin", "Access-Control-Allow-Origin", "x-xsrf-token");
+  res.header("Access-Control-Allow-Headers", "Content-Type", "content-type", "Content-Type, Content-Length, Access-Control-Allow-Headers, x-xsrf-token, Access-Control-Allow-Origin", "Access-Control-Allow-Origin", "x-xsrf-token");
   next();
 });
 
