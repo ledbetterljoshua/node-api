@@ -121,7 +121,6 @@ router.route('/users')
 
     // update the post with this id (accessed at PUT http://localhost:8080/api/posts/:post_id)
     .put(function(req, res, next) {
-
         // use our post model to find the post we want
         Post.findById(req.params.post_id, function(err, post) {
 
@@ -139,7 +138,8 @@ router.route('/users')
             post.favorite       = req.body.favorite;
             post.readlater      = req.body.readlater;
             post.private        = req.body.private;
-            post.user           = req.user.facebook.id;
+            //update later 
+            //post.user           = current_user_facebook;
             // save the post
             post.save(function(err) {
                 if (err)
