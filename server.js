@@ -39,7 +39,7 @@ app.use(bodyParser.json());
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header("Access-Control-Allow-Headers", "Content-Type", "Content-Type, Content-Length, Access-Control-Allow-Headers, x-xsrf-token, Access-Control-Allow-Origin", "Access-Control-Allow-Origin", "x-xsrf-token");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Access-Control-Allow-Headers, x-xsrf-token, Access-Control-Allow-Origin", "Access-Control-Allow-Origin", "x-xsrf-token");
   next();
 });
 
@@ -111,11 +111,15 @@ router.route('/users')
 
     // get the post with that id (accessed at GET http://localhost:8080/api/posts/:post_id)
     .get(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+        res.header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Access-Control-Allow-Headers, x-xsrf-token, Access-Control-Allow-Origin", "Access-Control-Allow-Origin", "x-xsrf-token");
         Post.findById(req.params.post_id, function(err, post) {
             if (err)
                 res.send(err);
             res.json(post);
         });
+        next();
     })
     
 
