@@ -349,7 +349,7 @@ Hero
 ========================================================================== */
 .hero {
   min-height: 750px;
-  background: url("../img/hero.jpg") center center;
+  background: linear-gradient( rgba(8, 6, 6, 0.97), rgba(0, 3, 84, 0.45) ),url("../img/hero.jpg") center center;
   background-size: cover;
   position: relative; }
   .hero .down-arrow a {
