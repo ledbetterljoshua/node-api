@@ -8,6 +8,9 @@
   div#title:after {
     width: 0px;
   }
+  h3 {
+    max-width:250px;
+  }
   div#title {
     width: 31px;
     overflow: hidden;
@@ -80,6 +83,9 @@
   div#title:after {
     width: 0px;
   }
+  h3 {
+    max-width:250px;
+  }
   div#title {
     width: 31px;
     overflow: hidden;
@@ -150,6 +156,9 @@
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px)and (-webkit-min-device-pixel-ratio: 2)and (orientation: landscape) {
   div#title:after {
     width: 0px;
+  }
+  h3 {
+    max-width:250px;
   }
   div#title {
     width: 31px;
@@ -225,6 +234,9 @@
 div#title:after {
     width: 0px;
   }
+  h3 {
+    max-width:250px;
+  }
   div#title {
     width: 31px;
     overflow: hidden;
@@ -296,6 +308,9 @@ div#title:after {
   div#title:after {
     width: 0px;
   }
+  h3 {
+    max-width:250px;
+  }
   div#title {
     width: 31px;
     overflow: hidden;
@@ -366,6 +381,9 @@ div#title:after {
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px)and (-webkit-min-device-pixel-ratio: 2)and (orientation: landscape) {
   div#title:after {
     width: 0px;
+  }
+  h3 {
+    max-width:250px;
   }
   div#title {
     width: 31px;
@@ -442,6 +460,9 @@ div#title:after {
   div#title:after {
     width: 0px;
   }
+  h3 {
+    max-width:250px;
+  }
   div#title {
     width: 31px;
     overflow: hidden;
@@ -515,6 +536,9 @@ div#title:after {
   div#title:after {
     width: 0px;
   }
+  h3 {
+    max-width:250px;
+  }
   div#title {
     width: 31px;
     overflow: hidden;
@@ -587,6 +611,9 @@ div#title:after {
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)and (orientation: landscape) { 
   div#title:after {
     width: 0px;
+  }
+  h3 {
+    max-width:250px;
   }
   div#title {
     width: 31px;
@@ -663,6 +690,9 @@ div#title:after {
   div#title:after {
     width: 0px;
   }
+  h3 {
+    max-width:250px;
+  }
   div#title {
     width: 31px;
     overflow: hidden;
@@ -736,6 +766,9 @@ div#title:after {
   div#title:after {
     width: 0px;
   }
+  h3 {
+    max-width:250px;
+  }
   div#title {
     width: 31px;
     overflow: hidden;
@@ -808,6 +841,9 @@ div#title:after {
 @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)and (orientation: landscape) { 
   div#title:after {
     width: 0px;
+  }
+  h3 {
+    max-width:250px;
   }
   div#title {
     width: 31px;
