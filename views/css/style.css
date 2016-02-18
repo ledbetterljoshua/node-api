@@ -1068,3 +1068,6 @@ footer {
       background-size: 200px 50px;
   }
 }
+h3, .md-list-item-text h3, md-list-item.md-3-line .md-list-item-text h3, md-list-item.md-3-line>.md-no-style .md-list-item-text h3 {
+  max-width: 540px !important;
+}

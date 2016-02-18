@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var cors = require('cors');
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8000;
 var mongoose = require('mongoose');
 var relationship = require("mongoose-relationship");
 var bodyParser = require('body-parser');

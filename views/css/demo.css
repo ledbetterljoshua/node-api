@@ -24,6 +24,8 @@ div#bottom_p {
     z-index: 999;
     border-top: 1px solid #D6D6D6;
 }
+
+
 div#bottom_p a.left-text.md-button.md-ink-ripple {
     text-align: center !important;
     margin: 0 !important;
@@ -1099,4 +1101,8 @@ h4.ng-binding {
 	max-width: 754px;
   width: 73%   
 }
+}
+
+h3 {
+  max-width: 540px !important;
 }
